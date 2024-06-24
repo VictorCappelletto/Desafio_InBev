@@ -1,0 +1,12 @@
+site_name: My Docs
+
+plugins:
+  - search
+  - mkdocstrings
+  - mermaid2:
+      version: 10.0.2
+
+theme:
+  name: material
+
+
