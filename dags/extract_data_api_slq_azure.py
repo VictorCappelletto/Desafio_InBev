@@ -2,7 +2,6 @@ from airflow import DAG
 from airflow.operators.python import PythonOperator
 from airflow.utils.dates import days_ago
 import requests
-import pyodbc
 import json
 
 # Definir a função para extrair os dados da API
@@ -24,8 +23,8 @@ def insert_data_to_azure_sql():
     connection_string = f'DRIVER={driver};SERVER={server};PORT=1433;DATABASE={database};UID={username};PWD={password}'
 
     # Conectar ao banco de dados
-    conn = pyodbc.connect(connection_string)
-    cursor = conn.cursor()
+    #conn = pyodbc.connect(connection_string)
+    #cursor = conn.cursor()
 
     # Criar a tabela se não existir
     cursor.execute('''
@@ -62,9 +61,9 @@ def insert_data_to_azure_sql():
         brewery['id'], brewery['name'], brewery['brewery_type'], brewery['address_1'], brewery['address_2'], brewery['address_3'], brewery['city'], brewery['state_province'], brewery['postal_code'], brewery['country'], brewery['longitude'], brewery['latitude'], brewery['phone'], brewery['website_url'], brewery['state'], brewery['street'])
 
     # Commitar as transações e fechar a conexão
-    conn.commit()
-    cursor.close()
-    conn.close()
+    #conn.commit()
+    #cursor.close()
+    #conn.close()
 
 # Definir os argumentos padrão do DAG
 default_args = {
