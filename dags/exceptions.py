@@ -50,8 +50,7 @@ See Also:
     - utils/logger.py: Logs these exceptions with context
 """
 
-from typing import Dict, Optional, Any
-
+from typing import Any, Dict, Optional
 
 __all__ = [
     "BaseETLException",

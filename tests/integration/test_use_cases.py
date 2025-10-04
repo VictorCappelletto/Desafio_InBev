@@ -4,20 +4,20 @@ Integration Tests - Use Cases Layer
 Tests application logic and use case orchestration.
 """
 
-import pytest
+from typing import Any, Dict, List
 from unittest.mock import Mock
-from typing import List, Dict, Any
 
-from use_cases import (
-    ExtractBreweriesUseCase,
-    TransformBreweriesUseCase,
-    LoadBreweriesUseCase,
-    ValidateBreweriesQualityUseCase,
-)
-from repositories import InMemoryBreweryRepository
+import pytest
 from data_quality.rules import create_brewery_quality_engine
 from domain import Brewery, BreweryType
 from exceptions import ExtractionError, TransformationError, ValidationError
+from repositories import InMemoryBreweryRepository
+from use_cases import (
+    ExtractBreweriesUseCase,
+    LoadBreweriesUseCase,
+    TransformBreweriesUseCase,
+    ValidateBreweriesQualityUseCase,
+)
 
 
 class TestExtractBreweriesUseCase:

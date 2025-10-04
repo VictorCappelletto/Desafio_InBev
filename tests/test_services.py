@@ -4,18 +4,19 @@ Unit Tests for Services
 Tests the service classes (extractors, loaders, transformers).
 """
 
-import pytest
-from unittest.mock import Mock, patch, MagicMock
-import sys
 import os
+import sys
+from unittest.mock import MagicMock, Mock, patch
+
+import pytest
 
 # Add dags to path
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "dags"))
 
 from config.settings import APIConfig, AzureSQLConfig
+from exceptions import ExtractionError, ValidationError
 from services.brewery_api_extractor import BreweryAPIExtractor
 from services.brewery_transformer import BreweryTransformer
-from exceptions import ExtractionError, ValidationError
 
 
 class TestBreweryAPIExtractor:

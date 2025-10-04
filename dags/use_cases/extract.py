@@ -4,7 +4,8 @@ Extract Use Cases - Data Extraction Logic
 Application-level logic for extracting brewery data.
 """
 
-from typing import List, Dict, Any
+from typing import Any, Dict, List
+
 from interfaces import IDataExtractor
 from utils import get_logger
 
@@ -86,8 +87,9 @@ class ExtractBreweriesUseCase:
         Raises:
             ExtractionError: If all retries fail
         """
-        from exceptions import ExtractionError
         import time
+
+        from exceptions import ExtractionError
 
         for attempt in range(1, max_retries + 1):
             try:

@@ -16,12 +16,13 @@ See also:
 """
 
 from datetime import datetime, timedelta
+
 from airflow import DAG
 from airflow.operators.python import PythonOperator
 from airflow.providers.databricks.operators.databricks import DatabricksRunNowOperator
 
 # Import configuration classes
-from config import DatabricksConfig, AzureSQLConfig, AirflowConfig, APIConfig
+from config import AirflowConfig, APIConfig, AzureSQLConfig, DatabricksConfig
 from utils.logger import get_logger, log_task_start, log_task_success
 
 # ==============================================================================
@@ -163,8 +164,8 @@ def test_extract_with_mock_config():
     Note: Since our configs use frozen dataclasses with environment variables,
     we need to mock the environment before instantiating the config.
     """
-    from unittest.mock import patch, Mock
     import os
+    from unittest.mock import Mock, patch
 
     # Method 1: Mock environment variables
     with patch.dict(
@@ -260,7 +261,7 @@ def example_with_singletons():
 
     Recommendation: Use for simple scripts, avoid in complex DAGs.
     """
-    from config import databricks_config, azure_sql_config, api_config
+    from config import api_config, azure_sql_config, databricks_config
 
     # Direct access to singleton instances
     print(f"Databricks Host: {databricks_config.host}")
@@ -290,6 +291,7 @@ def debug_configuration():
     3. Wrong variable name
     """
     import os
+
     from config import DatabricksConfig
 
     # Check if env var is set
@@ -333,7 +335,7 @@ def production_best_practices():
     4. Never log sensitive values
     5. Use environment-specific configs
     """
-    from config import DatabricksConfig, AirflowConfig
+    from config import AirflowConfig, DatabricksConfig
 
     # Check environment
     airflow_cfg = AirflowConfig()

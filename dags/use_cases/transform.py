@@ -4,7 +4,8 @@ Transform Use Cases - Data Transformation Logic
 Application-level logic for transforming brewery data.
 """
 
-from typing import List, Dict, Any
+from typing import Any, Dict, List
+
 from domain import Brewery, BreweryAggregate
 from utils import get_logger
 

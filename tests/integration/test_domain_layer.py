@@ -4,22 +4,22 @@ Integration Tests - Domain Layer
 Tests domain entities, value objects, and business logic.
 """
 
-import pytest
 from datetime import datetime
 
+import pytest
 from domain import (
+    Address,
     Brewery,
     BreweryAggregate,
     BreweryType,
-    Coordinates,
-    Address,
-    Location,
     Contact,
+    Coordinates,
+    Location,
 )
 from domain.exceptions import (
-    InvalidCoordinatesError,
     InvalidBreweryNameError,
     InvalidBreweryTypeError,
+    InvalidCoordinatesError,
 )
 from domain.validators import BreweryValidator, LocationValidator
 

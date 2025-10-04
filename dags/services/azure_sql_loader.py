@@ -6,11 +6,11 @@ Follows Single Responsibility Principle: Only handles SQL loading.
 """
 
 from typing import Any, Dict, List
-import pyodbc
 
-from interfaces.data_loader import IDataLoader
+import pyodbc
 from config.settings import AzureSQLConfig
 from exceptions import LoadError
+from interfaces.data_loader import IDataLoader
 from utils.logger import get_logger
 
 

@@ -5,9 +5,10 @@ Validators encapsulate complex business rules.
 They are stateless and side-effect free.
 """
 
-from typing import List, Dict, Any, Tuple
+from typing import Any, Dict, List, Tuple
+
 from .entities import Brewery, BreweryAggregate
-from .value_objects import Location, Contact, BreweryType
+from .value_objects import BreweryType, Contact, Location
 
 
 class BreweryValidator:

@@ -30,9 +30,9 @@ See Also:
 
 from .logger import (
     get_logger,
+    log_task_error,
     log_task_start,
     log_task_success,
-    log_task_error,
 )
 
 __all__ = [

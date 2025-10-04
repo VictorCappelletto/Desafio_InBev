@@ -20,25 +20,25 @@ Benefits:
 - Testable (can create mocks easily)
 """
 
-from typing import Tuple, Optional
+from typing import Optional, Tuple
 
 # Import from config package (not config.settings directly)
 from config import (
+    APIConfig,
+    AzureDataFactoryConfig,
     AzureSQLConfig,
     DatabricksConfig,
-    AzureDataFactoryConfig,
-    APIConfig,
 )
-
-# Services
-from services.brewery_api_extractor import BreweryAPIExtractor
-from services.azure_sql_loader import AzureSQLLoader
-from services.brewery_transformer import BreweryTransformer
 
 # Interfaces
 from interfaces.data_extractor import IDataExtractor
 from interfaces.data_loader import IDataLoader
 from interfaces.data_transformer import IDataTransformer
+from services.azure_sql_loader import AzureSQLLoader
+
+# Services
+from services.brewery_api_extractor import BreweryAPIExtractor
+from services.brewery_transformer import BreweryTransformer
 
 
 class ETLFactory:

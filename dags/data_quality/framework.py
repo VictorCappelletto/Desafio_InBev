@@ -4,12 +4,12 @@ Data Quality Framework - Core Engine
 Implements the core data quality checking engine following enterprise patterns.
 """
 
+import logging
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
 from datetime import datetime
 from enum import Enum
-from typing import List, Dict, Any, Optional
-import logging
+from typing import Any, Dict, List, Optional
 
 
 class DataQualityDimension(Enum):

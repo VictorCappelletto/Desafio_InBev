@@ -4,11 +4,12 @@ Slack Alerter - Slack Notifications
 Sends alerts to Slack channels via webhooks.
 """
 
-from typing import Optional, Dict, Any
 import os
+from typing import Any, Dict, Optional
+
 import requests
 
-from .base import BaseAlerter, Alert, AlertLevel
+from .base import Alert, AlertLevel, BaseAlerter
 
 
 class SlackAlerter(BaseAlerter):

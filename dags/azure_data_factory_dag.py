@@ -11,18 +11,15 @@ SOLID Principles Applied:
 """
 
 from datetime import datetime, timedelta
-
 from typing import Any
 
 from airflow import DAG
+from airflow.operators.python import PythonOperator
 from airflow.providers.microsoft.azure.operators.data_factory import (
     AzureDataFactoryRunPipelineOperator,
 )
-from airflow.operators.python import PythonOperator
-
-from config import AzureDataFactoryConfig, AirflowConfig
-from utils import get_logger, log_task_start, log_task_success, log_task_error
-
+from config import AirflowConfig, AzureDataFactoryConfig
+from utils import get_logger, log_task_error, log_task_start, log_task_success
 
 # ==============================================================================
 # Configuration

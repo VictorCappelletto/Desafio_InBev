@@ -5,8 +5,9 @@ Implements the six dimensions of data quality based on ISO 8000 standard.
 Each dimension has its own check class that can be configured and reused.
 """
 
-from typing import List, Dict, Any, Set, Callable, Optional
 from datetime import datetime, timedelta
+from typing import Any, Callable, Dict, List, Optional, Set
+
 from .framework import DataQualityCheck, DataQualityDimension, DataQualityResult
 
 

@@ -14,12 +14,10 @@ from datetime import datetime, timedelta
 from typing import Any
 
 from airflow import DAG
-from airflow.providers.databricks.operators.databricks import DatabricksRunNowOperator
 from airflow.operators.python import PythonOperator
-
-from config import DatabricksConfig, AirflowConfig
-from utils import get_logger, log_task_start, log_task_success, log_task_error
-
+from airflow.providers.databricks.operators.databricks import DatabricksRunNowOperator
+from config import AirflowConfig, DatabricksConfig
+from utils import get_logger, log_task_error, log_task_start, log_task_success
 
 # ==============================================================================
 # Configuration

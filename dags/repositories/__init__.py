@@ -45,12 +45,12 @@ See Also:
 - repositories/unit_of_work.py: Transaction management
 """
 
-from .base import IRepository, IBreweryRepository
+from .base import IBreweryRepository, IRepository
 from .brewery_repository import (
     InMemoryBreweryRepository,
     SQLBreweryRepository,
 )
-from .unit_of_work import UnitOfWork, InMemoryUnitOfWork
+from .unit_of_work import InMemoryUnitOfWork, UnitOfWork
 
 __all__ = [
     # Interfaces

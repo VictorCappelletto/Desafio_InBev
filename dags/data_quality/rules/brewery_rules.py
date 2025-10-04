@@ -4,16 +4,16 @@ Brewery-Specific Data Quality Rules
 Business-specific validation rules for brewery data based on domain knowledge.
 """
 
-from typing import Dict, Any, List
-from ..framework import DataQualityEngine
-from ..dimensions import (
-    CompletenessCheck,
-    AccuracyCheck,
-    ConsistencyCheck,
-    ValidityCheck,
-    UniquenessCheck,
-)
+from typing import Any, Dict, List
 
+from ..dimensions import (
+    AccuracyCheck,
+    CompletenessCheck,
+    ConsistencyCheck,
+    UniquenessCheck,
+    ValidityCheck,
+)
+from ..framework import DataQualityEngine
 
 # Valid brewery types based on Open Brewery DB schema
 VALID_BREWERY_TYPES = {

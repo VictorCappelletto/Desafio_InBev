@@ -18,17 +18,15 @@ Quality Checks:
 """
 
 from datetime import datetime, timedelta
-from typing import Dict, Any, List
+from typing import Any, Dict, List
 
 from airflow import DAG
-from airflow.operators.python import PythonOperator
 from airflow.exceptions import AirflowException
-
-from config import AzureSQLConfig, AirflowConfig
-from services.azure_sql_loader import AzureSQLLoader
-from utils import get_logger, log_task_start, log_task_success, log_task_error
+from airflow.operators.python import PythonOperator
+from config import AirflowConfig, AzureSQLConfig
 from exceptions import ValidationError
-
+from services.azure_sql_loader import AzureSQLLoader
+from utils import get_logger, log_task_error, log_task_start, log_task_success
 
 # ==============================================================================
 # Configuration
@@ -249,8 +247,9 @@ def check_data_freshness(**context: Any) -> Dict[str, Any]:
     log_task_start(logger, "check_data_freshness", table="Breweries")
 
     try:
-        import pyodbc
         from datetime import datetime, timedelta
+
+        import pyodbc
 
         # Check if table has a timestamp column (optional)
         # For this example, we'll check if row count changed in last 24h

@@ -14,10 +14,10 @@ DDD Principles:
 
 from dataclasses import dataclass, field
 from datetime import datetime
-from typing import Optional, Dict, Any, List
+from typing import Any, Dict, List, Optional
 
-from .value_objects import Location, Contact, BreweryType, Address, Coordinates
 from .exceptions import DomainValidationError
+from .value_objects import Address, BreweryType, Contact, Coordinates, Location
 
 
 @dataclass

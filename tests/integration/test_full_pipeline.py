@@ -4,20 +4,20 @@ E2E Integration Tests - Full ETL Pipeline
 Tests the complete brewery ETL pipeline from extraction to loading.
 """
 
-import pytest
-from unittest.mock import Mock, patch, MagicMock
-from typing import List, Dict, Any
+from typing import Any, Dict, List
+from unittest.mock import MagicMock, Mock, patch
 
+import pytest
+from config import APIConfig
+from data_quality.rules import create_brewery_quality_engine
+from exceptions import ExtractionError, TransformationError, ValidationError
+from repositories import InMemoryBreweryRepository
 from use_cases import (
     ExtractBreweriesUseCase,
-    TransformBreweriesUseCase,
     LoadBreweriesUseCase,
+    TransformBreweriesUseCase,
     ValidateBreweriesQualityUseCase,
 )
-from repositories import InMemoryBreweryRepository
-from data_quality.rules import create_brewery_quality_engine
-from config import APIConfig
-from exceptions import ExtractionError, TransformationError, ValidationError
 
 
 class TestFullETLPipeline:
@@ -211,8 +211,8 @@ class TestFullETLPipeline:
         mock_requests.Session.return_value.get.return_value = mock_response
 
         # Use real extractor (but with mocked requests)
-        from services import BreweryAPIExtractor
         from config import APIConfig
+        from services import BreweryAPIExtractor
 
         api_config = APIConfig()
         extractor = BreweryAPIExtractor(api_config)

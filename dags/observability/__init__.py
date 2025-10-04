@@ -36,20 +36,18 @@ See Also:
     - alerts/: Alerting implementations
 """
 
-from .metrics import (
-    MetricsCollector,
-    PipelineMetrics,
-    DataQualityMetrics,
-    PerformanceMetrics,
-)
-
 from .alerts import (
+    AlertLevel,
     BaseAlerter,
     EmailAlerter,
     SlackAlerter,
-    AlertLevel,
 )
-
+from .metrics import (
+    DataQualityMetrics,
+    MetricsCollector,
+    PerformanceMetrics,
+    PipelineMetrics,
+)
 
 __all__ = [
     # Metrics

@@ -5,7 +5,7 @@ Custom exceptions for domain layer.
 These represent violations of business rules, not technical errors.
 """
 
-from typing import Dict, Any, Optional
+from typing import Any, Dict, Optional
 
 
 class DomainException(Exception):

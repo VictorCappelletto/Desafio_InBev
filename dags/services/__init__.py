@@ -43,8 +43,8 @@ See Also:
 - README.md: Detailed documentation
 """
 
-from .brewery_api_extractor import BreweryAPIExtractor
 from .azure_sql_loader import AzureSQLLoader
+from .brewery_api_extractor import BreweryAPIExtractor
 from .brewery_transformer import BreweryTransformer
 
 __all__ = [

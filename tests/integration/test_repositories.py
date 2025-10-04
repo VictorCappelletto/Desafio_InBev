@@ -4,15 +4,15 @@ Integration Tests - Repository Pattern
 Tests repository implementations and Unit of Work pattern.
 """
 
-import pytest
 from typing import List
 
+import pytest
+from domain import Address, Brewery, BreweryType, Coordinates, Location
+from domain.exceptions import DuplicateBreweryError, EntityNotFoundError
 from repositories import (
     InMemoryBreweryRepository,
     UnitOfWork,
 )
-from domain import Brewery, BreweryType, Location, Address, Coordinates
-from domain.exceptions import DuplicateBreweryError, EntityNotFoundError
 
 
 class TestInMemoryBreweryRepository:

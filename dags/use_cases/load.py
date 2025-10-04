@@ -5,6 +5,7 @@ Application-level logic for loading brewery data.
 """
 
 from typing import List
+
 from domain import Brewery
 from interfaces import IDataLoader
 from utils import get_logger

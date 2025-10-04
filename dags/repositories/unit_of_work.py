@@ -7,9 +7,11 @@ and coordinates the writing of changes.
 
 from abc import ABC, abstractmethod
 from typing import Optional
+
+from utils import get_logger
+
 from .base import IBreweryRepository
 from .brewery_repository import InMemoryBreweryRepository, SQLBreweryRepository
-from utils import get_logger
 
 
 class IUnitOfWork(ABC):

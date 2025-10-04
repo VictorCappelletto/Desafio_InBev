@@ -54,9 +54,9 @@ See Also:
 """
 
 from .extract import ExtractBreweriesUseCase
-from .transform import TransformBreweriesUseCase
 from .load import LoadBreweriesUseCase
 from .quality import ValidateBreweriesQualityUseCase
+from .transform import TransformBreweriesUseCase
 
 __all__ = [
     "ExtractBreweriesUseCase",

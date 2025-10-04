@@ -6,9 +6,9 @@ Concrete implementations must implement these interfaces.
 """
 
 from abc import ABC, abstractmethod
-from typing import List, Optional, Generic, TypeVar
-from domain import Brewery
+from typing import Generic, List, Optional, TypeVar
 
+from domain import Brewery
 
 # Generic type for entities
 T = TypeVar("T")

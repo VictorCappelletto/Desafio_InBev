@@ -4,7 +4,8 @@ Quality Use Cases - Data Quality Validation
 Application-level logic for data quality checks.
 """
 
-from typing import List, Dict, Any
+from typing import Any, Dict, List
+
 from domain import Brewery, BreweryAggregate, BreweryValidator
 from utils import get_logger
 

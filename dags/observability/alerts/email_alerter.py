@@ -4,13 +4,13 @@ Email Alerter - Email Notifications
 Sends alerts via email using SMTP.
 """
 
-from typing import List, Optional
-import smtplib
-from email.mime.text import MIMEText
-from email.mime.multipart import MIMEMultipart
 import os
+import smtplib
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+from typing import List, Optional
 
-from .base import BaseAlerter, Alert, AlertLevel
+from .base import Alert, AlertLevel, BaseAlerter
 
 
 class EmailAlerter(BaseAlerter):

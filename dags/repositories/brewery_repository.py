@@ -4,11 +4,13 @@ Brewery Repository Implementations
 Concrete implementations of IBreweryRepository.
 """
 
-from typing import List, Optional, Dict
+from typing import Dict, List, Optional
+
 from domain import Brewery
-from domain.exceptions import EntityNotFoundError, DuplicateEntityError
-from .base import IBreweryRepository
+from domain.exceptions import DuplicateEntityError, EntityNotFoundError
 from utils import get_logger
+
+from .base import IBreweryRepository
 
 
 class InMemoryBreweryRepository(IBreweryRepository):

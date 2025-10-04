@@ -6,13 +6,13 @@ Follows Single Responsibility Principle: Only handles API extraction.
 """
 
 from typing import Any, Dict, List
-import requests
-from requests.adapters import HTTPAdapter
-from urllib3.util.retry import Retry
 
-from interfaces.data_extractor import IDataExtractor
+import requests
 from config.settings import APIConfig
 from exceptions import ExtractionError, ValidationError
+from interfaces.data_extractor import IDataExtractor
+from requests.adapters import HTTPAdapter
+from urllib3.util.retry import Retry
 from utils.logger import get_logger
 
 

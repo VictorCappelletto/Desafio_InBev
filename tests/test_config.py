@@ -4,21 +4,22 @@ Unit Tests for Configuration Classes
 Tests the config dataclasses to ensure they work correctly.
 """
 
-import pytest
 import os
-from unittest.mock import patch
 
 # Add dags to path
 import sys
+from unittest.mock import patch
+
+import pytest
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "dags"))
 
 from config.settings import (
-    DatabricksConfig,
-    AzureSQLConfig,
-    AzureDataFactoryConfig,
-    APIConfig,
     AirflowConfig,
+    APIConfig,
+    AzureDataFactoryConfig,
+    AzureSQLConfig,
+    DatabricksConfig,
 )
 
 

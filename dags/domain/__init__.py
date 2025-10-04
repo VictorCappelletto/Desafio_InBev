@@ -71,9 +71,9 @@ See Also:
 """
 
 from .entities import Brewery, BreweryAggregate
-from .value_objects import Location, Contact, Coordinates, Address
 from .exceptions import DomainValidationError, InvalidBreweryTypeError
 from .validators import BreweryValidator
+from .value_objects import Address, Contact, Coordinates, Location
 
 __all__ = [
     # Entities

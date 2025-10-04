@@ -19,7 +19,7 @@ Additional Patterns:
 """
 
 from datetime import datetime, timedelta
-from typing import List, Dict, Any
+from typing import Any, Dict, List
 
 from airflow import DAG
 from airflow.operators.python import PythonOperator
@@ -27,15 +27,14 @@ from airflow.operators.python import PythonOperator
 # Configuration
 from config import AirflowConfig, APIConfig, AzureSQLConfig
 
+# Exceptions
+from exceptions import ExtractionError, LoadError, TransformationError
+
 # Factories
 from factories import ETLFactory
 
 # Logging
-from utils import get_logger, log_task_start, log_task_success, log_task_error
-
-# Exceptions
-from exceptions import ExtractionError, TransformationError, LoadError
-
+from utils import get_logger, log_task_error, log_task_start, log_task_success
 
 # ==============================================================================
 # Initialize Configuration (Dependency Injection)

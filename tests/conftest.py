@@ -4,9 +4,10 @@ Pytest Configuration and Shared Fixtures
 This file contains pytest configuration and fixtures that are shared across all tests.
 """
 
-import pytest
-import sys
 import os
+import sys
+
+import pytest
 
 # Add dags directory to Python path
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "dags"))
@@ -85,8 +86,9 @@ def mock_api_config():
     Returns:
         APIConfig instance with test values
     """
-    from config.settings import APIConfig
     from unittest.mock import patch
+
+    from config.settings import APIConfig
 
     with patch.dict(
         os.environ,
@@ -107,8 +109,9 @@ def mock_sql_config():
     Returns:
         AzureSQLConfig instance with test values
     """
-    from config.settings import AzureSQLConfig
     from unittest.mock import patch
+
+    from config.settings import AzureSQLConfig
 
     with patch.dict(
         os.environ,
@@ -131,8 +134,9 @@ def mock_databricks_config():
     Returns:
         DatabricksConfig instance with test values
     """
-    from config.settings import DatabricksConfig
     from unittest.mock import patch
+
+    from config.settings import DatabricksConfig
 
     with patch.dict(
         os.environ,
@@ -155,7 +159,7 @@ def sample_brewery_entity():
     Returns:
         Brewery entity
     """
-    from domain import Brewery, BreweryType, Location, Address, Coordinates, Contact
+    from domain import Address, Brewery, BreweryType, Contact, Coordinates, Location
 
     coords = Coordinates(latitude=37.7749, longitude=-122.4194)
     address = Address(

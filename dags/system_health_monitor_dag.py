@@ -14,21 +14,19 @@ SOLID Principles Applied:
 """
 
 from datetime import datetime, timedelta
-from typing import Dict, Any
+from typing import Any, Dict
 
 from airflow import DAG
 from airflow.operators.python import PythonOperator
-
 from config import (
+    AirflowConfig,
+    APIConfig,
+    AzureDataFactoryConfig,
     AzureSQLConfig,
     DatabricksConfig,
-    AzureDataFactoryConfig,
-    APIConfig,
-    AirflowConfig,
 )
-from utils import get_logger, log_task_start, log_task_success, log_task_error
 from exceptions import ConnectionError as ETLConnectionError
-
+from utils import get_logger, log_task_error, log_task_start, log_task_success
 
 # ==============================================================================
 # Configuration
@@ -71,8 +69,9 @@ def check_azure_sql_health(**context: Any) -> Dict[str, Any]:
     """
     log_task_start(logger, "check_azure_sql_health")
 
-    import pyodbc
     import time
+
+    import pyodbc
 
     try:
         start_time = time.time()
@@ -136,8 +135,9 @@ def check_databricks_health(**context: Any) -> Dict[str, Any]:
     """
     log_task_start(logger, "check_databricks_health")
 
-    import requests
     import time
+
+    import requests
 
     try:
         start_time = time.time()
@@ -209,8 +209,9 @@ def check_brewery_api_health(**context: Any) -> Dict[str, Any]:
     """
     log_task_start(logger, "check_brewery_api_health")
 
-    import requests
     import time
+
+    import requests
 
     try:
         start_time = time.time()
