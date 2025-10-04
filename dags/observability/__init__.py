@@ -36,12 +36,7 @@ See Also:
     - alerts/: Alerting implementations
 """
 
-from .alerts import (
-    AlertLevel,
-    BaseAlerter,
-    EmailAlerter,
-    SlackAlerter,
-)
+from .alerts import AlertLevel, BaseAlerter, EmailAlerter, SlackAlerter
 from .metrics import (
     DataQualityMetrics,
     MetricsCollector,

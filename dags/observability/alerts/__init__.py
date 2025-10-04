@@ -4,12 +4,7 @@ Alerting System - Multi-Channel Notifications
 Supports multiple alerting channels with configurable routing.
 """
 
-from .base import (
-    Alert,
-    AlertLevel,
-    AlertManager,
-    BaseAlerter,
-)
+from .base import Alert, AlertLevel, AlertManager, BaseAlerter
 from .email_alerter import EmailAlerter
 from .slack_alerter import SlackAlerter
 

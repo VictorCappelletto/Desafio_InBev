@@ -46,10 +46,7 @@ See Also:
 """
 
 from .base import IBreweryRepository, IRepository
-from .brewery_repository import (
-    InMemoryBreweryRepository,
-    SQLBreweryRepository,
-)
+from .brewery_repository import InMemoryBreweryRepository, SQLBreweryRepository
 from .unit_of_work import InMemoryUnitOfWork, UnitOfWork
 
 __all__ = [

@@ -23,12 +23,7 @@ Benefits:
 from typing import Optional, Tuple
 
 # Import from config package (not config.settings directly)
-from config import (
-    APIConfig,
-    AzureDataFactoryConfig,
-    AzureSQLConfig,
-    DatabricksConfig,
-)
+from config import APIConfig, AzureDataFactoryConfig, AzureSQLConfig, DatabricksConfig
 
 # Interfaces
 from interfaces.data_extractor import IDataExtractor

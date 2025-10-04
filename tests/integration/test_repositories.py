@@ -9,10 +9,7 @@ from typing import List
 import pytest
 from domain import Address, Brewery, BreweryType, Coordinates, Location
 from domain.exceptions import DuplicateBreweryError, EntityNotFoundError
-from repositories import (
-    InMemoryBreweryRepository,
-    UnitOfWork,
-)
+from repositories import InMemoryBreweryRepository, UnitOfWork
 
 
 class TestInMemoryBreweryRepository:

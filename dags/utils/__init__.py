@@ -28,12 +28,7 @@ See Also:
 - README.md: Detailed documentation
 """
 
-from .logger import (
-    get_logger,
-    log_task_error,
-    log_task_start,
-    log_task_success,
-)
+from .logger import get_logger, log_task_error, log_task_start, log_task_success
 
 __all__ = [
     "get_logger",
