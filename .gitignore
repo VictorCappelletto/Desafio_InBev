@@ -100,10 +100,7 @@ ipython_config.py
 #Pipfile.lock
 
 # poetry
-#   For Astronomer/Airflow projects, poetry is only used for local dev tools (not production).
-#   Production uses requirements.txt, so poetry.lock can be safely ignored to reduce repo size.
-#   This saves ~1100 lines in the repository.
-poetry.lock
+#   poetry.lock is now tracked to ensure consistent dependencies in CI/CD
 
 # pdm
 #   Similar to Pipfile.lock, it is generally recommended to include pdm.lock in version control.
