@@ -10,7 +10,7 @@
 ![CD Status](https://github.com/victorcappelleto/Desafio_InBev/workflows/CD%20-%20Continuous%20Deployment/badge.svg)
 ![Security](https://github.com/victorcappelleto/Desafio_InBev/workflows/Security%20Scanning/badge.svg)
 ![Code Style](https://img.shields.io/badge/code%20style-black-000000.svg)
-![Coverage](https://img.shields.io/badge/coverage-85%25-brightgreen.svg)
+![Coverage](https://img.shields.io/badge/coverage-60%25-yellow.svg)
 
 ## Descrição
 
