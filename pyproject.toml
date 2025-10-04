@@ -114,58 +114,58 @@ skip_covered = false
 # ==============================================================================
 [tool.taskipy.tasks]
 format = """
-echo "🎨 Formatting code..."
+echo "[FORMAT] Formatting code..."
 isort .
 black .
-echo "✅ Code formatted!"
+echo "[FORMAT] Code formatted!"
 """
 
 lint = """
-echo "🔍 Linting code..."
+echo "[LINT] Linting code..."
 black --check .
 isort --check-only .
-echo "✅ Code is clean!"
+echo "[LINT] Code is clean!"
 """
 
 test = """
-echo "🧪 Running tests..."
+echo "[TEST] Running tests..."
 pytest -v
-echo "✅ Tests completed!"
+echo "[TEST] Tests completed!"
 """
 
 test-cov = """
-echo "🧪 Running tests with coverage..."
+echo "[COVERAGE] Running tests with coverage..."
 pytest --cov=dags --cov-report=html --cov-report=term
-echo "✅ Coverage report generated in htmlcov/"
+echo "[COVERAGE] Coverage report generated in htmlcov/"
 """
 
 doc = """
-echo "📚 Starting documentation server..."
+echo "[DOCS] Starting documentation server..."
 mkdocs serve
 """
 
 doc-build = """
-echo "📚 Building documentation..."
+echo "[DOCS] Building documentation..."
 mkdocs build --strict
-echo "✅ Documentation built in site/"
+echo "[DOCS] Documentation built in site/"
 """
 
 doc-deploy = """
-echo "🚀 Deploying documentation to GitHub Pages..."
+echo "[DEPLOY] Deploying documentation to GitHub Pages..."
 mkdocs gh-deploy --force
-echo "✅ Documentation deployed!"
-echo "📖 Visit: https://victorcappelleto.github.io/Desafio_InBev/"
+echo "[DEPLOY] Documentation deployed!"
+echo "[INFO] Visit: https://victorcappelleto.github.io/Desafio_InBev/"
 """
 
 check = """
-echo "🔍 Running all checks..."
+echo "[CHECK] Running all checks..."
 task lint
 task test
-echo "✅ All checks passed!"
+echo "[CHECK] All checks passed!"
 """
 
 clean = """
-echo "🧹 Cleaning build artifacts..."
+echo "[CLEAN] Cleaning build artifacts..."
 rm -rf build/
 rm -rf dist/
 rm -rf *.egg-info
@@ -175,7 +175,7 @@ rm -rf htmlcov/
 rm -rf site/
 find . -type d -name __pycache__ -exec rm -rf {} +
 find . -type f -name "*.pyc" -delete
-echo "✅ Cleaned!"
+echo "[CLEAN] Cleaned!"
 """
 
 kill = "kill -9 $(lsof -t -i :8000)"
