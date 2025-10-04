@@ -143,6 +143,8 @@ nav:
       - Connections: setup/connections.md
       - Variables: setup/variables.md
       - Desenvolvimento Local: setup/local-development.md
+  - Desenvolvimento:
+      - 🔧 Histórico de Correções do CI: development/ci-corrections-history.md
   - Guias:
       - Boas Práticas: guides/best-practices.md
       - Data Quality: guides/data-quality.md
