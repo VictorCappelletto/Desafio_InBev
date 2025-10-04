@@ -1,0 +1,16 @@
+# System-level packages required for the project
+# These packages will be installed via apt-get in the Docker container
+
+# ODBC dependencies for Azure SQL Database connection
+unixodbc
+unixodbc-dev
+
+# Microsoft ODBC Driver 18 for SQL Server
+# Note: The actual Microsoft ODBC driver is installed via commands in Dockerfile
+# These are the base dependencies needed
+
+# Additional utilities
+gnupg
+curl
+apt-transport-https
+

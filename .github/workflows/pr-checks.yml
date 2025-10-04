@@ -1,0 +1,178 @@
+name: PR Checks
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  # ===========================================================================
+  # PR Title Check
+  # ===========================================================================
+  pr-title-check:
+    name: 📝 PR Title Check
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: ✅ Check PR title format
+        uses: amannn/action-semantic-pull-request@v5
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          types: |
+            feat
+            fix
+            docs
+            style
+            refactor
+            perf
+            test
+            build
+            ci
+            chore
+          requireScope: false
+          subjectPattern: ^(?![A-Z]).+$
+          subjectPatternError: |
+            Subject must NOT start with an uppercase character.
+            
+            Examples:
+            ✅ feat: add new DAG
+            ✅ fix: resolve connection issue
+            ❌ feat: Add new DAG
+            ❌ Fix: resolve connection issue
+
+  # ===========================================================================
+  # PR Size Check
+  # ===========================================================================
+  pr-size-check:
+    name: 📏 PR Size Check
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: 📥 Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      
+      - name: 📊 Calculate PR size
+        id: pr_size
+        run: |
+          FILES_CHANGED=$(git diff --name-only origin/${{ github.base_ref }}...HEAD | wc -l)
+          LINES_ADDED=$(git diff --numstat origin/${{ github.base_ref }}...HEAD | awk '{s+=$1} END {print s}')
+          LINES_DELETED=$(git diff --numstat origin/${{ github.base_ref }}...HEAD | awk '{s+=$2} END {print s}')
+          
+          echo "files_changed=$FILES_CHANGED" >> $GITHUB_OUTPUT
+          echo "lines_added=$LINES_ADDED" >> $GITHUB_OUTPUT
+          echo "lines_deleted=$LINES_DELETED" >> $GITHUB_OUTPUT
+      
+      - name: 💬 Comment PR size
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const files = ${{ steps.pr_size.outputs.files_changed }};
+            const added = ${{ steps.pr_size.outputs.lines_added }};
+            const deleted = ${{ steps.pr_size.outputs.lines_deleted }};
+            const total = added + deleted;
+            
+            let size = '📦 Small';
+            let emoji = '✅';
+            
+            if (total > 1000) {
+              size = '📦 Extra Large';
+              emoji = '⚠️';
+            } else if (total > 500) {
+              size = '📦 Large';
+              emoji = '⚠️';
+            } else if (total > 200) {
+              size = '📦 Medium';
+              emoji = '👀';
+            }
+            
+            const message = `### ${emoji} PR Size: ${size}
+            
+            | Metric | Value |
+            |--------|-------|
+            | Files Changed | ${files} |
+            | Lines Added | +${added} |
+            | Lines Deleted | -${deleted} |
+            | **Total Changes** | **${total}** |
+            
+            ${total > 500 ? '⚠️ **This PR is quite large. Consider breaking it into smaller PRs for easier review.**' : ''}
+            `;
+            
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: message
+            });
+
+  # ===========================================================================
+  # Code Review Checklist
+  # ===========================================================================
+  pr-checklist:
+    name: ✅ PR Checklist
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: 📝 Post checklist comment
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const checklist = `### 📋 PR Review Checklist
+            
+            Please ensure the following before merging:
+            
+            #### Code Quality
+            - [ ] Code follows SOLID principles
+            - [ ] Type hints are used consistently
+            - [ ] Functions have docstrings
+            - [ ] No hardcoded credentials or secrets
+            
+            #### Testing
+            - [ ] Unit tests added/updated
+            - [ ] All tests pass locally
+            - [ ] Coverage maintained or improved
+            
+            #### Documentation
+            - [ ] README updated if needed
+            - [ ] CHANGELOG updated
+            - [ ] Code comments where necessary
+            
+            #### DAGs (if applicable)
+            - [ ] DAG follows naming convention
+            - [ ] Tags are appropriate
+            - [ ] Logging is structured
+            - [ ] Error handling implemented
+            
+            #### Security
+            - [ ] No secrets in code
+            - [ ] Environment variables used for configs
+            - [ ] Placeholders used in examples
+            
+            ---
+            
+            *This checklist is automatically generated for all PRs.*
+            `;
+            
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: checklist
+            });
+
+  # ===========================================================================
+  # Label PR
+  # ===========================================================================
+  pr-labeler:
+    name: 🏷️ Auto Label PR
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: 🏷️ Apply labels
+        uses: actions/labeler@v5
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          configuration-path: .github/labeler.yml
+          sync-labels: true
+

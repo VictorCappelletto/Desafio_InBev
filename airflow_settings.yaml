@@ -1,25 +1,90 @@
-# This file allows you to configure Airflow Connections, Pools, and Variables in a single place for local development only.
-# NOTE: json dicts can be added to the conn_extra field as yaml key value pairs. See the example below.
-
-# For more information, refer to our docs: https://docs.astronomer.io/develop-project#configure-airflow_settingsyaml-local-development-only
-# For questions, reach out to: https://support.astronomer.io
-# For issues create an issue ticket here: https://github.com/astronomer/astro-cli/issues
+# ==============================================================================
+# Airflow Settings - Local Development Only
+# ==============================================================================
+# This file configures Airflow Connections, Pools, and Variables for local dev
+# For production, use Airflow UI or environment variables
+# ==============================================================================
+# Docs: https://docs.astronomer.io/develop-project#configure-airflow_settingsyaml-local-development-only
+# ==============================================================================
 
 airflow:
+  # ==============================================================================
+  # CONNECTIONS
+  # ==============================================================================
   connections:
-    - conn_id:
-      conn_type:
-      conn_host:
-      conn_schema:
-      conn_login:
-      conn_password:
-      conn_port:
+    # Azure SQL Database Connection
+    - conn_id: azure_sql_default
+      conn_type: odbc
+      conn_host: ${AZURE_SQL_SERVER}
+      conn_schema: ${AZURE_SQL_DATABASE}
+      conn_login: ${AZURE_SQL_USERNAME}
+      conn_password: ${AZURE_SQL_PASSWORD}
+      conn_port: 1433
       conn_extra:
-        example_extra_field: example-value
+        driver: "ODBC Driver 18 for SQL Server"
+        TrustServerCertificate: "yes"
+        Encrypt: "yes"
+
+    # Databricks Connection
+    - conn_id: databricks_default
+      conn_type: databricks
+      conn_host: ${DATABRICKS_HOST}
+      conn_login: token
+      conn_password: ${DATABRICKS_TOKEN}
+      conn_extra:
+        token: ${DATABRICKS_TOKEN}
+
+    # Azure Data Factory Connection
+    - conn_id: azure_data_factory_default
+      conn_type: azure_data_factory
+      conn_login: ${ADF_CLIENT_ID}
+      conn_password: ${ADF_CLIENT_SECRET}
+      conn_extra:
+        tenantId: ${ADF_TENANT_ID}
+        subscriptionId: ${ADF_SUBSCRIPTION_ID}
+        resource_group_name: ${ADF_RESOURCE_GROUP}
+        factory_name: ${ADF_FACTORY_NAME}
+
+  # ==============================================================================
+  # POOLS
+  # ==============================================================================
   pools:
-    - pool_name:
-      pool_slot:
-      pool_description:
+    - pool_name: azure_pool
+      pool_slot: 5
+      pool_description: "Pool for Azure operations"
+
+    - pool_name: databricks_pool
+      pool_slot: 3
+      pool_description: "Pool for Databricks jobs"
+
+  # ==============================================================================
+  # VARIABLES
+  # ==============================================================================
   variables:
-    - variable_name:
-      variable_value:
+    # Databricks Configuration
+    - variable_name: databricks_cluster_id
+      variable_value: ${DATABRICKS_CLUSTER_ID}
+
+    - variable_name: databricks_job_id
+      variable_value: ${DATABRICKS_JOB_ID}
+
+    - variable_name: databricks_notebook_path
+      variable_value: ${DATABRICKS_NOTEBOOK_PATH}
+
+    # Azure Data Factory Configuration
+    - variable_name: adf_resource_group
+      variable_value: ${ADF_RESOURCE_GROUP}
+
+    - variable_name: adf_factory_name
+      variable_value: ${ADF_FACTORY_NAME}
+
+    - variable_name: adf_pipeline_name
+      variable_value: ${ADF_PIPELINE_NAME}
+
+    # API Configuration
+    - variable_name: brewery_api_url
+      variable_value: https://api.openbrewerydb.org/breweries
+
+    # Environment
+    - variable_name: environment
+      variable_value: development

@@ -1,0 +1,52 @@
+# PR Labeler Configuration
+# Automatically labels PRs based on changed files
+
+'documentation':
+  - changed-files:
+    - any-glob-to-any-file: ['docs/**', '*.md', 'mkdocs.yml']
+
+'dags':
+  - changed-files:
+    - any-glob-to-any-file: ['dags/**/*.py']
+
+'tests':
+  - changed-files:
+    - any-glob-to-any-file: ['tests/**']
+
+'ci-cd':
+  - changed-files:
+    - any-glob-to-any-file: ['.github/**']
+
+'docker':
+  - changed-files:
+    - any-glob-to-any-file: ['Dockerfile', '.dockerignore', 'packages.txt']
+
+'config':
+  - changed-files:
+    - any-glob-to-any-file: ['dags/config/**', 'airflow_settings.yaml', '.env*', 'env.template']
+
+'dependencies':
+  - changed-files:
+    - any-glob-to-any-file: ['requirements.txt', 'pyproject.toml', 'poetry.lock']
+
+'architecture':
+  - changed-files:
+    - any-glob-to-any-file: [
+        'dags/interfaces/**',
+        'dags/services/**',
+        'dags/factories/**',
+        'ARCHITECTURE.md'
+      ]
+
+'security':
+  - changed-files:
+    - any-glob-to-any-file: ['SECURITY.md', '.github/workflows/security*.yml']
+
+'data-quality':
+  - changed-files:
+    - any-glob-to-any-file: ['dags/data_quality*.py']
+
+'monitoring':
+  - changed-files:
+    - any-glob-to-any-file: ['dags/*health*.py', 'dags/*monitor*.py']
+

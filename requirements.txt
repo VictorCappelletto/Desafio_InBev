@@ -1,4 +1,14 @@
-# Astro Runtime includes the following pre-installed providers packages: https://docs.astronomer.io/astro/runtime-image-architecture#provider-packages
+# Astro Runtime includes the following pre-installed providers packages: 
+# https://docs.astronomer.io/astro/runtime-image-architecture#provider-packages
+
+# Azure providers
 apache-airflow-providers-microsoft-azure==10.1.2
+
+# Databricks provider
 apache-airflow-providers-databricks==6.6.0
+
+# Database connectivity
 pyodbc==5.1.0
+
+# HTTP requests (for API calls)
+requests==2.32.3

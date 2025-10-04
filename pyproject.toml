@@ -1,9 +1,16 @@
+# ==============================================================================
+# Poetry Configuration
+# ==============================================================================
 [tool.poetry]
 name = "desafio-inbev"
 version = "0.1.0"
-description = ""
+description = "Plataforma de orquestração de dados com Apache Airflow, Azure e Databricks"
 authors = ["victor.castro <victorcappelletto@gmail.com>"]
 readme = "README.md"
+license = "MIT"
+homepage = "https://github.com/victorcappelleto/Desafio_InBev"
+repository = "https://github.com/victorcappelleto/Desafio_InBev"
+keywords = ["airflow", "azure", "databricks", "etl", "data-engineering"]
 
 [tool.poetry.dependencies]
 python = "^3.11"
@@ -18,19 +25,154 @@ pytest = "^8.2.2"
 requests = "^2.32.3"
 pyodbc = "^5.1.0"
 
-
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
 
+# ==============================================================================
+# Black - Code Formatter
+# ==============================================================================
+[tool.black]
+line-length = 88
+target-version = ['py311']
+include = '\.pyi?$'
+extend-exclude = '''
+/(
+  # directories
+  \.eggs
+  | \.git
+  | \.hg
+  | \.mypy_cache
+  | \.tox
+  | \.venv
+  | build
+  | dist
+  | logs
+)/
+'''
+
+# ==============================================================================
+# isort - Import Sorter
+# ==============================================================================
+[tool.isort]
+profile = "black"
+line_length = 88
+multi_line_output = 3
+include_trailing_comma = true
+force_grid_wrap = 0
+use_parentheses = true
+ensure_newline_before_comments = true
+skip_glob = ["logs/*", ".venv/*", "build/*"]
+
+# ==============================================================================
+# pytest - Testing Framework
+# ==============================================================================
+[tool.pytest.ini_options]
+minversion = "8.0"
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+addopts = [
+    "-v",                    # Verbose output
+    "--strict-markers",      # Error on unknown markers
+    "--tb=short",           # Short traceback format
+    "--disable-warnings",   # Disable warnings
+    "-ra",                  # Show all test results
+]
+markers = [
+    "slow: marks tests as slow (deselect with '-m \"not slow\"')",
+    "integration: marks tests as integration tests",
+    "unit: marks tests as unit tests",
+]
+log_cli = true
+log_cli_level = "INFO"
+log_cli_format = "%(asctime)s [%(levelname)8s] %(message)s"
+log_cli_date_format = "%Y-%m-%d %H:%M:%S"
+
+# ==============================================================================
+# Coverage
+# ==============================================================================
+[tool.coverage.run]
+source = ["dags"]
+omit = [
+    "*/tests/*",
+    "*/__pycache__/*",
+    "*/site-packages/*",
+]
+
+[tool.coverage.report]
+precision = 2
+show_missing = true
+skip_covered = false
+
+# ==============================================================================
+# Taskipy - Task Runner
+# ==============================================================================
 [tool.taskipy.tasks]
 format = """
+echo "🎨 Formatting code..."
 isort .
 black .
+echo "✅ Code formatted!"
 """
+
+lint = """
+echo "🔍 Linting code..."
+black --check .
+isort --check-only .
+echo "✅ Code is clean!"
+"""
+
+test = """
+echo "🧪 Running tests..."
+pytest -v
+echo "✅ Tests completed!"
+"""
+
+test-cov = """
+echo "🧪 Running tests with coverage..."
+pytest --cov=dags --cov-report=html --cov-report=term
+echo "✅ Coverage report generated in htmlcov/"
+"""
+
+doc = """
+echo "📚 Starting documentation server..."
+mkdocs serve
+"""
+
+doc-build = """
+echo "📚 Building documentation..."
+mkdocs build --strict
+echo "✅ Documentation built in site/"
+"""
+
+doc-deploy = """
+echo "🚀 Deploying documentation to GitHub Pages..."
+mkdocs gh-deploy --force
+echo "✅ Documentation deployed!"
+echo "📖 Visit: https://victorcappelleto.github.io/Desafio_InBev/"
+"""
+
+check = """
+echo "🔍 Running all checks..."
+task lint
+task test
+echo "✅ All checks passed!"
+"""
+
+clean = """
+echo "🧹 Cleaning build artifacts..."
+rm -rf build/
+rm -rf dist/
+rm -rf *.egg-info
+rm -rf .pytest_cache
+rm -rf .coverage
+rm -rf htmlcov/
+rm -rf site/
+find . -type d -name __pycache__ -exec rm -rf {} +
+find . -type f -name "*.pyc" -delete
+echo "✅ Cleaned!"
+"""
+
 kill = "kill -9 $(lsof -t -i :8000)"
-test = "pytest -v"
-run = """
-python3 app/main.py
-"""
-doc = "mkdocs serve"

@@ -1,0 +1,46 @@
+# Code Owners
+# https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners
+
+# Default owner for everything
+* @victorcappelleto
+
+# DAGs require review
+/dags/ @victorcappelleto
+
+# Configuration changes require careful review
+/airflow_settings.yaml @victorcappelleto
+/.env* @victorcappelleto
+/env.template @victorcappelleto
+/dags/config/ @victorcappelleto
+
+# Security-related files
+/SECURITY.md @victorcappelleto
+/.github/workflows/security*.yml @victorcappelleto
+
+# Architecture changes
+/dags/interfaces/ @victorcappelleto
+/dags/services/ @victorcappelleto
+/dags/factories/ @victorcappelleto
+/ARCHITECTURE.md @victorcappelleto
+
+# CI/CD pipelines
+/.github/workflows/ @victorcappelleto
+
+# Documentation
+/docs/ @victorcappelleto
+/README.md @victorcappelleto
+/CHANGELOG.md @victorcappelleto
+
+# Tests
+/tests/ @victorcappelleto
+
+# Dependencies
+/requirements.txt @victorcappelleto
+/pyproject.toml @victorcappelleto
+/poetry.lock @victorcappelleto
+
+# Docker
+/Dockerfile @victorcappelleto
+/.dockerignore @victorcappelleto
+/packages.txt @victorcappelleto
+
