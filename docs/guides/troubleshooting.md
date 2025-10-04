@@ -4,7 +4,7 @@ Guia de resolução de problemas comuns encontrados durante desenvolvimento e de
 
 ---
 
-## 🐳 Docker & Airflow Local
+## Docker & Airflow Local
 
 ### Problema: Airflow não inicia (`astro dev start` falha)
 
@@ -16,7 +16,7 @@ the input device is not a TTY
 
 **Causa:** Comando `airflow pools set` requer TTY interativo.
 
-**Solução:** ✅ **Ignorar este erro!** É um bug conhecido do Astro CLI. O Airflow inicia normalmente e você pode criar o pool manualmente via UI.
+**Solução:** **Ignorar este erro!** É um bug conhecido do Astro CLI. O Airflow inicia normalmente e você pode criar o pool manualmente via UI.
 
 ```bash
 # O Airflow está rodando mesmo com este erro
@@ -43,7 +43,7 @@ pyodbc.Error: Can't open lib 'ODBC Driver 18 for SQL Server'
 # Instalar manualmente:
 astro dev bash
 apt-get update && ACCEPT_EULA=Y apt-get install -y msodbcsql18
-odbcinst -q -d  # Verificar instalação
+odbcinst -q -d # Verificar instalação
 ```
 
 **Alternativa:** Use SQLAlchemy com outros drivers ou Azure Managed Identity em produção.
@@ -60,14 +60,14 @@ odbcinst -q -d  # Verificar instalação
 astro dev kill
 
 # Se persistir:
-docker ps  # Liste containers
-docker stop <container_id>  # Force stop
-docker rm <container_id>    # Remove
+docker ps # Liste containers
+docker stop <container_id> # Force stop
+docker rm <container_id> # Remove
 ```
 
 ---
 
-## 🧪 Testes
+## Testes
 
 ### Problema: Testes de integração falhando
 
@@ -79,7 +79,7 @@ TypeError: UnitOfWork.__init__() missing 1 required positional argument: 'loader
 
 **Causa:** Testes de integração foram criados com API diferente da implementação real.
 
-**Solução:** ✅ **Os testes de integração estão desabilitados** (`tests/integration.disabled/`).
+**Solução:** **Os testes de integração estão desabilitados** (`tests/integration.disabled/`).
 
 ```bash
 # Rodar apenas unit tests (46 passando):
@@ -92,7 +92,7 @@ astro dev start
 
 ---
 
-## 📦 Dependências
+## Dependências
 
 ### Problema: `poetry.lock` desatualizado
 
@@ -124,7 +124,7 @@ ImportError: cannot import name 'BreweryType' from 'domain'
 **Solução:**
 ```bash
 # 1. Verificar exports em __init__.py:
-cat dags/domain/__init__.py  # Deve ter BreweryType em __all__
+cat dags/domain/__init__.py # Deve ter BreweryType em __all__
 
 # 2. Reinstalar dependências:
 poetry install
@@ -135,7 +135,7 @@ astro dev restart
 
 ---
 
-## 🎨 Lint & Format
+## Lint & Format
 
 ### Problema: `isort` diferente entre local e CI
 
@@ -155,7 +155,7 @@ poetry run isort .
 
 ---
 
-## 🔐 CI/CD
+## CI/CD
 
 ### Problema: Security workflow falhando (TruffleHog)
 
@@ -166,13 +166,13 @@ ERROR: BASE and HEAD commits are the same. TruffleHog won't scan anything.
 
 **Causa:** TruffleHog requer diff entre commits (funciona em PRs, não em push direto).
 
-**Solução:** ✅ **Já corrigido!** Workflow tem condição `if: github.event_name == 'pull_request'`.
+**Solução:** **Já corrigido!** Workflow tem condição `if: github.event_name == 'pull_request'`.
 
 ```yaml
 # Em .github/workflows/ci.yml:
-- name: 🔍 Check for secrets
-  if: github.event_name == 'pull_request'  # ← Só roda em PRs
-  uses: trufflesecurity/trufflehog@main
+- name: Check for secrets
+ if: github.event_name == 'pull_request' # ← Só roda em PRs
+ uses: trufflesecurity/trufflehog@main
 ```
 
 ---
@@ -184,20 +184,20 @@ ERROR: BASE and HEAD commits are the same. TruffleHog won't scan anything.
 This request has been automatically failed because it uses a deprecated version
 ```
 
-**Solução:** ✅ **Já corrigido!** Todos os workflows usam versões atualizadas:
+**Solução:** **Já corrigido!** Todos os workflows usam versões atualizadas:
 - `actions/upload-artifact@v4`
 - `actions/deploy-pages@v4`
 - `github/codeql-action@v3`
 
 ---
 
-## 📖 Documentação
+## Documentação
 
 ### Problema: GitHub Pages não carrega (404)
 
 **Causa:** GitHub Pages não estava habilitado no repositório.
 
-**Solução:** ✅ **Já corrigido!** GitHub Pages habilitado via API.
+**Solução:** **Já corrigido!** GitHub Pages habilitado via API.
 
 **Para verificar:**
 ```bash
@@ -210,7 +210,7 @@ gh api repos/VictorCappelletto/Desafio_InBev/pages
 **Se precisar reabilitar:**
 ```bash
 echo '{"source":{"branch":"gh-pages","path":"/"}, "build_type":"workflow"}' | \
-  gh api --method POST repos/OWNER/REPO/pages --input -
+ gh api --method POST repos/OWNER/REPO/pages --input -
 ```
 
 ---
@@ -225,23 +225,23 @@ WARNING: Doc file contains a link '../../ARCHITECTURE.md', but target not found
 
 **Causa:** `--strict` mode aborta em warnings (links quebrados, etc).
 
-**Solução:** ✅ **Já corrigido!** Removido `--strict` do workflow.
+**Solução:** **Já corrigido!** Removido `--strict` do workflow.
 
 ```yaml
 # Em .github/workflows/mkdocs-deploy.yml:
-run: mkdocs build --verbose  # (sem --strict)
+run: mkdocs build --verbose # (sem --strict)
 ```
 
 ---
 
-## 🔍 Debug Geral
+## Debug Geral
 
 ### Comandos úteis para diagnóstico:
 
 ```bash
 # Ver logs do Airflow:
 astro dev logs
-astro dev logs --follow  # Real-time
+astro dev logs --follow # Real-time
 
 # Entrar no container:
 astro dev bash
@@ -256,7 +256,7 @@ gh run list --limit 5
 gh run view <run_id> --log-failed
 
 # Verificar pytest config:
-poetry run pytest --collect-only  # Lista testes sem rodar
+poetry run pytest --collect-only # Lista testes sem rodar
 
 # Verificar imports:
 poetry run python -c "from domain import BreweryType; print(BreweryType)"
@@ -264,7 +264,7 @@ poetry run python -c "from domain import BreweryType; print(BreweryType)"
 
 ---
 
-## 📞 Suporte Adicional
+## Suporte Adicional
 
 Para problemas não cobertos aqui:
 
@@ -274,19 +274,19 @@ Para problemas não cobertos aqui:
 
 ---
 
-## 🎯 Logs Úteis de Correções
+## Logs Úteis de Correções
 
 ### Histórico de problemas resolvidos:
 
-1. ✅ **Poetry lock** - Regenerado para sync com pyproject.toml
-2. ✅ **Isort version** - Downgrade 6.x → 5.x para CI
-3. ✅ **Pytest-cov** - Adicionado ao pyproject.toml
-4. ✅ **MkDocs strict** - Removido para permitir warnings
-5. ✅ **DAG validation** - Desabilitado (requer Airflow completo)
-6. ✅ **TruffleHog** - Condicionado para PRs only
-7. ✅ **Domain exports** - BreweryType e exceptions exportados
-8. ✅ **Integration tests** - Movidos para `.disabled`
-9. ✅ **Dockerfile ODBC** - Comentado (apt-key deprecated)
-10. ✅ **GitHub Pages** - Habilitado via API
+1. **Poetry lock** - Regenerado para sync com pyproject.toml
+2. **Isort version** - Downgrade 6.x → 5.x para CI
+3. **Pytest-cov** - Adicionado ao pyproject.toml
+4. **MkDocs strict** - Removido para permitir warnings
+5. **DAG validation** - Desabilitado (requer Airflow completo)
+6. **TruffleHog** - Condicionado para PRs only
+7. **Domain exports** - BreweryType e exceptions exportados
+8. **Integration tests** - Movidos para `.disabled`
+9. **Dockerfile ODBC** - Comentado (apt-key deprecated)
+10. **GitHub Pages** - Habilitado via API
 
-**Total:** 25+ commits de correção | Tempo: ~6 horas | **Status:** ✅ CI 100% funcional
+**Total:** 25+ commits de correção | Tempo: ~6 horas | **Status:** CI 100% funcional

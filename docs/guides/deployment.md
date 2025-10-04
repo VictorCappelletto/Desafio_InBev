@@ -4,26 +4,26 @@ Guia completo para deploy do projeto em ambientes produtivos.
 
 ---
 
-## 🎯 Ambientes Suportados
+## Ambientes Suportados
 
 O projeto pode ser deployado em:
 
 ### 1. **Astronomer Cloud** (Recomendado)
-- ✅ **Vantagens:** Gerenciamento simplificado, auto-scaling, monitoramento integrado
-- 📝 **Custo:** Plano pago ($0.25/AU/hora)
-- 🔗 **Docs:** [Astronomer Deploy Guide](https://docs.astronomer.io/astro/deploy-code)
+- **Vantagens:** Gerenciamento simplificado, auto-scaling, monitoramento integrado
+- **Custo:** Plano pago ($0.25/AU/hora)
+- **Docs:** [Astronomer Deploy Guide](https://docs.astronomer.io/astro/deploy-code)
 
 ### 2. **Azure Container Instances**
-- ✅ **Vantagens:** Integração nativa com Azure, baixo custo
-- 📝 **Setup:** Requer configuração de networking e secrets
+- **Vantagens:** Integração nativa com Azure, baixo custo
+- **Setup:** Requer configuração de networking e secrets
 
 ### 3. **Kubernetes (GKE/EKS/AKS)**
-- ✅ **Vantagens:** Total controle, customização ilimitada
-- ⚠️ **Complexidade:** Requer expertise em K8s
+- **Vantagens:** Total controle, customização ilimitada
+- **Complexidade:** Requer expertise em K8s
 
 ---
 
-## 🚀 Deploy via Astronomer Cloud
+## Deploy via Astronomer Cloud
 
 ### Passo 1: Criar Conta
 ```bash
@@ -72,7 +72,7 @@ astro deployment list
 
 ---
 
-## 🐳 Deploy via Docker Compose
+## Deploy via Docker Compose
 
 ### Passo 1: Build da Imagem
 ```bash
@@ -88,40 +88,40 @@ docker push your-registry/desafio-inbev:latest
 ```yaml
 version: '3'
 services:
-  webserver:
-    image: desafio-inbev:latest
-    environment:
-      AIRFLOW__CORE__EXECUTOR: CeleryExecutor
-      AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://...
-      AIRFLOW__CELERY__BROKER_URL: redis://redis:6379/0
-      AZURE_SQL_PASSWORD: ${AZURE_SQL_PASSWORD}
-      DATABRICKS_TOKEN: ${DATABRICKS_TOKEN}
-    ports:
-      - "8080:8080"
-  
-  scheduler:
-    image: desafio-inbev:latest
-    command: scheduler
-    depends_on:
-      - postgres
-      - redis
-  
-  worker:
-    image: desafio-inbev:latest
-    command: celery worker
-    depends_on:
-      - postgres
-      - redis
-  
-  postgres:
-    image: postgres:13
-    environment:
-      POSTGRES_USER: airflow
-      POSTGRES_PASSWORD: airflow
-      POSTGRES_DB: airflow
-  
-  redis:
-    image: redis:7
+ webserver:
+ image: desafio-inbev:latest
+ environment:
+ AIRFLOW__CORE__EXECUTOR: CeleryExecutor
+ AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://...
+ AIRFLOW__CELERY__BROKER_URL: redis://redis:6379/0
+ AZURE_SQL_PASSWORD: ${AZURE_SQL_PASSWORD}
+ DATABRICKS_TOKEN: ${DATABRICKS_TOKEN}
+ ports:
+ - "8080:8080"
+
+ scheduler:
+ image: desafio-inbev:latest
+ command: scheduler
+ depends_on:
+ - postgres
+ - redis
+
+ worker:
+ image: desafio-inbev:latest
+ command: celery worker
+ depends_on:
+ - postgres
+ - redis
+
+ postgres:
+ image: postgres:13
+ environment:
+ POSTGRES_USER: airflow
+ POSTGRES_PASSWORD: airflow
+ POSTGRES_DB: airflow
+
+ redis:
+ image: redis:7
 ```
 
 ### Passo 3: Deploy
@@ -138,7 +138,7 @@ docker-compose -f docker-compose.prod.yml down
 
 ---
 
-## ☸️ Deploy via Kubernetes
+## Deploy via Kubernetes
 
 ### Passo 1: Helm Chart (Airflow)
 ```bash
@@ -148,19 +148,19 @@ helm repo update
 
 # Instalar
 helm install airflow apache-airflow/airflow \
-  --namespace airflow \
-  --create-namespace \
-  --set images.airflow.repository=your-registry/desafio-inbev \
-  --set images.airflow.tag=latest
+ --namespace airflow \
+ --create-namespace \
+ --set images.airflow.repository=your-registry/desafio-inbev \
+ --set images.airflow.tag=latest
 ```
 
 ### Passo 2: Configurar Secrets
 ```bash
 # Criar secret
 kubectl create secret generic airflow-secrets \
-  --from-literal=AZURE_SQL_PASSWORD='***' \
-  --from-literal=DATABRICKS_TOKEN='***' \
-  --namespace airflow
+ --from-literal=AZURE_SQL_PASSWORD='***' \
+ --from-literal=DATABRICKS_TOKEN='***' \
+ --namespace airflow
 ```
 
 ### Passo 3: Deploy via Kubectl
@@ -169,31 +169,31 @@ kubectl create secret generic airflow-secrets \
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: airflow-webserver
-  namespace: airflow
+ name: airflow-webserver
+ namespace: airflow
 spec:
-  replicas: 2
-  selector:
-    matchLabels:
-      app: airflow-webserver
-  template:
-    metadata:
-      labels:
-        app: airflow-webserver
-    spec:
-      containers:
-      - name: webserver
-        image: your-registry/desafio-inbev:latest
-        ports:
-        - containerPort: 8080
-        envFrom:
-        - secretRef:
-            name: airflow-secrets
+ replicas: 2
+ selector:
+ matchLabels:
+ app: airflow-webserver
+ template:
+ metadata:
+ labels:
+ app: airflow-webserver
+ spec:
+ containers:
+ - name: webserver
+ image: your-registry/desafio-inbev:latest
+ ports:
+ - containerPort: 8080
+ envFrom:
+ - secretRef:
+ name: airflow-secrets
 ```
 
 ---
 
-## 🔒 Gerenciamento de Secrets
+## Gerenciamento de Secrets
 
 ### Opção 1: Azure Key Vault (Recomendado)
 ```python
@@ -226,19 +226,19 @@ export DATABRICKS_TOKEN='***'
 
 ---
 
-## 📊 Monitoramento
+## Monitoramento
 
 ### 1. **Airflow UI**
-- 📈 DAG runs history
-- ⏱️ Task duration
-- ❌ Failure logs
+- DAG runs history
+- ⏱ Task duration
+- Failure logs
 
 ### 2. **Azure Monitor** (se usando Azure)
 ```bash
 # Habilitar logs
 az monitor diagnostic-settings create \
-  --resource /subscriptions/.../airflow \
-  --logs '[{"category": "AirflowLogs", "enabled": true}]'
+ --resource /subscriptions/.../airflow \
+ --logs '[{"category": "AirflowLogs", "enabled": true}]'
 ```
 
 ### 3. **Prometheus + Grafana**
@@ -247,17 +247,17 @@ az monitor diagnostic-settings create \
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: airflow-metrics
+ name: airflow-metrics
 data:
-  statsd_exporter.yml: |
-    mappings:
-    - match: "airflow.dag.*.*.duration"
-      name: "airflow_dag_duration"
+ statsd_exporter.yml: |
+ mappings:
+ - match: "airflow.dag.*.*.duration"
+ name: "airflow_dag_duration"
 ```
 
 ---
 
-## 🔄 CI/CD Automation
+## CI/CD Automation
 
 ### GitHub Actions Deploy (exemplo)
 ```yaml
@@ -265,42 +265,42 @@ data:
 name: Deploy to Production
 
 on:
-  push:
-    branches: [main]
+ push:
+ branches: [main]
 
 jobs:
-  deploy:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      
-      - name: Deploy to Astronomer
-        run: |
-          astro login --token ${{ secrets.ASTRO_TOKEN }}
-          astro deploy <deployment-id>
+ deploy:
+ runs-on: ubuntu-latest
+ steps:
+ - uses: actions/checkout@v4
+
+ - name: Deploy to Astronomer
+ run: |
+ astro login --token ${{ secrets.ASTRO_TOKEN }}
+ astro deploy <deployment-id>
 ```
 
 ---
 
-## ✅ Checklist de Deploy
+## Checklist de Deploy
 
 Antes de fazer deploy para produção:
 
-- [ ] ✅ Todos os testes passando (`poetry run task test`)
-- [ ] ✅ Lint sem erros (`poetry run task lint`)
-- [ ] ✅ Security scan limpo (CI)
-- [ ] ✅ Secrets configurados (não hardcoded)
-- [ ] ✅ Connections testadas (Azure SQL, Databricks, ADF)
-- [ ] ✅ Variáveis de ambiente configuradas
-- [ ] ✅ Logs configurados (nível INFO ou WARNING)
-- [ ] ✅ Alertas configurados (email/Slack)
-- [ ] ✅ Backup do metastore configurado
-- [ ] ✅ Monitoramento configurado
-- [ ] ✅ Documentação atualizada
+- [ ] Todos os testes passando (`poetry run task test`)
+- [ ] Lint sem erros (`poetry run task lint`)
+- [ ] Security scan limpo (CI)
+- [ ] Secrets configurados (não hardcoded)
+- [ ] Connections testadas (Azure SQL, Databricks, ADF)
+- [ ] Variáveis de ambiente configuradas
+- [ ] Logs configurados (nível INFO ou WARNING)
+- [ ] Alertas configurados (email/Slack)
+- [ ] Backup do metastore configurado
+- [ ] Monitoramento configurado
+- [ ] Documentação atualizada
 
 ---
 
-## 🆘 Rollback
+## Rollback
 
 Se algo der errado:
 
@@ -333,17 +333,17 @@ kubectl rollout history deployment/airflow-webserver -n airflow
 
 ---
 
-## 📝 Suporte
+## Suporte
 
 Para dúvidas sobre deploy:
 
-- 📖 [Astronomer Docs](https://docs.astronomer.io/)
-- 📖 [Airflow Docs - Production](https://airflow.apache.org/docs/apache-airflow/stable/production-deployment.html)
-- 📖 [Azure AKS Docs](https://learn.microsoft.com/en-us/azure/aks/)
+- [Astronomer Docs](https://docs.astronomer.io/)
+- [Airflow Docs - Production](https://airflow.apache.org/docs/apache-airflow/stable/production-deployment.html)
+- [Azure AKS Docs](https://learn.microsoft.com/en-us/azure/aks/)
 
 ---
 
-## 🎯 Próximos Passos
+## Próximos Passos
 
 Após deploy em produção:
 

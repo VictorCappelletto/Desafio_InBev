@@ -4,7 +4,7 @@
 
 ---
 
-## 🎯 Quick Start
+## Quick Start
 
 ### Basic Usage
 
@@ -21,7 +21,7 @@ repo.add(brewery)
 
 # Get brewery
 found = repo.get_by_id("1")
-print(found.name)  # "Test Brewery"
+print(found.name) # "Test Brewery"
 
 # Find by criteria
 results = repo.find_by(brewery_type="micro")
@@ -38,17 +38,17 @@ from repositories import UnitOfWork
 
 # Atomic transaction
 with UnitOfWork() as uow:
-    brewery = Brewery(id="1", ...)
-    uow.breweries.add(brewery)
-    
-    # More operations...
-    
-    uow.commit()  # ← All or nothing!
+ brewery = Brewery(id="1", ...)
+ uow.breweries.add(brewery)
+
+ # More operations...
+
+ uow.commit() # ← All or nothing!
 ```
 
 ---
 
-## 📦 Components
+## Components
 
 ### 1. IRepository[T] - Generic Interface
 
@@ -56,20 +56,20 @@ with UnitOfWork() as uow:
 from repositories import IRepository
 
 class IRepository(ABC, Generic[T]):
-    def get_by_id(id: str) -> Optional[T]
-    def get_all() -> List[T]
-    def add(entity: T) -> None
-    def add_many(entities: List[T]) -> int
-    def update(entity: T) -> None
-    def remove(id: str) -> bool
-    def exists(id: str) -> bool
-    def count() -> int
+ def get_by_id(id: str) -> Optional[T]
+ def get_all() -> List[T]
+ def add(entity: T) -> None
+ def add_many(entities: List[T]) -> int
+ def update(entity: T) -> None
+ def remove(id: str) -> bool
+ def exists(id: str) -> bool
+ def count() -> int
 ```
 
 **Benefits:**
-- ✅ Type-safe with generics
-- ✅ Standard interface across all repos
-- ✅ Easy to mock for tests
+- Type-safe with generics
+- Standard interface across all repos
+- Easy to mock for tests
 
 ---
 
@@ -77,22 +77,22 @@ class IRepository(ABC, Generic[T]):
 
 ```python
 class IBreweryRepository(IRepository[Brewery]):
-    """Extended interface for Brewery-specific queries."""
-    
-    def find_by(self, **criteria) -> List[Brewery]:
-        """Find breweries by flexible criteria."""
-    
-    def find_by_type(self, brewery_type: str) -> List[Brewery]:
-        """Find breweries by type (micro, nano, etc)."""
-    
-    def find_by_location(self, city: str, state: str) -> List[Brewery]:
-        """Find breweries by location."""
+ """Extended interface for Brewery-specific queries."""
+
+ def find_by(self, **criteria) -> List[Brewery]:
+ """Find breweries by flexible criteria."""
+
+ def find_by_type(self, brewery_type: str) -> List[Brewery]:
+ """Find breweries by type (micro, nano, etc)."""
+
+ def find_by_location(self, city: str, state: str) -> List[Brewery]:
+ """Find breweries by location."""
 ```
 
 **Benefits:**
-- ✅ Domain-specific queries
-- ✅ Type-safe return values
-- ✅ Clear contracts
+- Domain-specific queries
+- Type-safe return values
+- Clear contracts
 
 ---
 
@@ -111,9 +111,9 @@ repo = InMemoryBreweryRepository()
 ```
 
 **Use for:**
-- ✅ Unit tests
-- ✅ Development/prototyping
-- ✅ Integration test fixtures
+- Unit tests
+- Development/prototyping
+- Integration test fixtures
 
 ---
 
@@ -131,9 +131,9 @@ repo = SQLBreweryRepository(AzureSQLConfig())
 ```
 
 **Use for:**
-- ✅ Production
-- ✅ Integration tests (with test DB)
-- ✅ Data persistence
+- Production
+- Integration tests (with test DB)
+- Data persistence
 
 ---
 
@@ -146,62 +146,62 @@ from repositories import IUnitOfWork, UnitOfWork
 
 # Context manager - auto rollback on error
 with UnitOfWork() as uow:
-    # Access repositories
-    brewery1 = Brewery(...)
-    brewery2 = Brewery(...)
-    
-    # Add to transaction
-    uow.breweries.add(brewery1)
-    uow.breweries.add(brewery2)
-    
-    # Commit atomically
-    uow.commit()
-    # If any error → automatic rollback!
+ # Access repositories
+ brewery1 = Brewery(...)
+ brewery2 = Brewery(...)
+
+ # Add to transaction
+ uow.breweries.add(brewery1)
+ uow.breweries.add(brewery2)
+
+ # Commit atomically
+ uow.commit()
+ # If any error → automatic rollback!
 ```
 
 **Benefits:**
-- ✅ Atomic transactions (all or nothing)
-- ✅ Automatic rollback on errors
-- ✅ Context manager support
-- ✅ Consistent across repositories
+- Atomic transactions (all or nothing)
+- Automatic rollback on errors
+- Context manager support
+- Consistent across repositories
 
 ---
 
-## 🏗️ Architecture
+## Architecture
 
 ```
 repositories/
-├── __init__.py              # Exports
-├── base.py                  # IRepository[T], IBreweryRepository
-├── brewery_repository.py    # InMemory, SQL implementations
-└── unit_of_work.py          # IUnitOfWork, UnitOfWork, SQLUnitOfWork
+ __init__.py # Exports
+ base.py # IRepository[T], IBreweryRepository
+ brewery_repository.py # InMemory, SQL implementations
+ unit_of_work.py # IUnitOfWork, UnitOfWork, SQLUnitOfWork
 ```
 
 ---
 
-## 📐 Design Patterns
+## Design Patterns
 
 ### Repository Pattern
 
 ```python
-# ❌ WITHOUT Repository
+# WITHOUT Repository
 def get_brewery(id):
-    conn = pyodbc.connect(CONNECTION_STRING)
-    cursor = conn.cursor()
-    cursor.execute("SELECT * FROM Breweries WHERE id = ?", id)
-    row = cursor.fetchone()
-    # Manual mapping...
-    return Brewery(...)
+ conn = pyodbc.connect(CONNECTION_STRING)
+ cursor = conn.cursor()
+ cursor.execute("SELECT * FROM Breweries WHERE id = ?", id)
+ row = cursor.fetchone()
+ # Manual mapping...
+ return Brewery(...)
 
-# ✅ WITH Repository
+# WITH Repository
 brewery = repository.get_by_id(id)
 ```
 
 **Benefits:**
-- ✅ Clean separation of concerns
-- ✅ Easy to swap implementations
-- ✅ Testable with mocks/in-memory
-- ✅ No SQL in business logic
+- Clean separation of concerns
+- Easy to swap implementations
+- Testable with mocks/in-memory
+- No SQL in business logic
 
 ---
 
@@ -211,12 +211,12 @@ brewery = repository.get_by_id(id)
 # Use Cases depend on INTERFACE, not concrete implementation
 
 class LoadBreweriesUseCase:
-    def __init__(self, repository: IBreweryRepository):  # ← Interface!
-        self.repository = repository
-    
-    def execute(self, breweries: List[Brewery]):
-        # Works with ANY implementation
-        self.repository.add_many(breweries)
+ def __init__(self, repository: IBreweryRepository): # ← Interface!
+ self.repository = repository
+
+ def execute(self, breweries: List[Brewery]):
+ # Works with ANY implementation
+ self.repository.add_many(breweries)
 
 # Production: Use SQL
 use_case = LoadBreweriesUseCase(SQLBreweryRepository(config))
@@ -227,49 +227,49 @@ use_case = LoadBreweriesUseCase(InMemoryBreweryRepository())
 
 ---
 
-## 💡 Tips
+## Tips
 
 !!! tip "Testing"
-    Always use `InMemoryBreweryRepository` for unit tests:
-    ```python
-    def test_load_breweries():
-        repo = InMemoryBreweryRepository()  # ← Fast!
-        use_case = LoadBreweriesUseCase(repo)
-        
-        breweries = [Brewery(...)]
-        use_case.execute(breweries)
-        
-        assert repo.count() == 1
-    ```
+ Always use `InMemoryBreweryRepository` for unit tests:
+ ```python
+ def test_load_breweries():
+ repo = InMemoryBreweryRepository() # ← Fast!
+ use_case = LoadBreweriesUseCase(repo)
+
+ breweries = [Brewery(...)]
+ use_case.execute(breweries)
+
+ assert repo.count() == 1
+ ```
 
 !!! warning "N+1 Queries"
-    For production, batch operations when possible:
-    ```python
-    # ❌ N+1 queries
-    for brewery in breweries:
-        repo.add(brewery)
-    
-    # ✅ Single batch
-    repo.add_many(breweries)  # Much faster!
-    ```
+ For production, batch operations when possible:
+ ```python
+ # N+1 queries
+ for brewery in breweries:
+ repo.add(brewery)
+
+ # Single batch
+ repo.add_many(breweries) # Much faster!
+ ```
 
 !!! success "Unit of Work"
-    Use for complex operations:
-    ```python
-    with UnitOfWork() as uow:
-        # Multiple operations
-        breweries = uow.breweries.find_by_type("micro")
-        for brewery in breweries:
-            # Update logic
-            uow.breweries.update(brewery)
-        
-        # Atomic commit
-        uow.commit()
-    ```
+ Use for complex operations:
+ ```python
+ with UnitOfWork() as uow:
+ # Multiple operations
+ breweries = uow.breweries.find_by_type("micro")
+ for brewery in breweries:
+ # Update logic
+ uow.breweries.update(brewery)
+
+ # Atomic commit
+ uow.commit()
+ ```
 
 ---
 
-## 🔧 Custom Repositories
+## Custom Repositories
 
 ```python
 from repositories import IRepository
@@ -278,27 +278,27 @@ from typing import Generic, TypeVar
 T = TypeVar('T')
 
 class MyCustomRepository(IRepository[T]):
-    def __init__(self, config):
-        self._storage = {}
-        self.config = config
-    
-    def get_by_id(self, id: str) -> Optional[T]:
-        return self._storage.get(id)
-    
-    def add(self, entity: T) -> None:
-        self._storage[entity.id] = entity
-    
-    # Implement other methods...
-    
-    # Custom methods
-    def my_custom_query(self) -> List[T]:
-        # Your custom logic
-        pass
+ def __init__(self, config):
+ self._storage = {}
+ self.config = config
+
+ def get_by_id(self, id: str) -> Optional[T]:
+ return self._storage.get(id)
+
+ def add(self, entity: T) -> None:
+ self._storage[entity.id] = entity
+
+ # Implement other methods...
+
+ # Custom methods
+ def my_custom_query(self) -> List[T]:
+ # Your custom logic
+ pass
 ```
 
 ---
 
-## 📖 References
+## References
 
 - **Code**: `dags/repositories/`
 - **API Reference**: Use `help(IBreweryRepository)` in Python
@@ -307,7 +307,7 @@ class MyCustomRepository(IRepository[T]):
 
 ---
 
-## 🎯 Comparison
+## Comparison
 
 | Feature | Direct DB Access | Repository Pattern |
 |---------|------------------|-------------------|

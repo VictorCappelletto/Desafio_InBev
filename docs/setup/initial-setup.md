@@ -1,16 +1,16 @@
 # Setup Inicial
 
-## 🎯 Pré-requisitos
+## Pré-requisitos
 
 Antes de começar, certifique-se de ter:
 
-- ✅ **Python 3.11+**
-- ✅ **Docker & Docker Compose**
-- ✅ **Astronomer CLI** (opcional, mas recomendado)
-- ✅ **Poetry** (gerenciador de dependências Python)
-- ✅ **Git**
+- **Python 3.11+**
+- **Docker & Docker Compose**
+- **Astronomer CLI** (opcional, mas recomendado)
+- **Poetry** (gerenciador de dependências Python)
+- **Git**
 
-## 📥 Instalação
+## Instalação
 
 ### 1. Clone o Repositório
 
@@ -23,21 +23,21 @@ cd Desafio_InBev
 
 === "macOS"
 
-    ```bash
-    brew install astro
-    ```
+ ```bash
+ brew install astro
+ ```
 
 === "Linux"
 
-    ```bash
-    curl -sSL install.astronomer.io | sudo bash -s
-    ```
+ ```bash
+ curl -sSL install.astronomer.io | sudo bash -s
+ ```
 
 === "Windows"
 
-    ```powershell
-    winget install -e --id Astronomer.Astro
-    ```
+ ```powershell
+ winget install -e --id Astronomer.Astro
+ ```
 
 ### 3. Configure Variáveis de Ambiente
 
@@ -46,7 +46,7 @@ cd Desafio_InBev
 cp env.template .env
 
 # Edite com suas credenciais
-nano .env  # ou vim, code, etc
+nano .env # ou vim, code, etc
 ```
 
 **Exemplo de `.env`:**
@@ -69,7 +69,7 @@ ADF_CLIENT_SECRET=SeuClientSecret
 ```
 
 !!! warning "Segurança"
-    **NUNCA** commite o arquivo `.env`! Ele já está no `.gitignore`.
+ **NUNCA** commite o arquivo `.env`! Ele já está no `.gitignore`.
 
 ### 4. Inicie o Ambiente Airflow
 
@@ -95,7 +95,7 @@ open http://localhost:8080
 - **Username:** `admin`
 - **Password:** `admin`
 
-## ✅ Verificação
+## Verificação
 
 ### 1. Verifique os Containers
 
@@ -142,7 +142,7 @@ odbcinst -q -d
 # Deve mostrar: [ODBC Driver 18 for SQL Server]
 ```
 
-## 🔧 Configuração Adicional
+## Configuração Adicional
 
 ### Pools
 
@@ -150,10 +150,10 @@ Os pools já estão pré-configurados em `airflow_settings.yaml`:
 
 ```yaml
 pools:
-  - pool_name: azure_pool
-    pool_slot: 5
-  - pool_name: databricks_pool
-    pool_slot: 3
+ - pool_name: azure_pool
+ pool_slot: 5
+ - pool_name: databricks_pool
+ pool_slot: 3
 ```
 
 **Verificar pools:**
@@ -189,7 +189,7 @@ Conexões pré-configuradas:
 astro dev run connections list
 ```
 
-## 🚀 Primeira Execução
+## Primeira Execução
 
 ### 1. Ative uma DAG
 
@@ -216,7 +216,7 @@ astro dev logs --scheduler --follow
 3. Visualize o "Graph View"
 4. Clique em cada task para ver logs
 
-## 🐛 Troubleshooting
+## Troubleshooting
 
 ### Container não inicia
 
@@ -244,10 +244,10 @@ astro dev start --build
 1. Verifique `.env` - senha correta?
 2. Verifique firewall Azure - IP permitido?
 3. Teste manualmente:
-   ```bash
-   astro dev bash
-   python -c "import pyodbc; print(pyodbc.drivers())"
-   ```
+ ```bash
+ astro dev bash
+ python -c "import pyodbc; print(pyodbc.drivers())"
+ ```
 
 ### DAG não aparece
 
@@ -259,7 +259,7 @@ python dags/brewery_etl_dag.py
 astro dev run dags list-import-errors
 ```
 
-## 📚 Próximos Passos
+## Próximos Passos
 
 - [Configurar Connections →](connections.md)
 - [Entender as DAGs →](../dags/introduction.md)

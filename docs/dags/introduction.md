@@ -1,16 +1,16 @@
 # Introdução às DAGs
 
-## 📊 Visão Geral
+## Visão Geral
 
 O projeto possui **3 DAGs profissionais** implementadas com arquitetura SOLID:
 
 | DAG | Função | Frequência | Status |
 |-----|--------|------------|--------|
-| [`brewery_etl_solid`](extract-api-sql.md) | ETL completo de dados de cervejarias | Diária | ✅ Produção |
-| [`databricks_processing_solid`](databricks-notebook.md) | Processamento em Databricks | Diária | ✅ Produção |
-| [`azure_data_factory_solid`](azure-data-factory.md) | Trigger de pipelines ADF | Diária | ✅ Produção |
+| [`brewery_etl_solid`](extract-api-sql.md) | ETL completo de dados de cervejarias | Diária | Produção |
+| [`databricks_processing_solid`](databricks-notebook.md) | Processamento em Databricks | Diária | Produção |
+| [`azure_data_factory_solid`](azure-data-factory.md) | Trigger de pipelines ADF | Diária | Produção |
 
-## 🎯 Filosofia das DAGs
+## Filosofia das DAGs
 
 ### Princípios Aplicados
 
@@ -35,27 +35,27 @@ logger = get_logger(__name__)
 
 # 3. Task Functions
 def my_task(**context):
-    log_task_start(logger, "my_task")
-    # Business logic
-    log_task_success(logger, "my_task")
+ log_task_start(logger, "my_task")
+ # Business logic
+ log_task_success(logger, "my_task")
 
 # 4. DAG Definition
 default_args = {
-    'owner': 'airflow',
-    'retries': airflow_config.default_retries,
-    ...
+ 'owner': 'airflow',
+ 'retries': airflow_config.default_retries,
+ ...
 }
 
 with DAG('my_dag', default_args=default_args, ...) as dag:
-    task1 = PythonOperator(task_id='task1', ...)
-    task2 = PythonOperator(task_id='task2', ...)
-    
-    task1 >> task2
+ task1 = PythonOperator(task_id='task1', ...)
+ task2 = PythonOperator(task_id='task2', ...)
+
+ task1 >> task2
 ```
 
-## 🔍 Comparação: Antes vs Depois
+## Comparação: Antes vs Depois
 
-### ❌ DAGs Antigas (Deprecated)
+### DAGs Antigas (Deprecated)
 
 ```python
 # Problemas:
@@ -66,13 +66,13 @@ with DAG('my_dag', default_args=default_args, ...) as dag:
 # - Não testável
 
 def insert_data():
-    password = 'Doni*****'  # ❌ Hardcoded!
-    cluster_id = '0626-205409-935ntddc'  # ❌ Hardcoded!
-    # SQL direto misturado com lógica
-    cursor.execute(...)
+ password = 'Doni*****' # Hardcoded!
+ cluster_id = '0626-205409-935ntddc' # Hardcoded!
+ # SQL direto misturado com lógica
+ cursor.execute(...)
 ```
 
-### ✅ DAGs Novas (SOLID)
+### DAGs Novas (SOLID)
 
 ```python
 # Benefícios:
@@ -83,21 +83,21 @@ def insert_data():
 # - Totalmente testável
 
 def extract_data(**context):
-    # Config injetada
-    extractor = ETLFactory.create_brewery_extractor()
-    
-    # Logging profissional
-    log_task_start(logger, "extract")
-    
-    try:
-        data = extractor.extract()
-        log_task_success(logger, "extract", records=len(data))
-    except ExtractionError as e:
-        log_task_error(logger, "extract", e)
-        raise
+ # Config injetada
+ extractor = ETLFactory.create_brewery_extractor()
+
+ # Logging profissional
+ log_task_start(logger, "extract")
+
+ try:
+ data = extractor.extract()
+ log_task_success(logger, "extract", records=len(data))
+ except ExtractionError as e:
+ log_task_error(logger, "extract", e)
+ raise
 ```
 
-## 📋 Default Args Padronizados
+## Default Args Padronizados
 
 ```python
 from config import AirflowConfig
@@ -105,13 +105,13 @@ from config import AirflowConfig
 airflow_config = AirflowConfig()
 
 default_args = {
-    'owner': 'airflow',
-    'depends_on_past': False,
-    'start_date': datetime(2024, 10, 1),
-    'email_on_failure': airflow_config.email_on_failure,
-    'email_on_retry': airflow_config.email_on_retry,
-    'retries': airflow_config.default_retries,
-    'retry_delay': timedelta(seconds=airflow_config.retry_delay_seconds),
+ 'owner': 'airflow',
+ 'depends_on_past': False,
+ 'start_date': datetime(2024, 10, 1),
+ 'email_on_failure': airflow_config.email_on_failure,
+ 'email_on_retry': airflow_config.email_on_retry,
+ 'retries': airflow_config.default_retries,
+ 'retry_delay': timedelta(seconds=airflow_config.retry_delay_seconds),
 }
 ```
 
@@ -122,42 +122,42 @@ AIRFLOW_RETRY_DELAY=300
 AIRFLOW_EMAIL_ON_FAILURE=True
 ```
 
-## 🔄 Fluxo de Execução
+## Fluxo de Execução
 
 ```mermaid
 graph TD
-    A[Scheduler] -->|Trigger| B[DAG Start]
-    B --> C[Task 1: Validate]
-    C -->|Success| D[Task 2: Extract]
-    C -->|Fail| E[Log Error & Retry]
-    D -->|Success| F[Task 3: Transform]
-    D -->|Fail| E
-    F -->|Success| G[Task 4: Load]
-    F -->|Fail| E
-    G -->|Success| H[DAG Success]
-    G -->|Fail| E
-    E -->|Max Retries| I[DAG Failed]
-    
-    style B fill:#fff3e0
-    style C fill:#e1f5ff
-    style D fill:#e1f5ff
-    style F fill:#fff3e0
-    style G fill:#e8f5e9
-    style H fill:#c8e6c9
-    style I fill:#ffcdd2
+ A[Scheduler] -->|Trigger| B[DAG Start]
+ B --> C[Task 1: Validate]
+ C -->|Success| D[Task 2: Extract]
+ C -->|Fail| E[Log Error & Retry]
+ D -->|Success| F[Task 3: Transform]
+ D -->|Fail| E
+ F -->|Success| G[Task 4: Load]
+ F -->|Fail| E
+ G -->|Success| H[DAG Success]
+ G -->|Fail| E
+ E -->|Max Retries| I[DAG Failed]
+
+ style B fill:#fff3e0
+ style C fill:#e1f5ff
+ style D fill:#e1f5ff
+ style F fill:#fff3e0
+ style G fill:#e8f5e9
+ style H fill:#c8e6c9
+ style I fill:#ffcdd2
 ```
 
-## 🎨 Tags e Organização
+## Tags e Organização
 
 Todas as DAGs usam tags para organização:
 
 ```python
 with DAG(
-    'brewery_etl_solid',
-    tags=['etl', 'brewery', 'azure-sql', 'solid', 'production'],
-    ...
+ 'brewery_etl_solid',
+ tags=['etl', 'brewery', 'azure-sql', 'solid', 'production'],
+ ...
 ) as dag:
-    ...
+ ...
 ```
 
 **Tags disponíveis:**
@@ -169,38 +169,38 @@ with DAG(
 - `solid` - Arquitetura SOLID
 - `production` - Aprovado para produção
 
-## 📚 Documentação das Tasks
+## Documentação das Tasks
 
 Cada task possui documentação inline via `doc_md`:
 
 ```python
 extract_task = PythonOperator(
-    task_id='extract_task',
-    python_callable=extract_brewery_data,
-    doc_md="""
-    ### Extract Brewery Data
-    
-    Extracts brewery data from Open Brewery DB API.
-    
-    **Architecture:**
-    - Uses `BreweryAPIExtractor` (implements `IDataExtractor`)
-    - Configuration via `APIConfig`
-    - Retry logic with exponential backoff
-    
-    **Output:** Raw brewery data in XCom
-    """,
+ task_id='extract_task',
+ python_callable=extract_brewery_data,
+ doc_md="""
+ ### Extract Brewery Data
+
+ Extracts brewery data from Open Brewery DB API.
+
+ **Architecture:**
+ - Uses `BreweryAPIExtractor` (implements `IDataExtractor`)
+ - Configuration via `APIConfig`
+ - Retry logic with exponential backoff
+
+ **Output:** Raw brewery data in XCom
+ """,
 )
 ```
 
-## 🚀 Próximas DAGs
+## Próximas DAGs
 
 | DAG Planejada | Propósito | Status |
 |---------------|-----------|--------|
-| `brewery_etl_incremental` | ETL incremental (apenas novos registros) | 📋 Planejado |
-| `data_quality_check` | Validação de qualidade de dados | 📋 Planejado |
-| `data_lake_sync` | Sincronização com Data Lake | 📋 Planejado |
+| `brewery_etl_incremental` | ETL incremental (apenas novos registros) | Planejado |
+| `data_quality_check` | Validação de qualidade de dados | Planejado |
+| `data_lake_sync` | Sincronização com Data Lake | Planejado |
 
-## 📖 Saiba Mais
+## Saiba Mais
 
 - [ETL Completo →](extract-api-sql.md)
 - [Databricks Processing →](databricks-notebook.md)

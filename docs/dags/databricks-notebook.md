@@ -1,9 +1,9 @@
 # Databricks Processing
 
-**DAG:** `databricks_processing_solid`  
+**DAG:** `databricks_processing_solid` 
 **Arquivo:** `dags/databricks_processing_dag.py`
 
-📋 *Documentação em desenvolvimento*
+ *Documentação em desenvolvimento*
 
 ## Quick Info
 

@@ -18,151 +18,151 @@ edit_uri: edit/main/docs/
 # Theme Configuration
 # ==============================================================================
 theme:
-  name: material
-  language: pt-BR
-  
-  # Color Scheme
-  palette:
-    # Light mode
-    - media: "(prefers-color-scheme: light)"
-      scheme: default
-      primary: orange
-      accent: deep orange
-      toggle:
-        icon: material/brightness-7
-        name: Mudar para modo escuro
-    
-    # Dark mode
-    - media: "(prefers-color-scheme: dark)"
-      scheme: slate
-      primary: orange
-      accent: deep orange
-      toggle:
-        icon: material/brightness-4
-        name: Mudar para modo claro
-  
-  # Icons and Logo
-  icon:
-    repo: fontawesome/brands/github
-    logo: material/cloud-outline
-  
-  # Features
-  features:
-    - navigation.instant      # Instant loading
-    - navigation.tracking     # Anchor tracking
-    - navigation.tabs         # Navigation tabs
-    - navigation.sections     # Navigation sections
-    - navigation.expand       # Expand navigation by default
-    - navigation.top          # Back to top button
-    - search.suggest          # Search suggestions
-    - search.highlight        # Highlight search results
-    - content.code.copy       # Copy code button
-    - content.code.annotate   # Code annotations
+ name: material
+ language: pt-BR
+
+ # Color Scheme
+ palette:
+ # Light mode
+ - media: "(prefers-color-scheme: light)"
+ scheme: default
+ primary: orange
+ accent: deep orange
+ toggle:
+ icon: material/brightness-7
+ name: Mudar para modo escuro
+
+ # Dark mode
+ - media: "(prefers-color-scheme: dark)"
+ scheme: slate
+ primary: orange
+ accent: deep orange
+ toggle:
+ icon: material/brightness-4
+ name: Mudar para modo claro
+
+ # Icons and Logo
+ icon:
+ repo: fontawesome/brands/github
+ logo: material/cloud-outline
+
+ # Features
+ features:
+ - navigation.instant # Instant loading
+ - navigation.tracking # Anchor tracking
+ - navigation.tabs # Navigation tabs
+ - navigation.sections # Navigation sections
+ - navigation.expand # Expand navigation by default
+ - navigation.top # Back to top button
+ - search.suggest # Search suggestions
+ - search.highlight # Highlight search results
+ - content.code.copy # Copy code button
+ - content.code.annotate # Code annotations
 
 # ==============================================================================
 # Plugins
 # ==============================================================================
 plugins:
-  - search:
-      lang: 
-        - pt
-        - en
-  - mkdocstrings:
-      handlers:
-        python:
-          options:
-            docstring_style: google
-            show_source: true
-            show_root_heading: true
-  - mermaid2
+ - search:
+ lang: 
+ - pt
+ - en
+ - mkdocstrings:
+ handlers:
+ python:
+ options:
+ docstring_style: google
+ show_source: true
+ show_root_heading: true
+ - mermaid2
 
 # ==============================================================================
 # Markdown Extensions
 # ==============================================================================
 markdown_extensions:
-  # Python Markdown
-  - abbr
-  - admonition
-  - attr_list
-  - def_list
-  - footnotes
-  - md_in_html
-  - toc:
-      permalink: true
-      toc_depth: 3
-  
-  # Python Markdown Extensions
-  - pymdownx.arithmatex:
-      generic: true
-  - pymdownx.betterem:
-      smart_enable: all
-  - pymdownx.caret
-  - pymdownx.details
-  - pymdownx.emoji:
-      emoji_index: !!python/name:material.extensions.emoji.twemoji
-      emoji_generator: !!python/name:material.extensions.emoji.to_svg
-  - pymdownx.highlight:
-      anchor_linenums: true
-      line_spans: __span
-      pygments_lang_class: true
-  - pymdownx.inlinehilite
-  - pymdownx.keys
-  - pymdownx.mark
-  - pymdownx.smartsymbols
-  - pymdownx.superfences:
-      custom_fences:
-        - name: mermaid
-          class: mermaid
-          format: !!python/name:mermaid2.fence_mermaid
-  - pymdownx.tabbed:
-      alternate_style: true
-  - pymdownx.tasklist:
-      custom_checkbox: true
-  - pymdownx.tilde
+ # Python Markdown
+ - abbr
+ - admonition
+ - attr_list
+ - def_list
+ - footnotes
+ - md_in_html
+ - toc:
+ permalink: true
+ toc_depth: 3
+
+ # Python Markdown Extensions
+ - pymdownx.arithmatex:
+ generic: true
+ - pymdownx.betterem:
+ smart_enable: all
+ - pymdownx.caret
+ - pymdownx.details
+ - pymdownx.emoji:
+ emoji_index: !!python/name:material.extensions.emoji.twemoji
+ emoji_generator: !!python/name:material.extensions.emoji.to_svg
+ - pymdownx.highlight:
+ anchor_linenums: true
+ line_spans: __span
+ pygments_lang_class: true
+ - pymdownx.inlinehilite
+ - pymdownx.keys
+ - pymdownx.mark
+ - pymdownx.smartsymbols
+ - pymdownx.superfences:
+ custom_fences:
+ - name: mermaid
+ class: mermaid
+ format: !!python/name:mermaid2.fence_mermaid
+ - pymdownx.tabbed:
+ alternate_style: true
+ - pymdownx.tasklist:
+ custom_checkbox: true
+ - pymdownx.tilde
 
 # ==============================================================================
 # Navigation Structure
 # ==============================================================================
 nav:
-  - Home: index.md
-  - Arquitetura:
-      - Visão Geral: architecture/overview.md
-      - Componentes: architecture/components.md
-      - Fluxo de Dados: architecture/data-flow.md
-      - Clean Architecture:
-          - Domain Layer: architecture/domain-layer.md
-          - Use Cases: architecture/use-cases.md
-          - Repositories: architecture/repositories.md
-  - DAGs:
-      - Introdução: dags/introduction.md
-      - Extract API to SQL: dags/extract-api-sql.md
-      - Databricks Notebook: dags/databricks-notebook.md
-      - Azure Data Factory: dags/azure-data-factory.md
-  - Configuração:
-      - Setup Inicial: setup/initial-setup.md
-      - Connections: setup/connections.md
-      - Variables: setup/variables.md
-      - Desenvolvimento Local: setup/local-development.md
-  - Desenvolvimento:
-      - 🔧 Histórico de Correções do CI: development/ci-corrections-history.md
-  - Guias:
-      - Boas Práticas: guides/best-practices.md
-      - Data Quality: guides/data-quality.md
-      - Observability: guides/observability.md
-      - Troubleshooting: guides/troubleshooting.md
-      - Deploy: guides/deployment.md
+ - Home: index.md
+ - Arquitetura:
+ - Visão Geral: architecture/overview.md
+ - Componentes: architecture/components.md
+ - Fluxo de Dados: architecture/data-flow.md
+ - Clean Architecture:
+ - Domain Layer: architecture/domain-layer.md
+ - Use Cases: architecture/use-cases.md
+ - Repositories: architecture/repositories.md
+ - DAGs:
+ - Introdução: dags/introduction.md
+ - Extract API to SQL: dags/extract-api-sql.md
+ - Databricks Notebook: dags/databricks-notebook.md
+ - Azure Data Factory: dags/azure-data-factory.md
+ - Configuração:
+ - Setup Inicial: setup/initial-setup.md
+ - Connections: setup/connections.md
+ - Variables: setup/variables.md
+ - Desenvolvimento Local: setup/local-development.md
+ - Desenvolvimento:
+ - Histórico de Correções do CI: development/ci-corrections-history.md
+ - Guias:
+ - Boas Práticas: guides/best-practices.md
+ - Data Quality: guides/data-quality.md
+ - Observability: guides/observability.md
+ - Troubleshooting: guides/troubleshooting.md
+ - Deploy: guides/deployment.md
 
 # ==============================================================================
 # Extra Configuration
 # ==============================================================================
 extra:
-  social:
-    - icon: fontawesome/brands/github
-      link: https://github.com/victorcappelleto
-    - icon: fontawesome/brands/linkedin
-      link: https://linkedin.com/in/victorcappelleto
-    - icon: fontawesome/solid/envelope
-      link: mailto:victorcappelletto@gmail.com
+ social:
+ - icon: fontawesome/brands/github
+ link: https://github.com/victorcappelleto
+ - icon: fontawesome/brands/linkedin
+ link: https://linkedin.com/in/victorcappelleto
+ - icon: fontawesome/solid/envelope
+ link: mailto:victorcappelletto@gmail.com
 
 # ==============================================================================
 # Copyright

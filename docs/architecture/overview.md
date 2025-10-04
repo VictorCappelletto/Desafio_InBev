@@ -1,6 +1,6 @@
 # Visão Geral da Arquitetura
 
-## 🏛️ Arquitetura SOLID
+## Arquitetura SOLID
 
 O projeto implementa uma **arquitetura em camadas** baseada em princípios SOLID e design patterns profissionais.
 
@@ -18,22 +18,22 @@ O projeto implementa uma **arquitetura em camadas** baseada em princípios SOLID
 
 ```mermaid
 graph TD
-    A[DAGs Layer<br/>Orquestração] --> B[Factories Layer<br/>Criação]
-    B --> C[Services Layer<br/>Lógica de Negócio]
-    C --> D[Interfaces Layer<br/>Contratos]
-    E[Config Layer<br/>Configurações] --> C
-    F[Utils Layer<br/>Utilitários] --> A
-    F --> C
-    
-    style A fill:#fff3e0
-    style B fill:#e8f5e9
-    style C fill:#e1f5ff
-    style D fill:#f3e5f5
-    style E fill:#fce4ec
-    style F fill:#e0f2f1
+ A[DAGs Layer<br/>Orquestração] --> B[Factories Layer<br/>Criação]
+ B --> C[Services Layer<br/>Lógica de Negócio]
+ C --> D[Interfaces Layer<br/>Contratos]
+ E[Config Layer<br/>Configurações] --> C
+ F[Utils Layer<br/>Utilitários] --> A
+ F --> C
+
+ style A fill:#fff3e0
+ style B fill:#e8f5e9
+ style C fill:#e1f5ff
+ style D fill:#f3e5f5
+ style E fill:#fce4ec
+ style F fill:#e0f2f1
 ```
 
-## 📦 Estrutura em Camadas
+## Estrutura em Camadas
 
 ### 1. Config Layer
 
@@ -48,10 +48,10 @@ sql_config = AzureSQLConfig()
 ```
 
 **Benefícios:**
-- ✅ Type safety com dataclasses
-- ✅ Immutability (frozen)
-- ✅ Environment-driven
-- ✅ Safe repr (não expõe secrets)
+- Type safety com dataclasses
+- Immutability (frozen)
+- Environment-driven
+- Safe repr (não expõe secrets)
 
 ### 2. Interfaces Layer
 
@@ -61,14 +61,14 @@ sql_config = AzureSQLConfig()
 from interfaces import IDataExtractor, IDataLoader
 
 class BreweryAPIExtractor(IDataExtractor):
-    def extract(self) -> List[Dict]:
-        ...
+ def extract(self) -> List[Dict]:
+ ...
 ```
 
 **Benefícios:**
-- ✅ Dependency Inversion Principle
-- ✅ Testabilidade (mock interfaces)
-- ✅ Substituibilidade
+- Dependency Inversion Principle
+- Testabilidade (mock interfaces)
+- Substituibilidade
 
 ### 3. Services Layer
 
@@ -82,9 +82,9 @@ data = extractor.extract()
 ```
 
 **Benefícios:**
-- ✅ Single Responsibility
-- ✅ Reutilização
-- ✅ Fácil manutenção
+- Single Responsibility
+- Reutilização
+- Fácil manutenção
 
 ### 4. Factories Layer
 
@@ -99,9 +99,9 @@ loader = ETLFactory.create_azure_sql_loader()
 ```
 
 **Benefícios:**
-- ✅ Criação centralizada
-- ✅ Dependency Injection automática
-- ✅ Fácil de testar
+- Criação centralizada
+- Dependency Injection automática
+- Fácil de testar
 
 ### 5. DAGs Layer
 
@@ -110,28 +110,28 @@ loader = ETLFactory.create_azure_sql_loader()
 ```python
 # DAG usa factories e não se preocupa com detalhes
 def extract_task(**context):
-    extractor = ETLFactory.create_brewery_extractor()
-    data = extractor.extract()
-    ...
+ extractor = ETLFactory.create_brewery_extractor()
+ data = extractor.extract()
+ ...
 ```
 
 **Benefícios:**
-- ✅ Código limpo
-- ✅ Foco na orquestração
-- ✅ Fácil leitura
+- Código limpo
+- Foco na orquestração
+- Fácil leitura
 
-## 🎯 Benefícios da Arquitetura
+## Benefícios da Arquitetura
 
 ### Testabilidade
 
 ```python
 def test_brewery_extractor():
-    # Mock config para teste
-    mock_config = APIConfig(brewery_api_url="http://test")
-    extractor = BreweryAPIExtractor(mock_config)
-    
-    data = extractor.extract()
-    assert len(data) > 0
+ # Mock config para teste
+ mock_config = APIConfig(brewery_api_url="http://test")
+ extractor = BreweryAPIExtractor(mock_config)
+
+ data = extractor.extract()
+ assert len(data) > 0
 ```
 
 ### Extensibilidade
@@ -139,13 +139,13 @@ def test_brewery_extractor():
 ```python
 # Adicionar nova fonte é simples
 class PostgreSQLExtractor(IDataExtractor):
-    def extract(self) -> List[Dict]:
-        # Nova implementação
-        ...
+ def extract(self) -> List[Dict]:
+ # Nova implementação
+ ...
 
 # Usar é transparente
 extractor = PostgreSQLExtractor(config)
-data = extractor.extract()  # Funciona!
+data = extractor.extract() # Funciona!
 ```
 
 ### Manutenibilidade
@@ -153,18 +153,18 @@ data = extractor.extract()  # Funciona!
 ```python
 # Mudança localizada - não afeta outros componentes
 class AzureSQLLoader(IDataLoader):
-    def load(self, data: List[Dict]) -> int:
-        # Melhoria apenas aqui
-        ...
+ def load(self, data: List[Dict]) -> int:
+ # Melhoria apenas aqui
+ ...
 ```
 
-## 📚 Próximos Passos
+## Próximos Passos
 
 - [Componentes Detalhados →](components.md)
 - [Fluxo de Dados →](data-flow.md)
 - [Exemplo Prático →](../dags/introduction.md)
 
-## 📖 Referências
+## Referências
 
 Para mais detalhes, consulte:
 - [ARCHITECTURE.md](../../ARCHITECTURE.md) - Documentação técnica completa

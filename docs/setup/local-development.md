@@ -1,6 +1,6 @@
 # Desenvolvimento Local
 
-📋 *Documentação em desenvolvimento*
+ *Documentação em desenvolvimento*
 
 Consulte: [Setup Inicial](initial-setup.md)
 

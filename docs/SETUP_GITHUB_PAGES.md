@@ -4,14 +4,14 @@ Instruções para configurar o GitHub Pages pela primeira vez.
 
 ---
 
-## 🎯 Configuração Inicial (Uma vez apenas)
+## Configuração Inicial (Uma vez apenas)
 
 ### 1. Ativar GitHub Pages no Repositório
 
 1. Vá para **Settings** do seu repositório no GitHub
 2. No menu lateral, clique em **Pages**
 3. Em **Source**, selecione:
-   - **Source**: `GitHub Actions` (não Branch!)
+ - **Source**: `GitHub Actions` (não Branch!)
 4. Clique em **Save**
 
 ### 2. Executar Workflow Manualmente (Primeira vez)
@@ -24,26 +24,26 @@ Instruções para configurar o GitHub Pages pela primeira vez.
 ### 3. Verificar Deployment
 
 Após o workflow concluir:
-- ✅ Acesse: https://victorcappelleto.github.io/Desafio_InBev/
-- ✅ A documentação deve estar disponível!
+- Acesse: https://victorcappelleto.github.io/Desafio_InBev/
+- A documentação deve estar disponível!
 
 ---
 
-## 🔄 Atualizações Automáticas
+## Atualizações Automáticas
 
 Após a configuração inicial, a documentação será automaticamente atualizada quando:
 
 1. **Push para main** com mudanças em:
-   - `docs/**` (qualquer arquivo de documentação)
-   - `mkdocs.yml` (configuração)
-   - `.github/workflows/mkdocs-deploy.yml` (workflow)
+ - `docs/**` (qualquer arquivo de documentação)
+ - `mkdocs.yml` (configuração)
+ - `.github/workflows/mkdocs-deploy.yml` (workflow)
 
 2. **Workflow manual** (qualquer momento):
-   - Actions → Deploy Documentation → Run workflow
+ - Actions → Deploy Documentation → Run workflow
 
 ---
 
-## 💻 Desenvolvimento Local
+## Desenvolvimento Local
 
 ### Instalar Dependências
 
@@ -58,17 +58,17 @@ pip install mkdocs mkdocs-material mkdocstrings[python] mkdocs-mermaid2-plugin
 ### Comandos Disponíveis
 
 ```bash
-# 🔍 Preview local (hot reload)
+# Preview local (hot reload)
 poetry run task doc
 # Acesse: http://localhost:8000
 
-# 🔨 Build (gera site/ folder)
+# Build (gera site/ folder)
 poetry run task doc-build
 
-# 🚀 Deploy manual para GitHub Pages
+# Deploy manual para GitHub Pages
 poetry run task doc-deploy
 
-# 🧹 Limpar build artifacts
+# Limpar build artifacts
 poetry run task clean
 ```
 
@@ -90,7 +90,7 @@ mkdocs gh-deploy
 
 ---
 
-## 🛠️ Troubleshooting
+## Troubleshooting
 
 ### Erro: "GitHub Pages is not enabled"
 
@@ -129,42 +129,42 @@ poetry install
 
 ---
 
-## 📦 Estrutura de Arquivos
+## Estrutura de Arquivos
 
 ```
 docs/
-├── index.md                        # Homepage
-├── architecture/
-│   ├── overview.md
-│   ├── components.md
-│   ├── data-flow.md
-│   ├── domain-layer.md
-│   ├── use-cases.md
-│   └── repositories.md
-├── guides/
-│   ├── best-practices.md
-│   ├── data-quality.md
-│   ├── observability.md
-│   ├── troubleshooting.md
-│   └── deployment.md
-├── dags/
-│   ├── introduction.md
-│   ├── extract-api-sql.md
-│   ├── databricks-notebook.md
-│   └── azure-data-factory.md
-└── setup/
-    ├── initial-setup.md
-    ├── connections.md
-    ├── variables.md
-    └── local-development.md
+ index.md # Homepage
+ architecture/
+ overview.md
+ components.md
+ data-flow.md
+ domain-layer.md
+ use-cases.md
+ repositories.md
+ guides/
+ best-practices.md
+ data-quality.md
+ observability.md
+ troubleshooting.md
+ deployment.md
+ dags/
+ introduction.md
+ extract-api-sql.md
+ databricks-notebook.md
+ azure-data-factory.md
+ setup/
+ initial-setup.md
+ connections.md
+ variables.md
+ local-development.md
 
-mkdocs.yml                          # MkDocs configuration
+mkdocs.yml # MkDocs configuration
 .github/workflows/mkdocs-deploy.yml # GitHub Actions workflow
 ```
 
 ---
 
-## ✅ Checklist de Verificação
+## Checklist de Verificação
 
 Antes de fazer push:
 
@@ -176,7 +176,7 @@ Antes de fazer push:
 
 ---
 
-## 🔗 Links Úteis
+## Links Úteis
 
 - **Documentação MkDocs**: https://www.mkdocs.org/
 - **Material Theme**: https://squidfunk.github.io/mkdocs-material/
@@ -185,17 +185,17 @@ Antes de fazer push:
 
 ---
 
-## 💡 Dicas
+## Dicas
 
 !!! tip "Hot Reload"
-    Use `task doc` para desenvolvimento - mudanças aparecem instantaneamente no browser!
+ Use `task doc` para desenvolvimento - mudanças aparecem instantaneamente no browser!
 
 !!! warning "Build Strict"
-    Sempre use `mkdocs build --strict` antes de fazer push para detectar links quebrados.
+ Sempre use `mkdocs build --strict` antes de fazer push para detectar links quebrados.
 
 !!! success "Custom Domain"
-    Para usar domínio customizado, adicione arquivo `CNAME` na pasta `docs/`:
-    ```
-    docs.seu-dominio.com
-    ```
+ Para usar domínio customizado, adicione arquivo `CNAME` na pasta `docs/`:
+ ```
+ docs.seu-dominio.com
+ ```
 

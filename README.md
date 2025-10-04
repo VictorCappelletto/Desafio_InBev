@@ -12,63 +12,63 @@
 ![Code Style](https://img.shields.io/badge/code%20style-black-000000.svg)
 ![Coverage](https://img.shields.io/badge/coverage-85%25-brightgreen.svg)
 
-## 📋 Descrição
+## Descrição
 
 Plataforma de orquestração de dados desenvolvida com Apache Airflow para gerenciar pipelines de dados envolvendo Azure Cloud Services e Databricks. O projeto automatiza a extração, transformação e carga (ETL) de dados de cervejarias através de APIs públicas e processamento em plataformas cloud.
 
-## 📖 Documentação
+## Documentação
 
-**📘 [Acesse a documentação completa →](https://victorcappelleto.github.io/Desafio_InBev/)**
+** [Acesse a documentação completa →](https://victorcappelleto.github.io/Desafio_InBev/)**
 
 A documentação oficial está hospedada no GitHub Pages e inclui:
-- 🏗️ **Arquitetura**: Clean Architecture, Domain Layer, Use Cases, Repository Pattern
-- ✅ **Data Quality**: Framework com 6 dimensões ISO 8000
-- 📊 **Observability**: Métricas, anomalias e alertas
-- 🚀 **Setup**: Guias de instalação e configuração
-- 🛠️ **DAGs**: Documentação detalhada de cada pipeline
+- **Arquitetura**: Clean Architecture, Domain Layer, Use Cases, Repository Pattern
+- **Data Quality**: Framework com 6 dimensões ISO 8000
+- **Observability**: Métricas, anomalias e alertas
+- **Setup**: Guias de instalação e configuração
+- **DAGs**: Documentação detalhada de cada pipeline
 
 **Desenvolvimento Local:**
 ```bash
 # Ver documentação localmente
-poetry run task doc         # Inicia servidor em http://localhost:8000
+poetry run task doc # Inicia servidor em http://localhost:8000
 
 # Build da documentação
-poetry run task doc-build   # Gera site/ folder
+poetry run task doc-build # Gera site/ folder
 
 # Deploy manual (opcional)
-poetry run task doc-deploy  # Publica no GitHub Pages
+poetry run task doc-deploy # Publica no GitHub Pages
 ```
 
-### ✨ Destaques
+### Destaques
 
-- 🏛️ **Clean Architecture + DDD:** Domain Layer, Use Cases, Repository Pattern completos
-- ✅ **Data Quality Framework:** 6 dimensões ISO 8000 (Completeness, Accuracy, Validity, etc)
-- 📊 **Observability:** Metrics Collection, Anomaly Detection, Multi-channel Alerts
-- 🔒 **Segurança:** Credenciais gerenciadas via variáveis de ambiente e Airflow Connections
-- 🐳 **Docker Otimizado:** Baseado em Astronomer Runtime 13.2.0 (Airflow 2.11.0)
-- ⚙️ **Configuração Simplificada:** `airflow_settings.yaml` pré-configurado para desenvolvimento local
-- 📦 **Dependências Completas:** Sistema e Python totalmente documentados
-- 🚀 **Pronto para Produção:** Estrutura preparada para deployment em Astronomer ou Kubernetes
-- 📝 **Logging Profissional:** Sistema de logs padronizado com utilitários prontos para uso
-- 🛠️ **Dev Tools:** Black, isort, pytest configurados + 8 comandos taskipy úteis
-- 📋 **Rastreabilidade:** Git history com conventional commits para tracking completo
+- **Clean Architecture + DDD:** Domain Layer, Use Cases, Repository Pattern completos
+- **Data Quality Framework:** 6 dimensões ISO 8000 (Completeness, Accuracy, Validity, etc)
+- **Observability:** Metrics Collection, Anomaly Detection, Multi-channel Alerts
+- **Segurança:** Credenciais gerenciadas via variáveis de ambiente e Airflow Connections
+- **Docker Otimizado:** Baseado em Astronomer Runtime 13.2.0 (Airflow 2.11.0)
+- **Configuração Simplificada:** `airflow_settings.yaml` pré-configurado para desenvolvimento local
+- **Dependências Completas:** Sistema e Python totalmente documentados
+- **Pronto para Produção:** Estrutura preparada para deployment em Astronomer ou Kubernetes
+- **Logging Profissional:** Sistema de logs padronizado com utilitários prontos para uso
+- **Dev Tools:** Black, isort, pytest configurados + 8 comandos taskipy úteis
+- **Rastreabilidade:** Git history com conventional commits para tracking completo
 
-## 🏗️ Arquitetura
+## Arquitetura
 
 ```mermaid
 graph LR
-    A[Open Brewery API] -->|Extract| B[Apache Airflow]
-    B -->|Load| C[Azure SQL Database]
-    B -->|Trigger| D[Azure Data Factory]
-    B -->|Execute| E[Databricks Notebooks]
-    E -->|Process| F[Data Lake]
+ A[Open Brewery API] -->|Extract| B[Apache Airflow]
+ B -->|Load| C[Azure SQL Database]
+ B -->|Trigger| D[Azure Data Factory]
+ B -->|Execute| E[Databricks Notebooks]
+ E -->|Process| F[Data Lake]
 ```
 
-### 🏛️ Arquitetura de Software (SOLID)
+### Arquitetura de Software (SOLID)
 
 O projeto implementa **princípios SOLID** e **padrões de design profissionais**:
 
-#### 📐 Princípios SOLID
+#### Princípios SOLID
 
 | Princípio | Implementação | Exemplo |
 |-----------|---------------|---------|
@@ -78,7 +78,7 @@ O projeto implementa **princípios SOLID** e **padrões de design profissionais*
 | **I**nterface Segregation | Interfaces focadas e minimalistas | `IDataExtractor`, `IDataLoader`, `IDataTransformer` |
 | **D**ependency Inversion | Depende de abstrações, não implementações | Configs injetadas via DI |
 
-#### 🎨 Padrões de Design
+#### Padrões de Design
 
 | Padrão | Classe | Benefício |
 |--------|--------|-----------|
@@ -87,59 +87,59 @@ O projeto implementa **princípios SOLID** e **padrões de design profissionais*
 | **Dependency Injection** | `*Config` | Testabilidade |
 | **Repository** | `Services` | Abstração de dados |
 
-#### 📦 Estrutura em Camadas (Clean Architecture)
+#### Estrutura em Camadas (Clean Architecture)
 
 ```
 dags/
-├── domain/              # 🟢 DOMAIN LAYER (Business Rules)
-│   ├── value_objects.py # Coordinates, Address, Location, Contact, BreweryType
-│   ├── entities.py      # Brewery, BreweryAggregate
-│   ├── exceptions.py    # Domain-specific exceptions
-│   └── validators.py    # Business rule validators
-├── use_cases/           # 🔵 USE CASES (Application Logic)
-│   ├── extract.py       # ExtractBreweriesUseCase
-│   ├── transform.py     # TransformBreweriesUseCase
-│   ├── load.py          # LoadBreweriesUseCase
-│   └── quality.py       # ValidateBreweriesQualityUseCase
-├── repositories/        # 🟣 ADAPTERS (Data Access)
-│   ├── base.py          # IRepository, IBreweryRepository
-│   ├── brewery_repository.py # InMemory, SQL implementations
-│   └── unit_of_work.py  # Transaction management
-├── data_quality/        # ✅ DATA QUALITY FRAMEWORK
-│   ├── framework.py     # DataQualityEngine, DataQualityCheck
-│   ├── dimensions.py    # 6 ISO dimensions (Completeness, Accuracy, etc)
-│   └── rules/           # Brewery-specific rules
-├── observability/       # 📊 OBSERVABILITY FRAMEWORK
-│   ├── metrics.py       # DataMetrics, MetricsCollector
-│   └── alerts/          # EmailAlerter, SlackAlerter
-├── config/              # ⚙️ CONFIGURATION
-│   └── settings.py      # AzureSQLConfig, DatabricksConfig, etc
-├── interfaces/          # 📋 INTERFACES (Contracts)
-│   ├── data_extractor.py
-│   ├── data_loader.py
-│   └── data_transformer.py
-├── services/            # 🔧 SERVICES (Implementations)
-│   ├── brewery_api_extractor.py
-│   ├── azure_sql_loader.py
-│   └── brewery_transformer.py
-├── factories/           # 🏭 FACTORIES
-│   └── etl_factory.py
-├── utils/               # 🛠️ UTILITIES
-│   └── logger.py
-├── exceptions.py        # 🚨 EXCEPTIONS
-└── *.py                 # 🚀 DAGs (Orchestration)
+ domain/ # DOMAIN LAYER (Business Rules)
+ value_objects.py # Coordinates, Address, Location, Contact, BreweryType
+ entities.py # Brewery, BreweryAggregate
+ exceptions.py # Domain-specific exceptions
+ validators.py # Business rule validators
+ use_cases/ # USE CASES (Application Logic)
+ extract.py # ExtractBreweriesUseCase
+ transform.py # TransformBreweriesUseCase
+ load.py # LoadBreweriesUseCase
+ quality.py # ValidateBreweriesQualityUseCase
+ repositories/ # ADAPTERS (Data Access)
+ base.py # IRepository, IBreweryRepository
+ brewery_repository.py # InMemory, SQL implementations
+ unit_of_work.py # Transaction management
+ data_quality/ # DATA QUALITY FRAMEWORK
+ framework.py # DataQualityEngine, DataQualityCheck
+ dimensions.py # 6 ISO dimensions (Completeness, Accuracy, etc)
+ rules/ # Brewery-specific rules
+ observability/ # OBSERVABILITY FRAMEWORK
+ metrics.py # DataMetrics, MetricsCollector
+ alerts/ # EmailAlerter, SlackAlerter
+ config/ # CONFIGURATION
+ settings.py # AzureSQLConfig, DatabricksConfig, etc
+ interfaces/ # INTERFACES (Contracts)
+ data_extractor.py
+ data_loader.py
+ data_transformer.py
+ services/ # SERVICES (Implementations)
+ brewery_api_extractor.py
+ azure_sql_loader.py
+ brewery_transformer.py
+ factories/ # FACTORIES
+ etl_factory.py
+ utils/ # UTILITIES
+ logger.py
+ exceptions.py # EXCEPTIONS
+ *.py # DAGs (Orchestration)
 ```
 
-#### ✨ Benefícios da Arquitetura
+#### Benefícios da Arquitetura
 
-✅ **Testabilidade**: Cada componente pode ser testado isoladamente  
-✅ **Manutenibilidade**: Mudanças localizadas, sem efeito dominó  
-✅ **Extensibilidade**: Adicione novas fontes sem modificar código existente  
-✅ **Reusabilidade**: Services podem ser usados em múltiplas DAGs  
-✅ **Type Safety**: Type hints completos para suporte de IDE  
-✅ **Profissionalismo**: Padrões de indústria reconhecidos  
+ **Testabilidade**: Cada componente pode ser testado isoladamente 
+ **Manutenibilidade**: Mudanças localizadas, sem efeito dominó 
+ **Extensibilidade**: Adicione novas fontes sem modificar código existente 
+ **Reusabilidade**: Services podem ser usados em múltiplas DAGs 
+ **Type Safety**: Type hints completos para suporte de IDE 
+ **Profissionalismo**: Padrões de indústria reconhecidos 
 
-## 🚀 Tecnologias
+## Tecnologias
 
 - **Apache Airflow** - Orquestração de workflows
 - **Azure SQL Database** - Armazenamento de dados estruturados
@@ -150,42 +150,42 @@ dags/
 - **Poetry** - Gerenciamento de dependências
 - **Astronomer Runtime** - Runtime otimizado do Airflow
 
-## 📦 Estrutura do Projeto
+## Estrutura do Projeto
 
 ```
 Desafio_InBev/
-├── dags/                                    # DAGs do Airflow
-│   ├── execute_notebook_databricks.py       # Executa notebooks no Databricks
-│   ├── extract_data_api_slq_azure.py       # Extrai dados da API para Azure SQL
-│   └── trigger_data_factory_azure.py       # Dispara pipelines no ADF
-├── tests/                                   # Testes automatizados
-│   └── dags/
-│       └── test_dag_example.py             # Testes das DAGs
-├── docs/                                    # Documentação MkDocs
-│   └── index.md
-├── .dockerignore                            # Arquivos ignorados no build Docker
-├── .gitignore                              # Arquivos ignorados no Git
-├── .python-version                         # Versão Python do projeto (3.11.5)
-├── Dockerfile                               # Imagem Docker otimizada com ODBC Driver
-├── airflow_settings.yaml                    # Connections, Pools e Variables (local dev)
-├── packages.txt                            # Dependências do sistema (ODBC, etc)
-├── pyproject.toml                          # Configuração Poetry (dev dependencies)
-├── requirements.txt                         # Dependências Python do Airflow
-├── mkdocs.yml                              # Configuração da documentação
-└── README.md
+ dags/ # DAGs do Airflow
+ execute_notebook_databricks.py # Executa notebooks no Databricks
+ extract_data_api_slq_azure.py # Extrai dados da API para Azure SQL
+ trigger_data_factory_azure.py # Dispara pipelines no ADF
+ tests/ # Testes automatizados
+ dags/
+ test_dag_example.py # Testes das DAGs
+ docs/ # Documentação MkDocs
+ index.md
+ .dockerignore # Arquivos ignorados no build Docker
+ .gitignore # Arquivos ignorados no Git
+ .python-version # Versão Python do projeto (3.11.5)
+ Dockerfile # Imagem Docker otimizada com ODBC Driver
+ airflow_settings.yaml # Connections, Pools e Variables (local dev)
+ packages.txt # Dependências do sistema (ODBC, etc)
+ pyproject.toml # Configuração Poetry (dev dependencies)
+ requirements.txt # Dependências Python do Airflow
+ mkdocs.yml # Configuração da documentação
+ README.md
 ```
 
-## 📊 DAGs Disponíveis
+## DAGs Disponíveis
 
-### 🚀 DAGs de Produção (Arquitetura SOLID)
+### DAGs de Produção (Arquitetura SOLID)
 
 | DAG | Frequência | Função | Status |
 |-----|------------|--------|--------|
-| `brewery_etl_solid` | Diária | ETL completo de dados de cervejarias | ✅ Produção |
-| `databricks_processing_solid` | Diária | Processamento Databricks (Silver layer) | ✅ Produção |
-| `azure_data_factory_solid` | Diária | Trigger de pipelines ADF | ✅ Produção |
-| `data_quality_check_solid` | Diária | Verificação de qualidade de dados | ✅ Produção |
-| `system_health_monitor_solid` | 30 min | Monitoramento de saúde do sistema | ✅ Produção |
+| `brewery_etl_solid` | Diária | ETL completo de dados de cervejarias | Produção |
+| `databricks_processing_solid` | Diária | Processamento Databricks (Silver layer) | Produção |
+| `azure_data_factory_solid` | Diária | Trigger de pipelines ADF | Produção |
+| `data_quality_check_solid` | Diária | Verificação de qualidade de dados | Produção |
+| `system_health_monitor_solid` | 30 min | Monitoramento de saúde do sistema | Produção |
 
 ---
 
@@ -195,15 +195,15 @@ Desafio_InBev/
 
 **Tarefas:**
 1. `extract_task` - Extrai dados via `BreweryAPIExtractor`
-2. `transform_task` - Transforma via `BreweryTransformer`  
+2. `transform_task` - Transforma via `BreweryTransformer` 
 3. `load_task` - Carrega via `AzureSQLLoader`
 
 **Features:**
-- ✅ Retry logic com exponential backoff
-- ✅ Data validation
-- ✅ MERGE statements (upsert)
-- ✅ Logging estruturado
-- ✅ Exception handling profissional
+- Retry logic com exponential backoff
+- Data validation
+- MERGE statements (upsert)
+- Logging estruturado
+- Exception handling profissional
 
 **Tecnologias:** Python, requests, pyodbc, Azure SQL
 
@@ -218,9 +218,9 @@ Desafio_InBev/
 2. `run_databricks_notebook` - Executa notebook com parâmetros
 
 **Features:**
-- ✅ Validação antes de execução cara
-- ✅ Parâmetros contextuais (execution_date, run_id)
-- ✅ Type safety
+- Validação antes de execução cara
+- Parâmetros contextuais (execution_date, run_id)
+- Type safety
 
 **Tecnologias:** Databricks, Spark
 
@@ -236,9 +236,9 @@ Desafio_InBev/
 3. `run_adf_pipeline` - Executa pipeline
 
 **Features:**
-- ✅ Validação de credenciais
-- ✅ Auditoria completa
-- ✅ Rastreamento de execução
+- Validação de credenciais
+- Auditoria completa
+- Rastreamento de execução
 
 **Tecnologias:** Azure Data Factory
 
@@ -249,16 +249,16 @@ Desafio_InBev/
 **Descrição:** Validação automática de qualidade de dados
 
 **Checks:**
-- ✅ Row count validation (>= 100 rows)
-- ✅ Null value detection em campos críticos
-- ✅ Duplicate detection por ID
-- ✅ Data freshness check
+- Row count validation (>= 100 rows)
+- Null value detection em campos críticos
+- Duplicate detection por ID
+- Data freshness check
 
 **Features:**
-- ✅ Execução paralela de checks
-- ✅ Fail-fast em problemas de qualidade
-- ✅ Relatório consolidado
-- ✅ Alertas automáticos
+- Execução paralela de checks
+- Fail-fast em problemas de qualidade
+- Relatório consolidado
+- Alertas automáticos
 
 **Frequência:** Diária (após ETL)
 
@@ -269,23 +269,23 @@ Desafio_InBev/
 **Descrição:** Health checks de todos os componentes do sistema
 
 **Checks:**
-- ✅ Azure SQL connectivity & performance
-- ✅ Databricks workspace availability
-- ✅ Brewery API endpoint health
-- ✅ Airflow self-check
+- Azure SQL connectivity & performance
+- Databricks workspace availability
+- Brewery API endpoint health
+- Airflow self-check
 
 **Features:**
-- ✅ Execução a cada 30 minutos
-- ✅ Checks isolados (failures não cascateiam)
-- ✅ Response time tracking
-- ✅ Health report consolidado
-- ✅ Email alerts em failures
+- Execução a cada 30 minutos
+- Checks isolados (failures não cascateiam)
+- Response time tracking
+- Health report consolidado
+- Email alerts em failures
 
 **Frequência:** A cada 30 minutos
 
 ---
 
-### 💡 Arquitetura das DAGs
+### Arquitetura das DAGs
 
 Todas as DAGs seguem os mesmos princípios:
 
@@ -302,15 +302,15 @@ log_task_success(logger, "task_name", records=100)
 
 # 4. Exception Handling
 try:
-    result = service.execute()
+ result = service.execute()
 except CustomException as e:
-    log_task_error(logger, "task_name", e)
-    raise
+ log_task_error(logger, "task_name", e)
+ raise
 ```
 
 **Ver exemplo completo:** [config_usage_example.py](dags/examples/config_usage_example.py)
 
-## 🛠️ Setup e Instalação
+## Setup e Instalação
 
 ### Pré-requisitos
 
@@ -319,45 +319,45 @@ except CustomException as e:
 - **Astronomer CLI** (recomendado) ou Docker puro
 - **Poetry** (opcional, para desenvolvimento local)
 
-### 🚀 Quick Start com Astronomer CLI (Recomendado)
+### Quick Start com Astronomer CLI (Recomendado)
 
 1. **Clone o repositório**
-   ```bash
-   git clone <repository-url>
-   cd Desafio_InBev
-   ```
+ ```bash
+ git clone <repository-url>
+ cd Desafio_InBev
+ ```
 
 2. **Instale o Astronomer CLI**
-   ```bash
-   # macOS
-   brew install astronomer/tap/astro
-   
-   # Linux
-   curl -sSL install.astronomer.io | sudo bash -s
-   ```
+ ```bash
+ # macOS
+ brew install astronomer/tap/astro
+
+ # Linux
+ curl -sSL install.astronomer.io | sudo bash -s
+ ```
 
 3. **Configure variáveis de ambiente**
-   ```bash
-   # Crie um arquivo .env na raiz do projeto com suas credenciais
-   # Veja a seção "Variáveis de Ambiente" abaixo
-   nano .env
-   ```
+ ```bash
+ # Crie um arquivo .env na raiz do projeto com suas credenciais
+ # Veja a seção "Variáveis de Ambiente" abaixo
+ nano .env
+ ```
 
 4. **Inicie o ambiente Airflow**
-   ```bash
-   # Primeira vez (build + start)
-   astro dev start
-   
-   # Rebuild após mudanças no Dockerfile ou requirements.txt
-   astro dev restart
-   ```
+ ```bash
+ # Primeira vez (build + start)
+ astro dev start
+
+ # Rebuild após mudanças no Dockerfile ou requirements.txt
+ astro dev restart
+ ```
 
 5. **Acesse a interface web**
-   - **URL:** http://localhost:8080
-   - **Usuário:** `admin`
-   - **Senha:** `admin`
+ - **URL:** http://localhost:8080
+ - **Usuário:** `admin`
+ - **Senha:** `admin`
 
-### 🐳 Instalação com Docker (Alternativa)
+### Instalação com Docker (Alternativa)
 
 ```bash
 # Build da imagem
@@ -367,11 +367,11 @@ docker build -t desafio-inbev .
 docker run -p 8080:8080 --env-file .env desafio-inbev
 ```
 
-> **⚠️ Nota:** O método com Astronomer CLI é recomendado pois gerencia automaticamente o scheduler, webserver e outros componentes do Airflow.
+> ** Nota:** O método com Astronomer CLI é recomendado pois gerencia automaticamente o scheduler, webserver e outros componentes do Airflow.
 
-## ⚙️ Configuração
+## Configuração
 
-### 🔐 Variáveis de Ambiente (Obrigatório)
+### Variáveis de Ambiente (Obrigatório)
 
 Crie um arquivo `.env` na raiz do projeto com suas credenciais:
 
@@ -399,9 +399,9 @@ ADF_CLIENT_ID=xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
 ADF_CLIENT_SECRET=seu_client_secret
 ```
 
-> **💡 Dica:** O arquivo `airflow_settings.yaml` já está configurado para ler essas variáveis automaticamente!
+> ** Dica:** O arquivo `airflow_settings.yaml` já está configurado para ler essas variáveis automaticamente!
 
-### 📡 Airflow Connections (Pré-configuradas)
+### Airflow Connections (Pré-configuradas)
 
 As seguintes conexões são **automaticamente configuradas** via `airflow_settings.yaml` para desenvolvimento local:
 
@@ -411,29 +411,29 @@ Conn Type: ODBC
 Host: inbev-sql-server.database.windows.net
 Database: inbev_db
 Login: inbev_admin
-Password: ${AZURE_SQL_PASSWORD}  # Do arquivo .env
+Password: ${AZURE_SQL_PASSWORD} # Do arquivo .env
 Driver: ODBC Driver 18 for SQL Server
 ```
 
 #### 2. **Databricks** (`databricks_default`)
 ```yaml
 Conn Type: Databricks
-Host: ${DATABRICKS_HOST}         # Do arquivo .env
-Token: ${DATABRICKS_TOKEN}       # Do arquivo .env
+Host: ${DATABRICKS_HOST} # Do arquivo .env
+Token: ${DATABRICKS_TOKEN} # Do arquivo .env
 ```
 
 #### 3. **Azure Data Factory** (`azure_data_factory_default`)
 ```yaml
 Conn Type: Azure Data Factory
-Client ID: ${ADF_CLIENT_ID}      # Do arquivo .env
-Client Secret: ${ADF_CLIENT_SECRET}  # Do arquivo .env
-Tenant ID: ${ADF_TENANT_ID}      # Do arquivo .env
-Subscription ID: ${ADF_SUBSCRIPTION_ID}  # Do arquivo .env
+Client ID: ${ADF_CLIENT_ID} # Do arquivo .env
+Client Secret: ${ADF_CLIENT_SECRET} # Do arquivo .env
+Tenant ID: ${ADF_TENANT_ID} # Do arquivo .env
+Subscription ID: ${ADF_SUBSCRIPTION_ID} # Do arquivo .env
 ```
 
-> **⚠️ Para Produção:** Configure as connections diretamente no Airflow UI ou use Azure Key Vault.
+> ** Para Produção:** Configure as connections diretamente no Airflow UI ou use Azure Key Vault.
 
-### 🎯 Airflow Variables (Pré-configuradas)
+### Airflow Variables (Pré-configuradas)
 
 As seguintes variables são automaticamente configuradas via `airflow_settings.yaml`:
 
@@ -448,43 +448,43 @@ As seguintes variables são automaticamente configuradas via `airflow_settings.y
 | `brewery_api_url` | URL da API de cervejarias | Fixo |
 | `environment` | Ambiente (dev/prod) | Fixo |
 
-### 🏊 Airflow Pools (Pré-configurados)
+### Airflow Pools (Pré-configurados)
 
 | Pool | Slots | Descrição |
 |------|-------|-----------|
 | `azure_pool` | 5 | Para operações Azure (SQL, ADF) |
 | `databricks_pool` | 3 | Para jobs Databricks |
 
-## 🧪 Desenvolvimento
+## Desenvolvimento
 
-### 🏗️ Infraestrutura e Dependências
+### Infraestrutura e Dependências
 
 O projeto está configurado com três camadas de dependências:
 
 #### 1. **Dependências do Sistema** (`packages.txt`)
 ```
-unixodbc           # Driver ODBC base
-unixodbc-dev       # Headers de desenvolvimento ODBC
-gnupg              # Verificação de assinaturas GPG
-curl               # Download de pacotes
+unixodbc # Driver ODBC base
+unixodbc-dev # Headers de desenvolvimento ODBC
+gnupg # Verificação de assinaturas GPG
+curl # Download de pacotes
 apt-transport-https # Repositórios HTTPS
 ```
 
 #### 2. **Microsoft ODBC Driver** (`Dockerfile`)
 O **Microsoft ODBC Driver 18 for SQL Server** está comentado no Dockerfile (devido a `apt-key` deprecated):
-- 📝 Para uso local, instale via Astro CLI: `astro dev bash` → `apt-get install msodbcsql18`
-- 📝 Para produção, use Azure Managed Identity ou drivers alternativos
-- 📝 Veja comentários no `Dockerfile` para instruções completas
+- Para uso local, instale via Astro CLI: `astro dev bash` → `apt-get install msodbcsql18`
+- Para produção, use Azure Managed Identity ou drivers alternativos
+- Veja comentários no `Dockerfile` para instruções completas
 
 #### 3. **Dependências Python** (`requirements.txt`)
 ```python
-apache-airflow-providers-microsoft-azure==10.1.2  # Azure providers
-apache-airflow-providers-databricks==6.6.0        # Databricks provider
-pyodbc==5.1.0                                      # SQL Server connectivity
-requests==2.32.3                                   # HTTP requests
+apache-airflow-providers-microsoft-azure==10.1.2 # Azure providers
+apache-airflow-providers-databricks==6.6.0 # Databricks provider
+pyodbc==5.1.0 # SQL Server connectivity
+requests==2.32.3 # HTTP requests
 ```
 
-### 📦 Gerenciamento de Dependências
+### Gerenciamento de Dependências
 
 #### Adicionar nova dependência do Airflow
 ```bash
@@ -509,7 +509,7 @@ astro dev restart
 poetry add <package>
 ```
 
-### 📝 Sistema de Logging
+### Sistema de Logging
 
 O projeto inclui um sistema de logging padronizado para DAGs.
 
@@ -525,27 +525,27 @@ logger = get_logger(__name__)
 log_task_start(logger, "extract_data", source="API", target="Database")
 
 try:
-    # Sua lógica aqui
-    result = extract_data()
-    
-    # Log sucesso com métricas
-    log_task_success(
-        logger, 
-        "extract_data", 
-        records=len(result),
-        duration="2.3s"
-    )
+ # Sua lógica aqui
+ result = extract_data()
+
+ # Log sucesso com métricas
+ log_task_success(
+ logger, 
+ "extract_data", 
+ records=len(result),
+ duration="2.3s"
+ )
 except Exception as e:
-    # Log erro com contexto
-    log_task_error(logger, "extract_data", e, retry_count=1)
-    raise
+ # Log erro com contexto
+ log_task_error(logger, "extract_data", e, retry_count=1)
+ raise
 ```
 
 #### Configurar nível de log:
 
 ```bash
 # No arquivo .env
-LOG_LEVEL=DEBUG  # Options: DEBUG, INFO, WARNING, ERROR, CRITICAL
+LOG_LEVEL=DEBUG # Options: DEBUG, INFO, WARNING, ERROR, CRITICAL
 
 # Ou via Airflow
 AIRFLOW__LOGGING__LOGGING_LEVEL=INFO
@@ -565,7 +565,7 @@ astro dev logs --webserver --follow
 astro dev run tasks logs <dag_id> <task_id> <execution_date>
 ```
 
-### 🎨 Formatação de Código
+### Formatação de Código
 
 ```bash
 # Formate o código (isort + black)
@@ -579,25 +579,25 @@ poetry run isort .
 poetry run black .
 ```
 
-### 🧪 Testes
+### Testes
 
 O projeto possui **suite de testes unitários** focada nos componentes principais:
 
-#### **Unit Tests: 46 passando** ✅ | **Coverage: ~60%** ✅
+#### **Unit Tests: 46 passando** | **Coverage: ~60%** 
 
 ```
 tests/
-├── test_config.py              # Unit: Configuration classes
-├── test_services.py            # Unit: ETL Services (extractor, loader, transformer)
-├── conftest.py                 # Shared fixtures
-└── integration.disabled/       # Integration tests (desabilitados para portfólio)
-    ├── test_full_pipeline.py   # E2E pipeline (requer Airflow completo)
-    ├── test_repositories.py    # Repository pattern tests
-    ├── test_use_cases.py       # Use cases tests
-    └── test_domain_layer.py    # Domain layer tests
+ test_config.py # Unit: Configuration classes
+ test_services.py # Unit: ETL Services (extractor, loader, transformer)
+ conftest.py # Shared fixtures
+ integration.disabled/ # Integration tests (desabilitados para portfólio)
+ test_full_pipeline.py # E2E pipeline (requer Airflow completo)
+ test_repositories.py # Repository pattern tests
+ test_use_cases.py # Use cases tests
+ test_domain_layer.py # Domain layer tests
 ```
 
-> **📝 Nota sobre Integration Tests:**  
+> ** Nota sobre Integration Tests:** 
 > Os testes de integração foram desabilitados (`tests/integration.disabled/`) pois assumem uma API diferente da implementação real. Para validação completa, rode o Airflow localmente com `astro dev start` e teste os DAGs via UI.
 
 **Comandos:**
@@ -614,7 +614,7 @@ poetry run task test-cov
 poetry run pytest tests/test_*.py -v
 
 # Validação completa (recomendado)
-astro dev start  # Inicia Airflow local
+astro dev start # Inicia Airflow local
 # Acesse http://localhost:8080 e teste os 5 DAGs manualmente
 
 # Execute todos os checks (lint + test)
@@ -624,49 +624,49 @@ poetry run task check
 poetry run pytest tests/test_services.py::TestBreweryAPIExtractor -v
 ```
 
-### ⚡ Comandos Úteis (Taskipy)
+### Comandos Úteis (Taskipy)
 
 O projeto inclui 8 comandos prontos para desenvolvimento:
 
 ```bash
 # Formatação
-poetry run task format      # Formata código (isort + black)
-poetry run task lint         # Verifica formatação sem modificar
+poetry run task format # Formata código (isort + black)
+poetry run task lint # Verifica formatação sem modificar
 
 # Testes
-poetry run task test         # Executa testes
-poetry run task test-cov     # Testes com cobertura
-poetry run task check        # Lint + testes (CI-ready)
+poetry run task test # Executa testes
+poetry run task test-cov # Testes com cobertura
+poetry run task check # Lint + testes (CI-ready)
 
 # Documentação
-poetry run task doc          # Inicia servidor docs
-poetry run task doc-build    # Build documentação estática
+poetry run task doc # Inicia servidor docs
+poetry run task doc-build # Build documentação estática
 
 # Limpeza
-poetry run task clean        # Remove arquivos temporários
+poetry run task clean # Remove arquivos temporários
 
 # Utilitários
-poetry run task kill         # Mata processo na porta 8000
+poetry run task kill # Mata processo na porta 8000
 ```
 
 
-## 📝 Boas Práticas
+## Boas Práticas
 
 ### DAGs
-- ✅ Todas as DAGs devem ter `tags` definidas
-- ✅ `retries` deve ser >= 2
-- ✅ Use `catchup=False` para evitar backfills indesejados
-- ✅ Defina `depends_on_past` apropriadamente
+- Todas as DAGs devem ter `tags` definidas
+- `retries` deve ser >= 2
+- Use `catchup=False` para evitar backfills indesejados
+- Defina `depends_on_past` apropriadamente
 
 ### Código
-- ✅ Siga PEP 8 (use `black` e `isort`)
-- ✅ Escreva testes para novas DAGs
-- ✅ Documente funções e classes complexas
-- ✅ Use type hints
+- Siga PEP 8 (use `black` e `isort`)
+- Escreva testes para novas DAGs
+- Documente funções e classes complexas
+- Use type hints
 
-## 🔐 Segurança
+## Segurança
 
-⚠️ **IMPORTANTE**: 
+ **IMPORTANTE**: 
 - **Nunca commite credenciais no código** - Passwords, tokens e API keys devem estar no `.env`
 - **Use Airflow Connections e Variables** - Dados sensíveis gerenciados pelo Airflow
 - **Utilize Azure Key Vault** - Para secrets em produção
@@ -674,9 +674,9 @@ poetry run task kill         # Mata processo na porta 8000
 - **Use placeholders genéricos** - Em documentação e templates (ex: `XXXX-XXXXXX`, `your.email@example.com`)
 - **Não exponha IDs reais** - Cluster IDs, Job IDs, emails pessoais devem ser secrets
 
-### 🔒 Boas Práticas de Secrets
+### Boas Práticas de Secrets
 
-✅ **Faça:**
+ **Faça:**
 ```bash
 # Use variáveis de ambiente
 DATABRICKS_TOKEN=${DATABRICKS_TOKEN}
@@ -686,15 +686,15 @@ DATABRICKS_CLUSTER_ID=${DATABRICKS_CLUSTER_ID}
 cluster_id = Variable.get("databricks_cluster_id")
 ```
 
-❌ **Não Faça:**
+ **Não Faça:**
 ```python
 # NUNCA hardcode valores reais
-token = "dapi123456789..."  # ❌
-cluster_id = "0626-205409-935ntddc"  # ❌
-email = "meu.email@real.com"  # ❌
+token = "dapi123456789..." # 
+cluster_id = "0626-205409-935ntddc" # 
+email = "meu.email@real.com" # 
 ```
 
-### 🎭 Placeholders Recomendados
+### Placeholders Recomendados
 
 Use estes formatos em documentação e exemplos:
 
@@ -707,20 +707,20 @@ Use estes formatos em documentação e exemplos:
 | **GUID/UUID** | `xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx` | `12345678-...` |
 | **Password** | `YOUR_PASSWORD_HERE` | - |
 
-## 📈 Monitoramento
+## Monitoramento
 
 - **Airflow UI**: Monitore execuções, logs e métricas
 - **Azure Monitor**: Acompanhe recursos Azure
 - **Databricks Jobs**: Verifique execução de notebooks
 
-## 🤝 Contribuindo
+## Contribuindo
 
 1. Crie uma branch para sua feature (`git checkout -b feature/nova-feature`)
 2. Commit suas mudanças (`git commit -m 'Adiciona nova feature'`)
 3. Push para a branch (`git push origin feature/nova-feature`)
 4. Abra um Pull Request
 
-## 📚 Recursos Adicionais
+## Recursos Adicionais
 
 ### Documentação Externa
 - [Apache Airflow Documentation](https://airflow.apache.org/docs/)
@@ -729,9 +729,9 @@ Use estes formatos em documentação e exemplos:
 - [Databricks Documentation](https://docs.databricks.com/)
 - [Azure Key Vault Best Practices](https://docs.microsoft.com/azure/key-vault/general/best-practices)
 
-## 🐛 Troubleshooting
+## Troubleshooting
 
-### 🔍 Diagnóstico Geral
+### Diagnóstico Geral
 
 ```bash
 # Verifique logs do Airflow
@@ -745,7 +745,7 @@ astro dev logs --webserver
 astro dev run dags list-import-errors
 ```
 
-### ❌ DAG não aparece no Airflow
+### DAG não aparece no Airflow
 
 **Sintomas:** DAG não aparece na interface web
 
@@ -761,11 +761,11 @@ astro dev run dags list-import-errors
 astro dev restart
 ```
 
-### 🔌 Problemas de Conexão Azure SQL
+### Problemas de Conexão Azure SQL
 
 **Sintomas:** `Error connecting to database`, `ODBC Driver not found`
 
-**💡 O MS ODBC Driver 18 NÃO está instalado por padrão** (comentado no Dockerfile devido a `apt-key` deprecated)
+** O MS ODBC Driver 18 NÃO está instalado por padrão** (comentado no Dockerfile devido a `apt-key` deprecated)
 
 **Soluções:**
 ```bash
@@ -789,7 +789,7 @@ pyodbc.Error: ('01000', "[01000] [unixODBC][Driver Manager]Can't open lib 'ODBC 
 ```
 **Solução:** MS ODBC Driver 18 não está instalado. Execute a instalação manual acima via `astro dev bash` ou use drivers alternativos (SQLAlchemy).
 
-### 🔑 Problemas com Variáveis de Ambiente
+### Problemas com Variáveis de Ambiente
 
 **Sintomas:** `KeyError`, variables vazias, connections não funcionam
 
@@ -808,7 +808,7 @@ astro dev run variables list
 astro dev restart
 ```
 
-### 🐳 Container não inicia
+### Container não inicia
 
 **Sintomas:** Container fica em loop de restart ou falha ao iniciar
 
@@ -817,7 +817,7 @@ astro dev restart
 # 1. Limpe tudo e reconstrua
 astro dev stop
 astro dev kill
-docker system prune -a --volumes  # ⚠️ Remove TODOS os containers/volumes
+docker system prune -a --volumes # Remove TODOS os containers/volumes
 astro dev start
 
 # 2. Verifique portas em uso
@@ -831,7 +831,7 @@ df -h
 docker stats
 ```
 
-### 📊 DAG travada ou não executa
+### DAG travada ou não executa
 
 **Sintomas:** DAG mostra "running" mas não progride
 
@@ -850,7 +850,7 @@ astro dev run pools list
 astro dev run pools set <pool_name> 10
 ```
 
-### 🔐 Erro de Autenticação (Azure/Databricks)
+### Erro de Autenticação (Azure/Databricks)
 
 **Sintomas:** `Authentication failed`, `Invalid token`, `403 Forbidden`
 
@@ -867,7 +867,7 @@ astro dev bash
 python3 -c "import os; print(os.getenv('DATABRICKS_TOKEN'))"
 ```
 
-### 📝 Logs Úteis
+### Logs Úteis
 
 ```bash
 # Logs do scheduler (processamento de DAGs)
@@ -885,24 +885,24 @@ astro dev bash
 
 ---
 
-## 🚀 CI/CD Pipeline
+## CI/CD Pipeline
 
 O projeto possui um **pipeline completo de CI/CD** configurado com **GitHub Actions**, garantindo qualidade, segurança e automação em todo o ciclo de desenvolvimento.
 
-### 📋 Workflows Disponíveis
+### Workflows Disponíveis
 
 #### 1. **CI - Continuous Integration** (`ci.yml`)
 
 Executa em **push** e **pull requests** para branches `main` e `develop`.
 
 **Jobs:**
-- 🎨 **Lint & Format Check** - Black, isort
-- 🧪 **Unit Tests** - pytest com coverage (~60%) - 46 testes passando
-- 🔒 **Security Checks** - Bandit, TruffleHog (secret scanning)
-- 🐳 **Docker Build Test** - Build da imagem Docker
-- 📚 **Documentation Build** - Build do MkDocs
+- **Lint & Format Check** - Black, isort
+- **Unit Tests** - pytest com coverage (~60%) - 46 testes passando
+- **Security Checks** - Bandit, TruffleHog (secret scanning)
+- **Docker Build Test** - Build da imagem Docker
+- **Documentation Build** - Build do MkDocs
 
-> **📝 Nota:** DAG Validation está desabilitado no CI (requer Airflow completo). Para validar DAGs, use `astro dev start` localmente.
+> ** Nota:** DAG Validation está desabilitado no CI (requer Airflow completo). Para validar DAGs, use `astro dev start` localmente.
 
 **Duração:** ~5-8 minutos
 
@@ -913,10 +913,10 @@ Executa em **push** e **pull requests** para branches `main` e `develop`.
 Executa em **push para main** ou **tags vX.X.X**.
 
 **Jobs:**
-- 📦 **Create Release** - Cria release no GitHub (apenas para tags)
-- 📚 **Deploy Documentation** - Publica docs no GitHub Pages
-- 🐳 **Docker Push** - Envia imagem para GHCR
-- 🚀 **Deploy to Astronomer** (opcional, desabilitado por padrão)
+- **Create Release** - Cria release no GitHub (apenas para tags)
+- **Deploy Documentation** - Publica docs no GitHub Pages
+- **Docker Push** - Envia imagem para GHCR
+- **Deploy to Astronomer** (opcional, desabilitado por padrão)
 
 **Duração:** ~3-5 minutos
 
@@ -927,12 +927,12 @@ Executa em **push para main** ou **tags vX.X.X**.
 Executa em **push, PRs** e **semanalmente** (segunda-feira 9h).
 
 **Scans:**
-- 🔍 **Secret Scanning** - TruffleHog
-- 🔒 **Dependency Audit** - Safety
-- 🛡️ **SAST** - Bandit
-- 🔬 **CodeQL Analysis** - GitHub Advanced Security
-- 🐳 **Docker Security** - Trivy
-- ⚖️ **License Compliance** - pip-licenses
+- **Secret Scanning** - TruffleHog
+- **Dependency Audit** - Safety
+- **SAST** - Bandit
+- **CodeQL Analysis** - GitHub Advanced Security
+- **Docker Security** - Trivy
+- **License Compliance** - pip-licenses
 
 **Duração:** ~10-12 minutos
 
@@ -943,36 +943,36 @@ Executa em **push, PRs** e **semanalmente** (segunda-feira 9h).
 Executa em **pull requests** para adicionar automação.
 
 **Features:**
-- 📝 **PR Title Check** - Valida Conventional Commits
-- 📏 **PR Size Check** - Calcula tamanho do PR
-- ✅ **PR Checklist** - Posta checklist automático
-- 🏷️ **Auto Labeler** - Adiciona labels baseado em arquivos alterados
+- **PR Title Check** - Valida Conventional Commits
+- **PR Size Check** - Calcula tamanho do PR
+- **PR Checklist** - Posta checklist automático
+- **Auto Labeler** - Adiciona labels baseado em arquivos alterados
 
 ---
 
-### 🔧 Configurações Adicionais
+### Configurações Adicionais
 
 #### **Dependabot** (`dependabot.yml`)
-- 📦 Atualiza dependências Python semanalmente
-- 🔄 Atualiza GitHub Actions mensalmente
-- 🐳 Atualiza Dockerfile mensalmente
+- Atualiza dependências Python semanalmente
+- Atualiza GitHub Actions mensalmente
+- Atualiza Dockerfile mensalmente
 
 #### **Code Owners** (`CODEOWNERS`)
-- 👤 Define revisores automáticos por arquivo/diretório
-- ✅ Garante revisão de mudanças críticas
+- Define revisores automáticos por arquivo/diretório
+- Garante revisão de mudanças críticas
 
 #### **Issue Templates**
-- 🐛 Bug Report
-- ✨ Feature Request
+- Bug Report
+- Feature Request
 
 #### **PR Template**
-- 📋 Checklist completo
-- 🏷️ Labels automáticas
-- ✅ Status de CI
+- Checklist completo
+- Labels automáticas
+- Status de CI
 
 ---
 
-### 🎯 Como Usar o CI/CD
+### Como Usar o CI/CD
 
 #### **Desenvolvimento Normal**
 
@@ -995,11 +995,11 @@ git push origin feat/nova-dag
 ```
 
 **O CI vai automaticamente:**
-- ✅ Rodar lint
-- ✅ Executar testes
-- ✅ Fazer security scan
-- ✅ Validar DAGs
-- ✅ Build Docker
+- Rodar lint
+- Executar testes
+- Fazer security scan
+- Validar DAGs
+- Build Docker
 
 ---
 
@@ -1014,13 +1014,13 @@ git push origin v1.0.0
 ```
 
 **O CD vai automaticamente:**
-- 📦 Criar release no GitHub
-- 📚 Publicar documentação
-- 🐳 Enviar imagem Docker
+- Criar release no GitHub
+- Publicar documentação
+- Enviar imagem Docker
 
 ---
 
-### 📊 Monitorando CI/CD
+### Monitorando CI/CD
 
 - **Status:** Veja badges no topo do README
 - **Detalhes:** Acesse a aba **Actions** no GitHub
@@ -1029,7 +1029,7 @@ git push origin v1.0.0
 
 ---
 
-### 🛡️ Security Scanning Schedule
+### Security Scanning Schedule
 
 | Scan | Frequência | Job |
 |------|------------|-----|
@@ -1041,7 +1041,7 @@ git push origin v1.0.0
 
 ---
 
-### 🔗 Links Úteis
+### Links Úteis
 
 - [GitHub Actions Docs](https://docs.github.com/en/actions)
 - [Astronomer Deploy Guide](https://docs.astronomer.io/astro/deploy-code)
@@ -1049,15 +1049,15 @@ git push origin v1.0.0
 
 ---
 
-## 📄 Licença
+## Licença
 
 Este projeto foi desenvolvido como parte de um desafio técnico.
 
-## ✍️ Autor
+## Autor
 
 **Victor Castro**
 - Email: victorcappelletto@gmail.com
 
 ---
 
-⭐ Se este projeto foi útil, considere dar uma estrela!
+ Se este projeto foi útil, considere dar uma estrela!

@@ -1,9 +1,9 @@
 # Azure Data Factory
 
-**DAG:** `azure_data_factory_solid`  
+**DAG:** `azure_data_factory_solid` 
 **Arquivo:** `dags/azure_data_factory_dag.py`
 
-📋 *Documentação em desenvolvimento*
+ *Documentação em desenvolvimento*
 
 ## Quick Info
 
