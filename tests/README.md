@@ -4,73 +4,42 @@
 
 ---
 
-## 📋 Overview
+## Overview
 
-The project follows a comprehensive testing strategy with **unit tests** and **integration tests** to ensure code quality and system reliability.
+The project follows a comprehensive testing strategy with **unit tests** to ensure code quality and system reliability.
 
 ---
 
-## 🗂️ Test Structure
+## Test Structure
 
 ```
 tests/
 ├── __init__.py
 ├── conftest.py                    # Shared fixtures and pytest config
 ├── README.md                      # This file
-│
-├── dags/
-│   └── test_dag_example.py       # DAG structure tests
-│
-├── test_config.py                # Unit: Configuration classes
-├── test_services.py              # Unit: ETL services
-│
-└── integration/                   # Integration tests
-    ├── __init__.py
-    ├── README.md                  # Integration tests guide
-    ├── test_full_pipeline.py      # E2E pipeline tests
-    ├── test_repositories.py       # Repository + UoW tests
-    ├── test_use_cases.py          # Use Cases layer tests
-    └── test_domain_layer.py       # Domain layer tests
+├── test_config.py                 # Unit: Configuration classes
+└── test_services.py               # Unit: ETL services
 ```
 
 ---
 
-## 🧪 Test Types
+## Test Types
 
-### **1. Unit Tests** 🔬
+### **1. Unit Tests**
 Test individual components in isolation.
 
 **Files:**
 - `test_config.py` - Configuration dataclasses
 - `test_services.py` - ETL services (extractor, transformer, loader)
-- `dags/test_dag_example.py` - DAG structure
 
 **Run:**
 ```bash
-pytest tests/test_*.py -v
+pytest tests/ -v
 ```
 
 ---
 
-### **2. Integration Tests** 🔗
-Test multiple components working together.
-
-**Files:**
-- `integration/test_full_pipeline.py` - Complete ETL pipeline (E2E)
-- `integration/test_repositories.py` - Repository Pattern + Unit of Work
-- `integration/test_use_cases.py` - Application logic layer
-- `integration/test_domain_layer.py` - Domain entities + validation
-
-**Run:**
-```bash
-pytest tests/integration/ -v
-```
-
-**[See Integration Tests Guide →](integration/README.md)**
-
----
-
-## 🚀 Running Tests
+## Running Tests
 
 ### **All Tests**
 ```bash
@@ -97,23 +66,17 @@ poetry run task test-cov
 ### **Specific Test Suites**
 
 ```bash
-# Unit tests only
-pytest tests/test_*.py -v
-
-# Integration tests only
-pytest tests/integration/ -v
-
-# DAG tests only
-pytest tests/dags/ -v
+# All tests
+pytest tests/ -v
 
 # Specific file
-pytest tests/integration/test_full_pipeline.py -v
+pytest tests/test_config.py -v
 
 # Specific test class
-pytest tests/integration/test_full_pipeline.py::TestFullETLPipeline -v
+pytest tests/test_config.py::TestConfigClasses -v
 
 # Specific test method
-pytest tests/integration/test_full_pipeline.py::TestFullETLPipeline::test_full_pipeline_success -v
+pytest tests/test_config.py::TestConfigClasses::test_config_loading -v
 ```
 
 ---
@@ -124,51 +87,38 @@ pytest tests/integration/test_full_pipeline.py::TestFullETLPipeline::test_full_p
 # Run only unit tests
 pytest -m unit -v
 
-# Run only integration tests
-pytest -m integration -v
-
-# Run only E2E tests
-pytest -m e2e -v
-
 # Skip slow tests
 pytest -m "not slow" -v
 ```
 
 ---
 
-## 📊 Test Coverage
+## Test Coverage
 
-**Target:** >80% overall coverage
+**Target:** >60% overall coverage (unit tests)
 
 ### **Current Coverage by Layer**
 
 | Layer | Coverage | Status |
 |-------|----------|--------|
-| **Config** | ~90% | ✅ Excellent |
-| **Services** | ~85% | ✅ Excellent |
-| **Domain** | ~95% | ✅ Excellent |
-| **Use Cases** | ~90% | ✅ Excellent |
-| **Repositories** | ~95% | ✅ Excellent |
-| **Data Quality** | ~80% | ✅ Good |
-| **Observability** | ~70% | ⚠️ Need improvement |
-| **Overall** | **~85%** | ✅ **Excellent** |
+| **Config** | ~90% | Excellent |
+| **Services** | ~85% | Excellent |
+| **Overall** | **~60%** | **Good** |
 
 ---
 
-## 🎯 Test Markers
+## Test Markers
 
 Available pytest markers:
 
 | Marker | Description | Usage |
 |--------|-------------|-------|
 | `@pytest.mark.unit` | Unit test | `pytest -m unit` |
-| `@pytest.mark.integration` | Integration test | `pytest -m integration` |
-| `@pytest.mark.e2e` | End-to-end test | `pytest -m e2e` |
 | `@pytest.mark.slow` | Slow test (>1s) | `pytest -m slow` |
 
 ---
 
-## 🔧 Available Fixtures
+## Available Fixtures
 
 ### **Configuration Fixtures** (conftest.py)
 - `mock_api_config` - Mocked API configuration
@@ -186,7 +136,7 @@ Available pytest markers:
 
 ---
 
-## 💡 Best Practices
+## Best Practices
 
 ### **1. Arrange-Act-Assert Pattern**
 ```python
@@ -204,23 +154,23 @@ def test_something():
 
 ### **2. Use Descriptive Test Names**
 ```python
-# ✅ Good
+# GOOD
 def test_extract_retries_on_transient_failures():
     pass
 
-# ❌ Bad
+# BAD
 def test_extract():
     pass
 ```
 
 ### **3. Test One Thing**
 ```python
-# ✅ Good - focused test
+# GOOD - focused test
 def test_add_brewery_increases_count():
     repository.add(brewery)
     assert repository.count() == 1
 
-# ❌ Bad - tests multiple things
+# BAD - tests multiple things
 def test_repository():
     repository.add(brewery)
     assert repository.count() == 1
@@ -230,12 +180,12 @@ def test_repository():
 
 ### **4. Use Fixtures for Setup**
 ```python
-# ✅ Good - uses fixture
+# GOOD - uses fixture
 def test_add(in_memory_repository, sample_brewery_entity):
     in_memory_repository.add(sample_brewery_entity)
     assert in_memory_repository.count() == 1
 
-# ❌ Bad - manual setup in every test
+# BAD - manual setup in every test
 def test_add():
     repository = InMemoryBreweryRepository()
     brewery = Brewery(...)
@@ -244,7 +194,7 @@ def test_add():
 
 ---
 
-## 🐛 Debugging Tests
+## Debugging Tests
 
 ### **Verbose Output**
 ```bash
@@ -280,7 +230,7 @@ def test_something():
 
 ---
 
-## 📈 CI/CD Integration
+## CI/CD Integration
 
 Tests run automatically in GitHub Actions:
 
@@ -296,16 +246,16 @@ Tests run automatically in GitHub Actions:
 ```
 
 **CI workflow:**
-1. ✅ Lint code (black, isort)
-2. ✅ Run unit tests
-3. ✅ Run integration tests
-4. ✅ Generate coverage report
-5. ✅ Validate DAG structures
-6. ✅ Security scans
+1. Lint code (black, isort)
+2. Run unit tests
+3. Generate coverage report
+4. Build Docker image
+5. Security scans
+6. Deploy documentation
 
 ---
 
-## 📚 Writing New Tests
+## Writing New Tests
 
 ### **Unit Test Example**
 
@@ -330,70 +280,40 @@ class TestMyClass:
         assert result == expected_value
 ```
 
-### **Integration Test Example**
-
-```python
-# tests/integration/test_my_integration.py
-import pytest
-
-@pytest.mark.integration
-class TestMyIntegration:
-    """Test component integration."""
-    
-    def test_components_work_together(
-        self, 
-        component_a, 
-        component_b
-    ):
-        """Test A and B interact correctly."""
-        # Arrange
-        data = component_a.process()
-        
-        # Act
-        result = component_b.consume(data)
-        
-        # Assert
-        assert result.is_valid()
-```
-
 ---
 
-## 🎯 Test Coverage Goals
+## Test Coverage Goals
 
-### **Current Status:** ✅ **85% overall**
+### **Current Status: 60% overall (Unit Tests)**
 
 ### **Breakdown:**
-- ✅ **Domain Layer:** 95% (Excellent)
-- ✅ **Use Cases:** 90% (Excellent)
-- ✅ **Repositories:** 95% (Excellent)
-- ✅ **Services:** 85% (Excellent)
-- ✅ **Config:** 90% (Excellent)
-- ⚠️ **Observability:** 70% (Needs improvement)
+- **Config:** 90% (Excellent)
+- **Services:** 85% (Excellent)
+- **Overall:** 60% (Good for unit tests)
 
 ### **Next Steps:**
-1. ⏳ Add observability tests
-2. ⏳ Add data quality engine tests
-3. ⏳ Add end-to-end DAG execution tests
+1. Add more edge case tests
+2. Improve observability coverage
+3. Add data quality tests
 
 ---
 
-## 🔗 Related Documentation
+## Related Documentation
 
-- [Integration Tests Guide →](integration/README.md)
 - [Pytest Documentation →](https://docs.pytest.org/)
 - [Coverage.py Documentation →](https://coverage.readthedocs.io/)
 - [Project README →](../README.md)
+- [CI/CD Workflows →](../.github/workflows/)
 
 ---
 
-## ✅ Pre-Commit Checklist
+## Pre-Commit Checklist
 
 Before committing code:
 
 - [ ] All tests pass (`pytest -v`)
-- [ ] Coverage > 80% (`pytest --cov`)
-- [ ] No skipped tests (unless documented)
-- [ ] New features have tests
+- [ ] Coverage > 60% (`pytest --cov`)
+- [ ] New features have unit tests
 - [ ] Test names are descriptive
 - [ ] Tests are independent
 - [ ] Fixtures are reused
@@ -401,7 +321,7 @@ Before committing code:
 
 ---
 
-## 🚀 Quick Commands
+## Quick Commands
 
 ```bash
 # Run all tests
@@ -409,9 +329,6 @@ poetry run task test
 
 # Run with coverage
 poetry run task test-cov
-
-# Run integration tests only
-pytest tests/integration/ -v
 
 # Run fast tests only
 pytest -m "not slow" -v
@@ -422,5 +339,5 @@ poetry run task test-cov && open htmlcov/index.html
 
 ---
 
-**🎯 Goal:** Maintain >80% test coverage and 100% passing tests!
+**Goal:** Maintain >60% unit test coverage and 100% passing tests!
 
