@@ -103,7 +103,7 @@ jobs:
           fail_ci_if_error: false
       
       - name: 📈 Upload coverage artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: coverage-report
           path: htmlcov/
@@ -149,7 +149,7 @@ jobs:
           head: HEAD
       
       - name: 📊 Upload security artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         if: always()
         with:
           name: security-report
@@ -252,7 +252,7 @@ jobs:
         run: poetry run mkdocs build --strict
       
       - name: 📊 Upload docs artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: documentation
           path: site/
