@@ -1,4 +1,4 @@
-FROM quay.io/astronomer/astro-runtime:11.5.0
+FROM quay.io/astronomer/astro-runtime:13.2.0
 
 # Install Microsoft ODBC Driver 18 for SQL Server
 # This is required for pyodbc to connect to Azure SQL Database
