@@ -20,7 +20,7 @@ mkdocs-material = "^9.5.27"
 mkdocstrings = {extras = ["python"], version = "^0.25.1"}
 taskipy = "^1.13.0"
 isort = "^5.13.2"
-black = "^24.4.2"
+black = "^25.9.0"
 pytest = "^8.2.2"
 requests = "^2.32.3"
 pyodbc = "^5.1.0"
