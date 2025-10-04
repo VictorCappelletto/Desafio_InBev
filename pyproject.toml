@@ -23,7 +23,7 @@ isort = "^5.13.2"
 black = "^25.9.0"
 pytest = "^8.4.2"
 requests = "^2.32.3"
-pyodbc = "^5.1.0"
+pyodbc = "^5.2.0"
 
 [build-system]
 requires = ["poetry-core"]
