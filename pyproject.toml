@@ -74,11 +74,13 @@ testpaths = ["tests"]
 python_files = ["test_*.py"]
 python_classes = ["Test*"]
 python_functions = ["test_*"]
+norecursedirs = ["*.disabled", ".git", ".venv", "__pycache__"]
 addopts = [
     "-v",                    # Verbose output
     "--strict-markers",      # Error on unknown markers
     "--tb=short",           # Short traceback format
     "--disable-warnings",   # Disable warnings
+    "--ignore=tests/integration.disabled",  # Ignore disabled integration tests
     "-ra",                  # Show all test results
 ]
 markers = [
