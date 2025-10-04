@@ -56,6 +56,22 @@ class DomainValidationError(DomainException):
     pass
 
 
+class InvalidBreweryNameError(DomainValidationError):
+    """
+    Invalid brewery name error.
+
+    Raised when brewery name is invalid (empty, too long, etc).
+
+    Example:
+        >>> raise InvalidBreweryNameError(
+        ...     "Brewery name cannot be empty",
+        ...     details={"name": ""}
+        ... )
+    """
+
+    pass
+
+
 class InvalidBreweryTypeError(DomainValidationError):
     """
     Invalid brewery type error.
@@ -66,6 +82,22 @@ class InvalidBreweryTypeError(DomainValidationError):
         >>> raise InvalidBreweryTypeError(
         ...     "Invalid type: 'invalid'",
         ...     details={"allowed_types": ["micro", "nano", ...]}
+        ... )
+    """
+
+    pass
+
+
+class InvalidCoordinatesError(DomainValidationError):
+    """
+    Invalid coordinates error.
+
+    Raised when coordinates are out of valid range.
+
+    Example:
+        >>> raise InvalidCoordinatesError(
+        ...     "Invalid latitude",
+        ...     details={"latitude": 200}
         ... )
     """
 
@@ -134,6 +166,10 @@ class DuplicateEntityError(DomainException):
     """
 
     pass
+
+
+# Alias for backward compatibility
+DuplicateBreweryError = DuplicateEntityError
 
 
 class BusinessRuleViolation(DomainException):
