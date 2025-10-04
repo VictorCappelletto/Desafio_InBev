@@ -82,7 +82,7 @@ def validate_databricks_config(**context: Any) -> None:
             )
             raise ValueError(error_msg)
 
-        logger.info(f"✅ Databricks configuration validated: {databricks_config}")
+        logger.info(f"Databricks configuration validated: {databricks_config}")
         log_task_success(
             logger,
             "validate_databricks_config",
@@ -175,11 +175,11 @@ with DAG(
 # Architecture Benefits
 # ==============================================================================
 """
-✅ CONFIGURATION: All settings via environment variables
-✅ TYPE SAFETY: Full type hints with dataclasses
-✅ FAIL-FAST: Validates config before expensive operations
-✅ OBSERVABILITY: Passes execution context to Databricks
-✅ REUSABILITY: Config classes can be reused
-✅ TESTABILITY: Easy to mock configurations
-✅ DOCUMENTATION: Clear docstrings and inline docs
+CONFIGURATION: All settings via environment variables
+TYPE SAFETY: Full type hints with dataclasses
+FAIL-FAST: Validates config before expensive operations
+OBSERVABILITY: Passes execution context to Databricks
+REUSABILITY: Config classes can be reused
+TESTABILITY: Easy to mock configurations
+DOCUMENTATION: Clear docstrings and inline docs
 """

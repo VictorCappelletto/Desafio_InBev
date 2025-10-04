@@ -237,7 +237,7 @@ class SlackAlerter(BaseAlerter):
             test_payload = {
                 "username": self.username,
                 "icon_emoji": self.icon_emoji,
-                "text": "✅ Slack alerter test - Connection successful!",
+                "text": "[OK] Slack alerter test - Connection successful!",
             }
 
             if self.channel:

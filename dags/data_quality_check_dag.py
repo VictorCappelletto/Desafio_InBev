@@ -367,7 +367,7 @@ def generate_quality_report(**context: Any) -> None:
         logger.info("-" * 60)
 
         for check in report["checks"]:
-            logger.info(f"✅ {check['check']}: {check['status'].upper()}")
+            logger.info(f"{check['check']}: {check['status'].upper()}")
 
         logger.info("=" * 60)
 
@@ -490,12 +490,12 @@ with DAG(
 # Benefits of This DAG
 # ==============================================================================
 """
-✅ AUTOMATED QUALITY: Runs daily after ETL
-✅ MULTIPLE CHECKS: Row count, nulls, duplicates, freshness
-✅ FAIL-FAST: Stops pipeline if quality issues detected
-✅ REPORTING: Consolidated quality report
-✅ OBSERVABLE: Detailed logging
-✅ EXTENSIBLE: Easy to add new checks
-✅ TYPE-SAFE: Full type hints
-✅ SOLID: Follows all SOLID principles
+AUTOMATED QUALITY: Runs daily after ETL
+MULTIPLE CHECKS: Row count, nulls, duplicates, freshness
+FAIL-FAST: Stops pipeline if quality issues detected
+REPORTING: Consolidated quality report
+OBSERVABLE: Detailed logging
+EXTENSIBLE: Easy to add new checks
+TYPE-SAFE: Full type hints
+SOLID: Follows all SOLID principles
 """

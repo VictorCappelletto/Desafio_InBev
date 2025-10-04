@@ -127,19 +127,19 @@ class ValidateBreweriesQualityUseCase:
         # Log results
         if passed:
             self.logger.info(
-                f"✅ Quality validation PASSED: "
+                f"[PASSED] Quality validation: "
                 f"{passed_count}/{len(breweries)} breweries "
                 f"(avg={avg_quality:.2%})"
             )
         else:
             self.logger.warning(
-                f"❌ Quality validation FAILED: "
+                f"[FAILED] Quality validation: "
                 f"{failed_count}/{len(breweries)} breweries below threshold "
                 f"(avg={avg_quality:.2%}, threshold={self.min_quality_threshold:.2%})"
             )
 
         if warnings:
-            self.logger.info(f"⚠️  {len(warnings)} warnings detected")
+            self.logger.info(f"[WARN] {len(warnings)} warnings detected")
 
         return report
 

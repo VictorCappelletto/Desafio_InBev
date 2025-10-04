@@ -220,7 +220,7 @@ class MetricsCollector:
         self._pipeline_metrics[execution_id] = metrics
 
         self.logger.info(
-            f"📊 Pipeline started: {pipeline_name} (ID: {execution_id})",
+            f"[METRICS] Pipeline started: {pipeline_name} (ID: {execution_id})",
             extra={"execution_id": execution_id, "pipeline": pipeline_name},
         )
 
@@ -266,7 +266,7 @@ class MetricsCollector:
         metrics.success = success
         metrics.error_message = error_message
 
-        status_icon = "✅" if success else "❌"
+        status_icon = "[OK]" if success else "[FAIL]"
         self.logger.info(
             f"{status_icon} Pipeline completed: {metrics.pipeline_name} "
             f"({metrics.duration_seconds:.2f}s, {records_processed} records)",
@@ -328,9 +328,9 @@ class MetricsCollector:
 
         self._quality_metrics.append(metrics)
 
-        status = "✅ PASSED" if metrics.passed else "❌ FAILED"
+        status = "[PASSED]" if metrics.passed else "[FAILED]"
         self.logger.info(
-            f"📊 Quality check {status}: {dataset} - "
+            f"[METRICS] Quality check {status}: {dataset} - "
             f"Score: {overall_score:.2%} (Grade: {metrics.quality_grade})",
             extra={
                 "dataset": dataset,

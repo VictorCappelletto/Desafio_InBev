@@ -369,7 +369,7 @@ def generate_health_report(**context: Any) -> None:
 
         for component in components:
             if component:
-                status_icon = "✅" if component["status"] == "healthy" else "❌"
+                status_icon = "[OK]" if component["status"] == "healthy" else "[FAIL]"
                 response_time = component.get("response_time_ms", "N/A")
                 logger.info(
                     f"{status_icon} {component['component']}: {component['status'].upper()} "
@@ -502,12 +502,12 @@ with DAG(
 # Benefits of This DAG
 # ==============================================================================
 """
-✅ PROACTIVE MONITORING: Detects issues before they impact users
-✅ COMPREHENSIVE: Checks all system components
-✅ FREQUENT: Runs every 30 minutes
-✅ ALERTING: Sends email on failures
-✅ OBSERVABLE: Detailed health reports
-✅ ISOLATED CHECKS: Failures don't cascade
-✅ TYPE-SAFE: Full type hints
-✅ SOLID: Follows all SOLID principles
+PROACTIVE MONITORING: Detects issues before they impact users
+COMPREHENSIVE: Checks all system components
+FREQUENT: Runs every 30 minutes
+ALERTING: Sends email on failures
+OBSERVABLE: Detailed health reports
+ISOLATED CHECKS: Failures don't cascade
+TYPE-SAFE: Full type hints
+SOLID: Follows all SOLID principles
 """

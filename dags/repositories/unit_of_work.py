@@ -169,7 +169,7 @@ class UnitOfWork(IUnitOfWork):
             # Save all repositories
             saved_count = self.breweries.save()
 
-            self.logger.info(f"✅ Transaction committed: {saved_count} records saved")
+            self.logger.info(f"[COMMIT] Transaction committed: {saved_count} records saved")
             self._committed = True
 
         except Exception as e:

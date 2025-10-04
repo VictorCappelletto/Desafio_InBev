@@ -78,7 +78,7 @@ def validate_adf_config(**context: Any) -> None:
             )
             raise ValueError(error_msg)
 
-        logger.info(f"✅ ADF configuration validated: {adf_config}")
+        logger.info(f"ADF configuration validated: {adf_config}")
         log_task_success(
             logger,
             "validate_adf_config",
@@ -109,14 +109,14 @@ def log_pipeline_parameters(**context: Any) -> None:
     log_task_start(logger, "log_parameters")
 
     try:
-        logger.info("📋 Pipeline execution parameters:")
-        logger.info(f"  🏢 Resource Group: {adf_config.resource_group}")
-        logger.info(f"  🏭 Factory: {adf_config.factory_name}")
-        logger.info(f"  ⚙️  Pipeline: {adf_config.pipeline_name}")
-        logger.info(f"  🌍 Environment: {airflow_config.environment}")
-        logger.info(f"  📅 Execution Date: {context['ds']}")
-        logger.info(f"  🆔 DAG Run ID: {context.get('run_id', 'N/A')}")
-        logger.info(f"  🔗 Connection: {adf_config.connection_id}")
+        logger.info("Pipeline execution parameters:")
+        logger.info(f"  Resource Group: {adf_config.resource_group}")
+        logger.info(f"  Factory: {adf_config.factory_name}")
+        logger.info(f"  Pipeline: {adf_config.pipeline_name}")
+        logger.info(f"  Environment: {airflow_config.environment}")
+        logger.info(f"  Execution Date: {context['ds']}")
+        logger.info(f"  DAG Run ID: {context.get('run_id', 'N/A')}")
+        logger.info(f"  Connection: {adf_config.connection_id}")
 
         log_task_success(
             logger,
@@ -223,11 +223,11 @@ with DAG(
 # Architecture Benefits
 # ==============================================================================
 """
-✅ CONFIGURATION: Environment-driven setup
-✅ VALIDATION: Fail-fast approach
-✅ OBSERVABILITY: Comprehensive logging
-✅ TRACEABILITY: Parameters passed to ADF
-✅ TYPE SAFETY: Dataclass configurations
-✅ MAINTAINABILITY: Clear separation of concerns
-✅ DOCUMENTATION: Inline documentation
+CONFIGURATION: Environment-driven setup
+VALIDATION: Fail-fast approach
+OBSERVABILITY: Comprehensive logging
+TRACEABILITY: Parameters passed to ADF
+TYPE SAFETY: Dataclass configurations
+MAINTAINABILITY: Clear separation of concerns
+DOCUMENTATION: Inline documentation
 """

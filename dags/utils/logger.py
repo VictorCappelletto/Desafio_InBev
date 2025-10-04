@@ -63,7 +63,7 @@ def log_task_start(logger: logging.Logger, task_name: str, **kwargs) -> None:
         >>> log_task_start(logger, "extract_data", source="API", records=100)
     """
     context_str = " | ".join(f"{k}={v}" for k, v in kwargs.items())
-    logger.info(f"🚀 Task Started: {task_name} | {context_str}")
+    logger.info(f"[START] Task: {task_name} | {context_str}")
 
 
 def log_task_success(logger: logging.Logger, task_name: str, **kwargs) -> None:
@@ -80,7 +80,7 @@ def log_task_success(logger: logging.Logger, task_name: str, **kwargs) -> None:
         >>> log_task_success(logger, "load_data", records=1000, duration="5.2s")
     """
     metrics_str = " | ".join(f"{k}={v}" for k, v in kwargs.items())
-    logger.info(f"✅ Task Completed: {task_name} | {metrics_str}")
+    logger.info(f"[SUCCESS] Task: {task_name} | {metrics_str}")
 
 
 def log_task_error(
@@ -104,7 +104,7 @@ def log_task_error(
     """
     context_str = " | ".join(f"{k}={v}" for k, v in kwargs.items())
     logger.error(
-        f"❌ Task Failed: {task_name} | Error: {str(error)} | {context_str}",
+        f"[ERROR] Task: {task_name} | Error: {str(error)} | {context_str}",
         exc_info=True,
     )
 

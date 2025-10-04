@@ -281,7 +281,7 @@ class DataQualityEngine:
                 result = check.check(data)
                 results.append(result)
 
-                status = "✅ PASSED" if result.passed else "❌ FAILED"
+                status = "[PASSED]" if result.passed else "[FAILED]"
                 self.logger.info(
                     f"{status} {check.dimension.value}: "
                     f"{result.score:.2%} (threshold: {result.threshold:.2%})"

@@ -66,12 +66,12 @@ class Alert:
     def get_emoji(self) -> str:
         """Get emoji for alert level."""
         emoji_map = {
-            AlertLevel.INFO: "ℹ️",
-            AlertLevel.WARNING: "⚠️",
-            AlertLevel.ERROR: "❌",
-            AlertLevel.CRITICAL: "🚨",
+            AlertLevel.INFO: "[INFO]",
+            AlertLevel.WARNING: "[WARN]",
+            AlertLevel.ERROR: "[ERROR]",
+            AlertLevel.CRITICAL: "[CRITICAL]",
         }
-        return emoji_map.get(self.level, "📢")
+        return emoji_map.get(self.level, "[ALERT]")
 
     def format_message(self) -> str:
         """

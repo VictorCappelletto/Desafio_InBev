@@ -47,7 +47,7 @@ class IDataTransformer(ABC):
     - Single Responsibility: Only handles data transformation (not extraction/loading)
     - Open/Closed: Open for extension (new transformers), closed for modification
     - Liskov Substitution: All implementations can be used interchangeably
-    - Interface Segregation: ✅ Perfect ISP - single, focused method
+    - Interface Segregation: Perfect ISP - single, focused method
     - Dependency Inversion: High-level modules depend on this abstraction, not concretions
 
     Strategy Pattern:
