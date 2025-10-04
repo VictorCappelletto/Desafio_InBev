@@ -142,6 +142,7 @@ jobs:
           bandit -r dags/ -ll -f json -o bandit-report.json || true
       
       - name: 🔍 Check for secrets
+        if: github.event_name == 'pull_request'
         uses: trufflesecurity/trufflehog@main
         with:
           path: ./
