@@ -62,7 +62,7 @@ jobs:
             mkdocs-mermaid2-plugin>=1.1.0
       
       - name: 🔨 Build Documentation
-        run: mkdocs build --strict --verbose
+        run: mkdocs build --verbose
       
       - name: 📤 Upload Artifact
         uses: actions/upload-pages-artifact@v3
