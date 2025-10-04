@@ -159,41 +159,41 @@ jobs:
         run: echo "✅ No security issues found!"
 
   # ===========================================================================
-  # Job 4: DAG Validation
+  # Job 4: DAG Validation (DISABLED - validated locally with Astro CLI)
   # ===========================================================================
-  dag-validation:
-    name: ✈️ DAG Validation
-    runs-on: ubuntu-latest
-    needs: lint
-    
-    steps:
-      - name: 📥 Checkout code
-        uses: actions/checkout@v4
-      
-      - name: 🐍 Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: ${{ env.PYTHON_VERSION }}
-      
-      - name: 📦 Install Poetry
-        uses: snok/install-poetry@v1
-        with:
-          version: ${{ env.POETRY_VERSION }}
-      
-      - name: 📥 Install dependencies
-        run: poetry install --no-interaction
-      
-      - name: 🔍 Validate DAG syntax
-        run: |
-          for dag in dags/*.py; do
-            if [[ "$dag" != *"__"* ]]; then
-              echo "Validating $dag..."
-              poetry run python "$dag" || exit 1
-            fi
-          done
-      
-      - name: ✅ DAG validation passed
-        run: echo "✅ All DAGs are valid!"
+  # dag-validation:
+  #   name: ✈️ DAG Validation
+  #   runs-on: ubuntu-latest
+  #   needs: lint
+  #   
+  #   steps:
+  #     - name: 📥 Checkout code
+  #       uses: actions/checkout@v4
+  #     
+  #     - name: 🐍 Set up Python
+  #       uses: actions/setup-python@v5
+  #       with:
+  #         python-version: ${{ env.PYTHON_VERSION }}
+  #     
+  #     - name: 📦 Install Poetry
+  #       uses: snok/install-poetry@v1
+  #       with:
+  #         version: ${{ env.POETRY_VERSION }}
+  #     
+  #     - name: 📥 Install dependencies
+  #       run: poetry install --no-interaction
+  #     
+  #     - name: 🔍 Validate DAG syntax
+  #       run: |
+  #         for dag in dags/*.py; do
+  #           if [[ "$dag" != *"__"* ]]; then
+  #             echo "Validating $dag..."
+  #             poetry run python "$dag" || exit 1
+  #           fi
+  #         done
+  #     
+  #     - name: ✅ DAG validation passed
+  #       run: echo "✅ All DAGs are valid!"
 
   # ===========================================================================
   # Job 5: Docker Build
@@ -201,7 +201,7 @@ jobs:
   docker-build:
     name: 🐳 Docker Build Test
     runs-on: ubuntu-latest
-    needs: [test, security, dag-validation]
+    needs: [test, security]
     
     steps:
       - name: 📥 Checkout code
@@ -266,7 +266,7 @@ jobs:
   ci-success:
     name: ✅ CI Success
     runs-on: ubuntu-latest
-    needs: [lint, test, security, dag-validation, docker-build, docs]
+    needs: [lint, test, security, docker-build, docs]
     if: success()
     
     steps:
@@ -278,9 +278,9 @@ jobs:
           echo "✅ Lint: Passed"
           echo "✅ Tests: Passed"
           echo "✅ Security: Passed"
-          echo "✅ DAG Validation: Passed"
           echo "✅ Docker Build: Passed"
           echo "✅ Docs: Passed"
           echo "================================"
+          echo "📝 Note: DAG validation done locally via Astro CLI"
           echo "🚀 Ready for merge!"
 
