@@ -9,11 +9,11 @@ jobs:
   # PR Title Check
   # ===========================================================================
   pr-title-check:
-    name: 📝 PR Title Check
+    name: PR Title Check
     runs-on: ubuntu-latest
     
     steps:
-      - name: ✅ Check PR title format
+      - name: Check PR title format
         uses: amannn/action-semantic-pull-request@v6
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -35,25 +35,25 @@ jobs:
             Subject must NOT start with an uppercase character.
             
             Examples:
-            ✅ feat: add new DAG
-            ✅ fix: resolve connection issue
-            ❌ feat: Add new DAG
-            ❌ Fix: resolve connection issue
+            GOOD: feat: add new DAG
+            GOOD: fix: resolve connection issue
+            BAD: feat: Add new DAG
+            BAD: Fix: resolve connection issue
 
   # ===========================================================================
   # PR Size Check
   # ===========================================================================
   pr-size-check:
-    name: 📏 PR Size Check
+    name: PR Size Check
     runs-on: ubuntu-latest
     
     steps:
-      - name: 📥 Checkout code
+      - name: Checkout code
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
       
-      - name: 📊 Calculate PR size
+      - name: Calculate PR size
         id: pr_size
         run: |
           FILES_CHANGED=$(git diff --name-only origin/${{ github.base_ref }}...HEAD | wc -l)
@@ -64,7 +64,7 @@ jobs:
           echo "lines_added=$LINES_ADDED" >> $GITHUB_OUTPUT
           echo "lines_deleted=$LINES_DELETED" >> $GITHUB_OUTPUT
       
-      - name: 💬 Comment PR size
+      - name: Comment PR size
         uses: actions/github-script@v7
         with:
           script: |
@@ -73,21 +73,21 @@ jobs:
             const deleted = ${{ steps.pr_size.outputs.lines_deleted }};
             const total = added + deleted;
             
-            let size = '📦 Small';
-            let emoji = '✅';
+            let size = 'Small';
+            let status = 'OK';
             
             if (total > 1000) {
-              size = '📦 Extra Large';
-              emoji = '⚠️';
+              size = 'Extra Large';
+              status = 'WARNING';
             } else if (total > 500) {
-              size = '📦 Large';
-              emoji = '⚠️';
+              size = 'Large';
+              status = 'WARNING';
             } else if (total > 200) {
-              size = '📦 Medium';
-              emoji = '👀';
+              size = 'Medium';
+              status = 'REVIEW';
             }
             
-            const message = `### ${emoji} PR Size: ${size}
+            const message = `### PR Size: ${size} (${status})
             
             | Metric | Value |
             |--------|-------|
@@ -96,7 +96,7 @@ jobs:
             | Lines Deleted | -${deleted} |
             | **Total Changes** | **${total}** |
             
-            ${total > 500 ? '⚠️ **This PR is quite large. Consider breaking it into smaller PRs for easier review.**' : ''}
+            ${total > 500 ? 'This PR is quite large. Consider breaking it into smaller PRs for easier review.' : ''}
             `;
             
             github.rest.issues.createComment({
@@ -110,15 +110,15 @@ jobs:
   # Code Review Checklist
   # ===========================================================================
   pr-checklist:
-    name: ✅ PR Checklist
+    name: PR Checklist
     runs-on: ubuntu-latest
     
     steps:
-      - name: 📝 Post checklist comment
+      - name: Post checklist comment
         uses: actions/github-script@v7
         with:
           script: |
-            const checklist = `### 📋 PR Review Checklist
+            const checklist = `### PR Review Checklist
             
             Please ensure the following before merging:
             
@@ -135,7 +135,6 @@ jobs:
             
             #### Documentation
             - [ ] README updated if needed
-            - [ ] CHANGELOG updated
             - [ ] Code comments where necessary
             
             #### DAGs (if applicable)
@@ -165,14 +164,13 @@ jobs:
   # Label PR
   # ===========================================================================
   pr-labeler:
-    name: 🏷️ Auto Label PR
+    name: Auto Label PR
     runs-on: ubuntu-latest
     
     steps:
-      - name: 🏷️ Apply labels
+      - name: Apply labels
         uses: actions/labeler@v5
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
           configuration-path: .github/labeler.yml
           sync-labels: true
-

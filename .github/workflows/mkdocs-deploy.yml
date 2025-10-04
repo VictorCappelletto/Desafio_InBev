@@ -41,18 +41,18 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
-      - name: 📥 Checkout Repository
+      - name: Checkout Repository
         uses: actions/checkout@v4
         with:
           fetch-depth: 0  # Full history for git info plugin
       
-      - name: 🐍 Setup Python
+      - name: Setup Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
           cache: 'pip'
       
-      - name: 📦 Install Dependencies
+      - name: Install Dependencies
         run: |
           pip install --upgrade pip
           pip install \
@@ -61,10 +61,10 @@ jobs:
             mkdocstrings[python]>=0.24.0 \
             mkdocs-mermaid2-plugin>=1.1.0
       
-      - name: 🔨 Build Documentation
+      - name: Build Documentation
         run: mkdocs build --verbose
       
-      - name: 📤 Upload Artifact
+      - name: Upload Artifact
         uses: actions/upload-pages-artifact@v3
         with:
           path: ./site
@@ -82,18 +82,18 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     
     steps:
-      - name: 🚀 Deploy to GitHub Pages
+      - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
       
-      - name: 📊 Deployment Summary
+      - name: Deployment Summary
         run: |
-          echo "### 📖 Documentation Deployed! 🎉" >> $GITHUB_STEP_SUMMARY
+          echo "### Documentation Deployed!" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "**Site URL:** ${{ steps.deployment.outputs.page_url }}" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
-          echo "✅ MkDocs build successful" >> $GITHUB_STEP_SUMMARY
-          echo "✅ Deployed to GitHub Pages" >> $GITHUB_STEP_SUMMARY
+          echo "MkDocs build successful" >> $GITHUB_STEP_SUMMARY
+          echo "Deployed to GitHub Pages" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "_Documentation automatically updates on every push to main!_" >> $GITHUB_STEP_SUMMARY
 

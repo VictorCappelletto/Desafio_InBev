@@ -14,14 +14,15 @@
 /dags/config/ @victorcappelleto
 
 # Security-related files
-/SECURITY.md @victorcappelleto
 /.github/workflows/security*.yml @victorcappelleto
 
 # Architecture changes
 /dags/interfaces/ @victorcappelleto
 /dags/services/ @victorcappelleto
 /dags/factories/ @victorcappelleto
-/ARCHITECTURE.md @victorcappelleto
+/dags/domain/ @victorcappelleto
+/dags/use_cases/ @victorcappelleto
+/dags/repositories/ @victorcappelleto
 
 # CI/CD pipelines
 /.github/workflows/ @victorcappelleto
@@ -29,7 +30,6 @@
 # Documentation
 /docs/ @victorcappelleto
 /README.md @victorcappelleto
-/CHANGELOG.md @victorcappelleto
 
 # Tests
 /tests/ @victorcappelleto
@@ -43,4 +43,3 @@
 /Dockerfile @victorcappelleto
 /.dockerignore @victorcappelleto
 /packages.txt @victorcappelleto
-

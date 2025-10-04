@@ -1,5 +1,5 @@
 ---
-name: ✨ Feature Request
+name: Feature Request
 about: Suggest an idea for this project
 title: '[FEATURE] '
 labels: enhancement
@@ -7,31 +7,31 @@ assignees: ''
 
 ---
 
-## 💡 Feature Description
+## Feature Description
 
 <!-- A clear and concise description of the feature you'd like -->
 
 
 
-## 🎯 Problem Statement
+## Problem Statement
 
 <!-- Is your feature request related to a problem? Please describe -->
 
 
 
-## 💭 Proposed Solution
+## Proposed Solution
 
 <!-- Describe the solution you'd like -->
 
 
 
-## 🔄 Alternatives Considered
+## Alternatives Considered
 
 <!-- Describe any alternative solutions or features you've considered -->
 
 
 
-## 📊 Benefits
+## Benefits
 
 <!-- What benefits does this feature bring? -->
 
@@ -42,7 +42,7 @@ assignees: ''
 - [ ] Reduces technical debt
 - [ ] Other: 
 
-## 🛠️ Implementation Details
+## Implementation Details
 
 <!-- If you have ideas on how to implement this, describe them here -->
 
@@ -61,7 +61,7 @@ assignees: ''
 - [ ] Medium (1-3 days)
 - [ ] Large (> 3 days)
 
-## 🧪 Acceptance Criteria
+## Acceptance Criteria
 
 <!-- What needs to be true for this feature to be considered complete? -->
 
@@ -69,25 +69,24 @@ assignees: ''
 - [ ] Criterion 2
 - [ ] Criterion 3
 
-## 📚 Additional Context
+## Additional Context
 
 <!-- Add any other context, mockups, or examples about the feature request here -->
 
 
 
-## 📈 Priority
+## Priority
 
 <!-- How important is this feature? -->
 
-- [ ] 🔴 Critical (blocking)
-- [ ] 🟡 High (important)
-- [ ] 🟢 Medium (nice to have)
-- [ ] ⚪ Low (future consideration)
+- [ ] Critical (blocking)
+- [ ] High (important)
+- [ ] Medium (nice to have)
+- [ ] Low (future consideration)
 
-## 🤝 Willingness to Contribute
+## Willingness to Contribute
 
 - [ ] I'm willing to implement this feature
 - [ ] I can help with testing
 - [ ] I can help with documentation
 - [ ] I'm just suggesting the idea
-

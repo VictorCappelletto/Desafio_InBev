@@ -16,19 +16,19 @@ jobs:
   # Job 1: Create Release
   # ===========================================================================
   create-release:
-    name: 📦 Create Release
+    name: Create Release
     runs-on: ubuntu-latest
     if: startsWith(github.ref, 'refs/tags/v')
     
     steps:
-      - name: 📥 Checkout code
+      - name: Checkout code
         uses: actions/checkout@v4
       
-      - name: 📝 Extract version from tag
+      - name: Extract version from tag
         id: extract_version
         run: echo "VERSION=${GITHUB_REF#refs/tags/v}" >> $GITHUB_OUTPUT
       
-      - name: 📋 Generate changelog
+      - name: Generate changelog
         id: changelog
         run: |
           if [ -f CHANGELOG.md ]; then
@@ -37,7 +37,7 @@ jobs:
             echo "EOF" >> $GITHUB_OUTPUT
           fi
       
-      - name: 🚀 Create GitHub Release
+      - name: Create GitHub Release
         uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -45,13 +45,13 @@ jobs:
           tag_name: ${{ github.ref }}
           release_name: Release ${{ steps.extract_version.outputs.VERSION }}
           body: |
-            ## 🎉 Release ${{ steps.extract_version.outputs.VERSION }}
+            ## Release ${{ steps.extract_version.outputs.VERSION }}
             
-            ### 📋 Changelog
+            ### Changelog
             
             See [CHANGELOG.md](https://github.com/${{ github.repository }}/blob/main/CHANGELOG.md) for details.
             
-            ### 🚀 Installation
+            ### Installation
             
             ```bash
             git clone https://github.com/${{ github.repository }}.git
@@ -67,65 +67,65 @@ jobs:
   # Job 2: Deploy Documentation
   # ===========================================================================
   deploy-docs:
-    name: 📚 Deploy Documentation
+    name: Deploy Documentation
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main'
     
     steps:
-      - name: 📥 Checkout code
+      - name: Checkout code
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
       
-      - name: 🐍 Set up Python
+      - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: ${{ env.PYTHON_VERSION }}
       
-      - name: 📦 Install Poetry
+      - name: Install Poetry
         uses: snok/install-poetry@v1
         with:
           version: ${{ env.POETRY_VERSION }}
       
-      - name: 📥 Install dependencies
+      - name: Install dependencies
         run: poetry install --no-interaction
       
-      - name: ⚙️ Configure Git
+      - name: Configure Git
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
       
-      - name: 📚 Deploy to GitHub Pages
+      - name: Deploy to GitHub Pages
         run: poetry run mkdocs gh-deploy --force
       
-      - name: ✅ Docs deployed
+      - name: Docs deployed
         run: |
-          echo "✅ Documentation deployed to GitHub Pages!"
-          echo "🔗 https://${{ github.repository_owner }}.github.io/Desafio_InBev/"
+          echo "Documentation deployed to GitHub Pages!"
+          echo "URL: https://${{ github.repository_owner }}.github.io/Desafio_InBev/"
 
   # ===========================================================================
   # Job 3: Build and Push Docker Image (Optional)
   # ===========================================================================
   docker-push:
-    name: 🐳 Build & Push Docker Image
+    name: Build & Push Docker Image
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/tags/v')
     
     steps:
-      - name: 📥 Checkout code
+      - name: Checkout code
         uses: actions/checkout@v4
       
-      - name: 🐳 Set up Docker Buildx
+      - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
       
-      - name: 🔑 Login to GitHub Container Registry
+      - name: Login to GitHub Container Registry
         uses: docker/login-action@v3
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
       
-      - name: 📝 Extract metadata
+      - name: Extract metadata
         id: meta
         uses: docker/metadata-action@v5
         with:
@@ -137,7 +137,7 @@ jobs:
             type=semver,pattern={{major}}.{{minor}}
             type=sha,prefix={{branch}}-
       
-      - name: 🔨 Build and push Docker image
+      - name: Build and push Docker image
         uses: docker/build-push-action@v5
         with:
           context: .
@@ -148,26 +148,26 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
       
-      - name: ✅ Docker image pushed
+      - name: Docker image pushed
         run: |
-          echo "✅ Docker image pushed to GHCR!"
-          echo "🔗 https://github.com/${{ github.repository }}/pkgs/container/desafio_inbev"
+          echo "Docker image pushed to GHCR!"
+          echo "URL: https://github.com/${{ github.repository }}/pkgs/container/desafio_inbev"
 
   # ===========================================================================
   # Job 4: Deploy to Astronomer (Optional - requires setup)
   # ===========================================================================
   deploy-astronomer:
-    name: 🚀 Deploy to Astronomer
+    name: Deploy to Astronomer
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main' && false # Disabled by default
     
     steps:
-      - name: 📥 Checkout code
+      - name: Checkout code
         uses: actions/checkout@v4
       
-      - name: 🚀 Deploy to Astronomer
+      - name: Deploy to Astronomer
         run: |
-          echo "⚠️ Astronomer deployment not configured"
+          echo "Astronomer deployment not configured"
           echo "To enable:"
           echo "1. Set ASTRONOMER_KEY_ID in repository secrets"
           echo "2. Set ASTRONOMER_KEY_SECRET in repository secrets"
@@ -177,45 +177,44 @@ jobs:
           echo "astro deploy --deployment-id=<YOUR_DEPLOYMENT_ID>"
       
       # Uncomment when ready:
-      # - name: 🚀 Install Astronomer CLI
+      # - name: Install Astronomer CLI
       #   run: curl -sSL install.astronomer.io | sudo bash
       #
-      # - name: 🔑 Authenticate
+      # - name: Authenticate
       #   env:
       #     ASTRONOMER_KEY_ID: ${{ secrets.ASTRONOMER_KEY_ID }}
       #     ASTRONOMER_KEY_SECRET: ${{ secrets.ASTRONOMER_KEY_SECRET }}
       #   run: |
-      #     astro auth login --key-id ${ASTRONOMER_KEY_ID} --key-secret ${ASTRONOMER_KEY_SECRET}
+      #     astro auth login --key-id ${ASTRONOMER_KEY_ID} --key-secret ${ASTRONOMER_KEY_SECRET}}
       #
-      # - name: 🚀 Deploy
+      # - name: Deploy
       #   run: astro deploy <YOUR_DEPLOYMENT_ID>
 
   # ===========================================================================
   # Job 5: Notify Success
   # ===========================================================================
   cd-success:
-    name: ✅ CD Success
+    name: CD Success
     runs-on: ubuntu-latest
     needs: [deploy-docs, docker-push]
     if: success()
     
     steps:
-      - name: 🎉 CD Pipeline Passed
+      - name: CD Pipeline Passed
         run: |
           echo "================================"
-          echo "✅ CD PIPELINE PASSED!"
+          echo "CD PIPELINE PASSED!"
           echo "================================"
-          echo "✅ Documentation: Deployed"
-          echo "✅ Docker Image: Pushed"
+          echo "Documentation: Deployed"
+          echo "Docker Image: Pushed"
           echo "================================"
-          echo "🎉 Deployment complete!"
+          echo "Deployment complete!"
       
       # Optional: Send notification to Slack/Discord
-      # - name: 📢 Send notification
+      # - name: Send notification
       #   uses: 8398a7/action-slack@v3
       #   with:
       #     status: ${{ job.status }}
-      #     text: '🚀 New deployment to production!'
+      #     text: 'New deployment to production!'
       #     webhook_url: ${{ secrets.SLACK_WEBHOOK }}
       #   if: always()
-

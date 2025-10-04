@@ -1,30 +1,30 @@
-## 📝 Description
+## Description
 
 <!-- Provide a clear and concise description of what this PR does -->
 
 
 
-## 🎯 Type of Change
+## Type of Change
 
 <!-- Mark the relevant option with an "x" -->
 
-- [ ] 🐛 Bug fix (non-breaking change which fixes an issue)
-- [ ] ✨ New feature (non-breaking change which adds functionality)
-- [ ] 💥 Breaking change (fix or feature that would cause existing functionality to not work as expected)
-- [ ] 📚 Documentation update
-- [ ] 🎨 Code style update (formatting, renaming)
-- [ ] ♻️ Refactoring (no functional changes)
-- [ ] 🔧 Configuration change
-- [ ] 🧪 Test update
+- [ ] Bug fix (non-breaking change which fixes an issue)
+- [ ] New feature (non-breaking change which adds functionality)
+- [ ] Breaking change (fix or feature that would cause existing functionality to not work as expected)
+- [ ] Documentation update
+- [ ] Code style update (formatting, renaming)
+- [ ] Refactoring (no functional changes)
+- [ ] Configuration change
+- [ ] Test update
 
-## 🔗 Related Issues
+## Related Issues
 
 <!-- Link to related issues, if any -->
 
 Closes #
 Related to #
 
-## 📋 Checklist
+## Checklist
 
 ### Code Quality
 
@@ -44,7 +44,6 @@ Related to #
 ### Documentation
 
 - [ ] README updated (if needed)
-- [ ] CHANGELOG.md updated
 - [ ] Code comments added where necessary
 - [ ] MkDocs updated (if applicable)
 
@@ -64,13 +63,13 @@ Related to #
 - [ ] Placeholders used in examples/docs
 - [ ] Safe `__repr__` methods (no secret exposure)
 
-## 📸 Screenshots
+## Screenshots
 
 <!-- If applicable, add screenshots to help explain your changes -->
 
 
 
-## 🧪 Testing Instructions
+## Testing Instructions
 
 <!-- Describe how reviewers can test your changes -->
 
@@ -81,7 +80,7 @@ astro dev start
 # ...
 ```
 
-## 📊 Performance Impact
+## Performance Impact
 
 <!-- Describe any performance implications -->
 
@@ -93,7 +92,7 @@ astro dev start
 
 
 
-## 🚀 Deployment Notes
+## Deployment Notes
 
 <!-- Any special deployment considerations? -->
 
@@ -106,7 +105,7 @@ astro dev start
 
 
 
-## 📝 Additional Notes
+## Additional Notes
 
 <!-- Any other information that reviewers should know -->
 
@@ -114,17 +113,16 @@ astro dev start
 
 ---
 
-## 🤖 Automated Checks
+## Automated Checks
 
 <!-- These will be filled automatically by CI -->
 
-- CI Status: pending ⏳
-- Test Coverage: pending ⏳
-- Security Scan: pending ⏳
-- DAG Validation: pending ⏳
+- CI Status: pending
+- Test Coverage: pending
+- Security Scan: pending
+- DAG Validation: pending
 
 ---
 
 **Reviewer**: @victorcappelleto
 **Estimated Review Time**: <!-- e.g., 15 min, 1 hour -->
-

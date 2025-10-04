@@ -1,5 +1,5 @@
 ---
-name: 🐛 Bug Report
+name: Bug Report
 about: Create a report to help us improve
 title: '[BUG] '
 labels: bug
@@ -7,38 +7,38 @@ assignees: ''
 
 ---
 
-## 🐛 Bug Description
+## Bug Description
 
 <!-- A clear and concise description of what the bug is -->
 
 
 
-## 📋 Steps to Reproduce
+## Steps to Reproduce
 
 1. Go to '...'
 2. Run command '...'
 3. Execute DAG '...'
 4. See error
 
-## ✅ Expected Behavior
+## Expected Behavior
 
 <!-- A clear and concise description of what you expected to happen -->
 
 
 
-## ❌ Actual Behavior
+## Actual Behavior
 
 <!-- What actually happened -->
 
 
 
-## 📸 Screenshots
+## Screenshots
 
 <!-- If applicable, add screenshots to help explain your problem -->
 
 
 
-## 🖥️ Environment
+## Environment
 
 - **OS**: [e.g., macOS 13.0, Ubuntu 22.04]
 - **Python Version**: [e.g., 3.11.4]
@@ -46,7 +46,7 @@ assignees: ''
 - **Astronomer Runtime**: [e.g., 11.5.0]
 - **Poetry Version**: [e.g., 1.7.0]
 
-## 📝 Logs
+## Logs
 
 <!-- Paste relevant logs here -->
 
@@ -54,24 +54,23 @@ assignees: ''
 # Paste error logs here
 ```
 
-## 🔍 Additional Context
+## Additional Context
 
 <!-- Add any other context about the problem here -->
 
 
 
-## 💡 Possible Solution
+## Possible Solution
 
 <!-- If you have an idea on how to fix it, describe it here -->
 
 
 
-## 📊 Impact
+## Impact
 
 <!-- How critical is this bug? -->
 
-- [ ] 🔴 Critical (blocks main functionality)
-- [ ] 🟡 High (significant impact)
-- [ ] 🟢 Medium (moderate impact)
-- [ ] ⚪ Low (minor inconvenience)
-
+- [ ] Critical (blocks main functionality)
+- [ ] High (significant impact)
+- [ ] Medium (moderate impact)
+- [ ] Low (minor inconvenience)

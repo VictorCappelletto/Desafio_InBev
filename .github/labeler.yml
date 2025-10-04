@@ -35,12 +35,14 @@
         'dags/interfaces/**',
         'dags/services/**',
         'dags/factories/**',
-        'ARCHITECTURE.md'
+        'dags/domain/**',
+        'dags/use_cases/**',
+        'dags/repositories/**'
       ]
 
 'security':
   - changed-files:
-    - any-glob-to-any-file: ['SECURITY.md', '.github/workflows/security*.yml']
+    - any-glob-to-any-file: ['.github/workflows/security*.yml']
 
 'data-quality':
   - changed-files:
@@ -48,5 +50,4 @@
 
 'monitoring':
   - changed-files:
-    - any-glob-to-any-file: ['dags/*health*.py', 'dags/*monitor*.py']
-
+    - any-glob-to-any-file: ['dags/*health*.py', 'dags/*monitor*.py', 'dags/observability/**']
