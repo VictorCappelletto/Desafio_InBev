@@ -26,4 +26,3 @@ __all__ = [
     "VALID_BREWERY_TYPES",
     "VALID_US_STATES",
 ]
-

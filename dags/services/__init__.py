@@ -22,12 +22,12 @@ Available Services:
 Usage:
     from services import BreweryAPIExtractor, AzureSQLLoader, BreweryTransformer
     from config import APIConfig, AzureSQLConfig
-    
+
     # Create services with dependency injection
     extractor = BreweryAPIExtractor(APIConfig())
     transformer = BreweryTransformer()
     loader = AzureSQLLoader(AzureSQLConfig(), table_name="Breweries")
-    
+
     # ETL pipeline
     raw_data = extractor.extract()
     clean_data = transformer.transform(raw_data)
@@ -52,4 +52,3 @@ __all__ = [
     "AzureSQLLoader",
     "BreweryTransformer",
 ]
-

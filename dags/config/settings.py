@@ -20,16 +20,16 @@ Features:
 Usage Examples:
     # Method 1: Direct instantiation
     from config import DatabricksConfig, AzureSQLConfig
-    
+
     databricks = DatabricksConfig()
     print(databricks.cluster_id)  # Auto-loads from DATABRICKS_CLUSTER_ID env var
-    
+
     # Method 2: Use singleton instances
     from config import databricks_config, azure_sql_config
-    
+
     print(databricks_config.host)
     print(azure_sql_config.connection_string)
-    
+
     # Method 3: Dependency Injection (recommended for DAGs)
     def my_dag_function(config: DatabricksConfig):
         # Config injected, easy to test with mocks
@@ -56,10 +56,10 @@ from typing import Optional
 class DatabricksConfig:
     """
     Databricks Configuration.
-    
+
     Encapsulates all Databricks-related settings with type safety.
     Reads from environment variables with sensible defaults.
-    
+
     Attributes:
         host: Databricks workspace URL
         token: API token for authentication
@@ -67,47 +67,41 @@ class DatabricksConfig:
         job_id: Default job ID for operations
         notebook_path: Default notebook path
     """
-    
+
     host: str = field(
         default_factory=lambda: os.getenv(
-            "DATABRICKS_HOST",
-            "https://adb-XXXXX.XX.azuredatabricks.net"
+            "DATABRICKS_HOST", "https://adb-XXXXX.XX.azuredatabricks.net"
         )
     )
-    
+
     token: str = field(
         default_factory=lambda: os.getenv(
-            "DATABRICKS_TOKEN",
-            "dapi********************************"
+            "DATABRICKS_TOKEN", "dapi********************************"
         )
     )
-    
+
     cluster_id: str = field(
         default_factory=lambda: os.getenv(
-            "DATABRICKS_CLUSTER_ID",
-            "XXXX-XXXXXX-XXXXXXXX"
+            "DATABRICKS_CLUSTER_ID", "XXXX-XXXXXX-XXXXXXXX"
         )
     )
-    
+
     job_id: str = field(
-        default_factory=lambda: os.getenv(
-            "DATABRICKS_JOB_ID",
-            "XXXXXXXXXXXXX"
-        )
+        default_factory=lambda: os.getenv("DATABRICKS_JOB_ID", "XXXXXXXXXXXXX")
     )
-    
+
     notebook_path: str = field(
         default_factory=lambda: os.getenv(
             "DATABRICKS_NOTEBOOK_PATH",
-            "/Workspace/Users/your.email@example.com/your_notebook"
+            "/Workspace/Users/your.email@example.com/your_notebook",
         )
     )
-    
+
     @property
     def connection_id(self) -> str:
         """Airflow connection ID for Databricks."""
         return "databricks_default"
-    
+
     def __repr__(self) -> str:
         """Safe representation without exposing token."""
         return (
@@ -121,9 +115,9 @@ class DatabricksConfig:
 class AzureSQLConfig:
     """
     Azure SQL Database Configuration.
-    
+
     Encapsulates Azure SQL connection settings.
-    
+
     Attributes:
         server: SQL Server hostname
         database: Database name
@@ -132,51 +126,39 @@ class AzureSQLConfig:
         port: SQL Server port
         driver: ODBC driver name
     """
-    
+
     server: str = field(
         default_factory=lambda: os.getenv(
-            "AZURE_SQL_SERVER",
-            "inbev-sql-server.database.windows.net"
+            "AZURE_SQL_SERVER", "inbev-sql-server.database.windows.net"
         )
     )
-    
+
     database: str = field(
-        default_factory=lambda: os.getenv(
-            "AZURE_SQL_DATABASE",
-            "inbev_db"
-        )
+        default_factory=lambda: os.getenv("AZURE_SQL_DATABASE", "inbev_db")
     )
-    
+
     username: str = field(
-        default_factory=lambda: os.getenv(
-            "AZURE_SQL_USERNAME",
-            "inbev_admin"
-        )
+        default_factory=lambda: os.getenv("AZURE_SQL_USERNAME", "inbev_admin")
     )
-    
+
     password: str = field(
-        default_factory=lambda: os.getenv(
-            "AZURE_SQL_PASSWORD",
-            "YOUR_PASSWORD_HERE"
-        )
+        default_factory=lambda: os.getenv("AZURE_SQL_PASSWORD", "YOUR_PASSWORD_HERE")
     )
-    
-    port: int = field(
-        default_factory=lambda: int(os.getenv("AZURE_SQL_PORT", "1433"))
-    )
-    
+
+    port: int = field(default_factory=lambda: int(os.getenv("AZURE_SQL_PORT", "1433")))
+
     driver: str = "ODBC Driver 18 for SQL Server"
-    
+
     @property
     def connection_id(self) -> str:
         """Airflow connection ID for Azure SQL."""
         return "azure_sql_default"
-    
+
     @property
     def connection_string(self) -> str:
         """
         Build ODBC connection string.
-        
+
         Note: Prefer using Airflow Connections over this in production.
         """
         return (
@@ -189,7 +171,7 @@ class AzureSQLConfig:
             f"TrustServerCertificate=yes;"
             f"Encrypt=yes"
         )
-    
+
     def __repr__(self) -> str:
         """Safe representation without exposing password."""
         return (
@@ -203,9 +185,9 @@ class AzureSQLConfig:
 class AzureDataFactoryConfig:
     """
     Azure Data Factory Configuration.
-    
+
     Encapsulates ADF connection settings.
-    
+
     Attributes:
         resource_group: Azure resource group name
         factory_name: Data Factory name
@@ -215,61 +197,48 @@ class AzureDataFactoryConfig:
         client_id: Service principal client ID
         client_secret: Service principal secret
     """
-    
+
     resource_group: str = field(
-        default_factory=lambda: os.getenv(
-            "ADF_RESOURCE_GROUP",
-            "inbev_resource_group"
-        )
+        default_factory=lambda: os.getenv("ADF_RESOURCE_GROUP", "inbev_resource_group")
     )
-    
+
     factory_name: str = field(
-        default_factory=lambda: os.getenv(
-            "ADF_FACTORY_NAME",
-            "inbev-data-factory"
-        )
+        default_factory=lambda: os.getenv("ADF_FACTORY_NAME", "inbev-data-factory")
     )
-    
+
     pipeline_name: str = field(
-        default_factory=lambda: os.getenv(
-            "ADF_PIPELINE_NAME",
-            "Pipeline1"
-        )
+        default_factory=lambda: os.getenv("ADF_PIPELINE_NAME", "Pipeline1")
     )
-    
+
     tenant_id: str = field(
         default_factory=lambda: os.getenv(
-            "ADF_TENANT_ID",
-            "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+            "ADF_TENANT_ID", "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
         )
     )
-    
+
     subscription_id: str = field(
         default_factory=lambda: os.getenv(
-            "ADF_SUBSCRIPTION_ID",
-            "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+            "ADF_SUBSCRIPTION_ID", "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
         )
     )
-    
+
     client_id: str = field(
         default_factory=lambda: os.getenv(
-            "ADF_CLIENT_ID",
-            "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+            "ADF_CLIENT_ID", "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
         )
     )
-    
+
     client_secret: str = field(
         default_factory=lambda: os.getenv(
-            "ADF_CLIENT_SECRET",
-            "your_client_secret_here"
+            "ADF_CLIENT_SECRET", "your_client_secret_here"
         )
     )
-    
+
     @property
     def connection_id(self) -> str:
         """Airflow connection ID for Azure Data Factory."""
         return "azure_data_factory_default"
-    
+
     def __repr__(self) -> str:
         """Safe representation without exposing secrets."""
         return (
@@ -284,21 +253,18 @@ class AzureDataFactoryConfig:
 class APIConfig:
     """
     External APIs Configuration.
-    
+
     Encapsulates external API endpoints and settings.
     """
-    
+
     brewery_api_url: str = field(
         default_factory=lambda: os.getenv(
-            "BREWERY_API_URL",
-            "https://api.openbrewerydb.org/breweries"
+            "BREWERY_API_URL", "https://api.openbrewerydb.org/breweries"
         )
     )
-    
-    timeout: int = field(
-        default_factory=lambda: int(os.getenv("API_TIMEOUT", "30"))
-    )
-    
+
+    timeout: int = field(default_factory=lambda: int(os.getenv("API_TIMEOUT", "30")))
+
     retry_attempts: int = field(
         default_factory=lambda: int(os.getenv("API_RETRY_ATTEMPTS", "3"))
     )
@@ -308,36 +274,36 @@ class APIConfig:
 class AirflowConfig:
     """
     Airflow-specific Configuration.
-    
+
     Encapsulates Airflow behavior settings.
     """
-    
+
     default_retries: int = field(
         default_factory=lambda: int(os.getenv("AIRFLOW_DEFAULT_RETRIES", "2"))
     )
-    
+
     retry_delay_seconds: int = field(
         default_factory=lambda: int(os.getenv("AIRFLOW_RETRY_DELAY", "300"))
     )
-    
+
     email_on_failure: bool = field(
-        default_factory=lambda: os.getenv("AIRFLOW_EMAIL_ON_FAILURE", "False").lower() == "true"
+        default_factory=lambda: os.getenv("AIRFLOW_EMAIL_ON_FAILURE", "False").lower()
+        == "true"
     )
-    
+
     email_on_retry: bool = field(
-        default_factory=lambda: os.getenv("AIRFLOW_EMAIL_ON_RETRY", "False").lower() == "true"
+        default_factory=lambda: os.getenv("AIRFLOW_EMAIL_ON_RETRY", "False").lower()
+        == "true"
     )
-    
-    log_level: str = field(
-        default_factory=lambda: os.getenv("LOG_LEVEL", "INFO")
-    )
-    
+
+    log_level: str = field(default_factory=lambda: os.getenv("LOG_LEVEL", "INFO"))
+
     environment: str = field(
         default_factory=lambda: os.getenv("ENVIRONMENT", "development")
     )
 
 
-# ============================================================================== 
+# ==============================================================================
 # Singleton Instances (Optional)
 # ==============================================================================
 # Pre-instantiated configuration objects for convenience.
@@ -357,7 +323,7 @@ api_config = APIConfig()
 airflow_config = AirflowConfig()
 
 
-# ============================================================================== 
+# ==============================================================================
 # Backward Compatibility
 # ==============================================================================
 # Alias for old code that imported "AzureConfig"
@@ -365,4 +331,3 @@ airflow_config = AirflowConfig()
 # ==============================================================================
 
 AzureConfig = AzureSQLConfig  # Deprecated, use AzureSQLConfig
-

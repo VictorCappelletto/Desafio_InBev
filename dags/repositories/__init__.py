@@ -27,13 +27,13 @@ SOLID Principles:
 Usage Example:
     from repositories import BreweryRepository, InMemoryBreweryRepository
     from domain import Brewery
-    
+
     # Production: SQL database
     repo = BreweryRepository(connection)
-    
+
     # Testing: In-memory
     repo = InMemoryBreweryRepository()
-    
+
     # Use same interface
     brewery = repo.get_by_id("abc-123")
     repo.add(brewery)
@@ -63,4 +63,3 @@ __all__ = [
     "UnitOfWork",
     "InMemoryUnitOfWork",
 ]
-

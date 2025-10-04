@@ -32,7 +32,7 @@ Benefits:
 
 Usage Example:
     from domain import Brewery, Location, Contact
-    
+
     # Create value objects
     location = Location(
         address="123 Main St",
@@ -43,13 +43,13 @@ Usage Example:
         latitude=45.5152,
         longitude=-122.6784
     )
-    
+
     contact = Contact(
         phone="503-555-0123",
         website_url="https://brewery.com",
         email="info@brewery.com"
     )
-    
+
     # Create entity
     brewery = Brewery(
         id="abc-123",
@@ -58,7 +58,7 @@ Usage Example:
         location=location,
         contact=contact
     )
-    
+
     # Business rules enforced
     print(brewery.is_active())  # True if has recent activity
     print(brewery.validate())   # Validation result
@@ -90,4 +90,3 @@ __all__ = [
     # Validators
     "BreweryValidator",
 ]
-

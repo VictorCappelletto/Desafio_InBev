@@ -19,10 +19,10 @@ Architecture:
 
 Usage:
     from data_quality import DataQualityEngine, CompletenessCheck
-    
+
     engine = DataQualityEngine()
     engine.add_check(CompletenessCheck(['id', 'name']))
-    
+
     results = engine.run_checks(data)
     if results['overall_score'] < 0.95:
         raise DataQualityException("Quality below threshold")
@@ -68,4 +68,3 @@ __all__ = [
 
 
 __version__ = "1.0.0"
-

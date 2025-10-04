@@ -17,24 +17,24 @@ from utils.logger import get_logger
 class AzureSQLLoader(IDataLoader):
     """
     Loads brewery data into Azure SQL Database.
-    
+
     This class demonstrates:
     - Single Responsibility: Only handles SQL loading
     - Dependency Injection: Receives config and table_name as parameters
     - Open/Closed: Can extend without modifying
     - Proper resource management: Context managers for connections
     - Flexibility: Table name is configurable (not hardcoded)
-    
+
     Example:
         >>> loader = AzureSQLLoader(config, table_name="Breweries")
         >>> loader.create_table_if_not_exists()
         >>> count = loader.load(data)
     """
-    
+
     def __init__(self, config: AzureSQLConfig, table_name: str = "Breweries"):
         """
         Initialize loader with configuration.
-        
+
         Args:
             config: Azure SQL configuration (dependency injection)
             table_name: Name of the target table (default: "Breweries")
@@ -42,14 +42,14 @@ class AzureSQLLoader(IDataLoader):
         self.config = config
         self.table_name = table_name
         self.logger = get_logger(__name__)
-    
+
     def _get_connection(self) -> pyodbc.Connection:
         """
         Create database connection.
-        
+
         Returns:
             Database connection
-            
+
         Raises:
             LoadError: If connection fails
         """
@@ -61,17 +61,17 @@ class AzureSQLLoader(IDataLoader):
                 f"Failed to connect to Azure SQL: {str(e)}",
                 details={
                     "server": self.config.server,
-                    "database": self.config.database
-                }
+                    "database": self.config.database,
+                },
             )
-    
+
     def create_table_if_not_exists(self) -> None:
         """
         Create table if it doesn't exist.
-        
+
         Creates a table with brewery schema in Azure SQL Database.
         Table name is configurable via constructor.
-        
+
         Raises:
             LoadError: If table creation fails
         """
@@ -96,44 +96,43 @@ class AzureSQLLoader(IDataLoader):
             street NVARCHAR(255)
         )
         """
-        
+
         self.logger.info(f"Creating table {self.table_name} if not exists")
-        
+
         try:
             with self._get_connection() as conn:
                 cursor = conn.cursor()
                 cursor.execute(create_table_sql)
                 conn.commit()
-                
+
             self.logger.info(f"Table {self.table_name} ready")
-            
+
         except pyodbc.Error as e:
             raise LoadError(
-                f"Failed to create table: {str(e)}",
-                details={"table": self.table_name}
+                f"Failed to create table: {str(e)}", details={"table": self.table_name}
             )
-    
+
     def load(self, data: List[Dict[str, Any]], **kwargs: Any) -> int:
         """
         Load brewery data into Azure SQL.
-        
+
         Uses MERGE statement for upsert behavior (insert or skip if exists).
         Processes records one by one to handle individual failures gracefully.
-        
+
         Optional parameters:
         - batch_size: Number of records per transaction (not implemented yet)
         - skip_errors: Continue on individual record errors (default: True)
-        
+
         Args:
             data: List of brewery dictionaries
             **kwargs: Optional loading parameters (reserved for future use)
-            
+
         Returns:
             Number of records successfully loaded
-            
+
         Raises:
             LoadError: If loading fails critically
-            
+
         Example:
             >>> loader = AzureSQLLoader(config, table_name="Breweries")
             >>> count = loader.load(data)
@@ -142,9 +141,9 @@ class AzureSQLLoader(IDataLoader):
         if not data:
             self.logger.warning("No data to load")
             return 0
-        
+
         self.logger.info(f"Loading {len(data)} records to {self.table_name}")
-        
+
         # MERGE statement for upsert (insert only if not exists)
         insert_sql = f"""
         MERGE {self.table_name} AS target
@@ -156,34 +155,34 @@ class AzureSQLLoader(IDataLoader):
                     latitude, phone, website_url, state, street)
             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
         """
-        
+
         loaded_count = 0
-        
+
         try:
             with self._get_connection() as conn:
                 cursor = conn.cursor()
-                
+
                 for brewery in data:
                     try:
                         cursor.execute(
                             insert_sql,
-                            brewery.get('id'),
-                            brewery.get('id'),
-                            brewery.get('name'),
-                            brewery.get('brewery_type'),
-                            brewery.get('address_1'),
-                            brewery.get('address_2'),
-                            brewery.get('address_3'),
-                            brewery.get('city'),
-                            brewery.get('state_province'),
-                            brewery.get('postal_code'),
-                            brewery.get('country'),
-                            brewery.get('longitude'),
-                            brewery.get('latitude'),
-                            brewery.get('phone'),
-                            brewery.get('website_url'),
-                            brewery.get('state'),
-                            brewery.get('street')
+                            brewery.get("id"),
+                            brewery.get("id"),
+                            brewery.get("name"),
+                            brewery.get("brewery_type"),
+                            brewery.get("address_1"),
+                            brewery.get("address_2"),
+                            brewery.get("address_3"),
+                            brewery.get("city"),
+                            brewery.get("state_province"),
+                            brewery.get("postal_code"),
+                            brewery.get("country"),
+                            brewery.get("longitude"),
+                            brewery.get("latitude"),
+                            brewery.get("phone"),
+                            brewery.get("website_url"),
+                            brewery.get("state"),
+                            brewery.get("street"),
                         )
                         loaded_count += 1
                     except pyodbc.Error as e:
@@ -192,24 +191,21 @@ class AzureSQLLoader(IDataLoader):
                         )
                         # Continue with next record (skip_errors behavior)
                         continue
-                
+
                 conn.commit()
-                
-            self.logger.info(
-                f"Successfully loaded {loaded_count}/{len(data)} records"
-            )
+
+            self.logger.info(f"Successfully loaded {loaded_count}/{len(data)} records")
             return loaded_count
-            
+
         except pyodbc.Error as e:
             raise LoadError(
                 f"Failed to load data: {str(e)}",
-                details={"records_attempted": len(data)}
+                details={"records_attempted": len(data)},
             )
-    
+
     def __repr__(self) -> str:
         return (
             f"AzureSQLLoader(server='{self.config.server}', "
             f"database='{self.config.database}', "
             f"table='{self.table_name}')"
         )
-

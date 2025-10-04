@@ -18,7 +18,7 @@ Design Benefits:
 
 Usage:
     from interfaces import IDataExtractor, IDataLoader, IDataTransformer
-    
+
     # Type hint with interface
     def process_data(extractor: IDataExtractor, loader: IDataLoader):
         data = extractor.extract()
@@ -39,4 +39,3 @@ __all__ = [
     "IDataLoader",
     "IDataTransformer",
 ]
-

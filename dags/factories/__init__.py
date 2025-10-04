@@ -17,10 +17,10 @@ Benefits:
 
 Usage:
     from factories import ETLFactory
-    
+
     # Create individual components
     extractor = ETLFactory.create_brewery_extractor()
-    
+
     # Or create complete pipeline
     extractor, transformer, loader = ETLFactory.create_etl_pipeline()
 
@@ -32,4 +32,3 @@ See Also:
 from .etl_factory import ETLFactory
 
 __all__ = ["ETLFactory"]
-

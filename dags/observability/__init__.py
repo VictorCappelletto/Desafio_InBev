@@ -17,7 +17,7 @@ Features:
 
 Usage:
     from observability import MetricsCollector, EmailAlerter
-    
+
     # Collect metrics
     collector = MetricsCollector()
     collector.record_pipeline_metric("brewery_etl", {
@@ -25,7 +25,7 @@ Usage:
         "duration_seconds": 45.2,
         "quality_score": 0.98
     })
-    
+
     # Send alerts
     alerter = EmailAlerter()
     if quality_score < 0.95:
@@ -66,4 +66,3 @@ __all__ = [
 
 
 __version__ = "1.0.0"
-

@@ -43,4 +43,3 @@ __all__ = [
     # Alias (deprecated, use AzureSQLConfig instead)
     "AzureConfig",
 ]
-

@@ -33,15 +33,15 @@ Benefits:
 Usage Example:
     from use_cases import ExtractBreweriesUseCase, TransformBreweriesUseCase
     from repositories import BreweryRepository
-    
+
     # Extract
     extract_uc = ExtractBreweriesUseCase(api_extractor)
     breweries_data = extract_uc.execute()
-    
+
     # Transform
     transform_uc = TransformBreweriesUseCase()
     breweries = transform_uc.execute(breweries_data)
-    
+
     # Load
     load_uc = LoadBreweriesUseCase(repository)
     loaded_count = load_uc.execute(breweries)
@@ -64,4 +64,3 @@ __all__ = [
     "LoadBreweriesUseCase",
     "ValidateBreweriesQualityUseCase",
 ]
-

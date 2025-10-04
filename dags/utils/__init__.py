@@ -11,7 +11,7 @@ This module provides common utilities used across DAGs:
 
 Usage:
     from utils import get_logger, log_task_start, log_task_success
-    
+
     logger = get_logger(__name__)
     log_task_start(logger, "my_task", source="API")
     # ... task logic ...
@@ -41,4 +41,3 @@ __all__ = [
     "log_task_success",
     "log_task_error",
 ]
-

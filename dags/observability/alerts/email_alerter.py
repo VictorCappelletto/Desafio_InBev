@@ -16,9 +16,9 @@ from .base import BaseAlerter, Alert, AlertLevel
 class EmailAlerter(BaseAlerter):
     """
     Send alerts via email.
-    
+
     Supports HTML and plain text emails with configurable SMTP settings.
-    
+
     Environment Variables:
         SMTP_HOST: SMTP server host (default: localhost)
         SMTP_PORT: SMTP server port (default: 587)
@@ -26,7 +26,7 @@ class EmailAlerter(BaseAlerter):
         SMTP_PASSWORD: SMTP password
         SMTP_FROM: From email address
         ALERT_EMAIL_TO: Comma-separated list of recipient emails
-    
+
     Example:
         >>> alerter = EmailAlerter(
         ...     smtp_host="smtp.gmail.com",
@@ -36,17 +36,17 @@ class EmailAlerter(BaseAlerter):
         ...     from_email="alerts@company.com",
         ...     to_emails=["team@company.com"]
         ... )
-        >>> 
+        >>>
         >>> alert = Alert(
         ...     title="Pipeline Failed",
         ...     message="ETL pipeline encountered an error",
         ...     level=AlertLevel.ERROR,
         ...     source="brewery_etl"
         ... )
-        >>> 
+        >>>
         >>> alerter.send_alert(alert)
     """
-    
+
     def __init__(
         self,
         smtp_host: Optional[str] = None,
@@ -57,11 +57,11 @@ class EmailAlerter(BaseAlerter):
         to_emails: Optional[List[str]] = None,
         use_tls: bool = True,
         enabled: bool = True,
-        min_level: AlertLevel = AlertLevel.WARNING
+        min_level: AlertLevel = AlertLevel.WARNING,
     ):
         """
         Initialize email alerter.
-        
+
         Args:
             smtp_host: SMTP server host
             smtp_port: SMTP server port
@@ -74,7 +74,7 @@ class EmailAlerter(BaseAlerter):
             min_level: Minimum alert level to send
         """
         super().__init__(name="email", enabled=enabled, min_level=min_level)
-        
+
         # Load from environment if not provided
         self.smtp_host = smtp_host or os.getenv("SMTP_HOST", "localhost")
         self.smtp_port = smtp_port or int(os.getenv("SMTP_PORT", "587"))
@@ -82,78 +82,80 @@ class EmailAlerter(BaseAlerter):
         self.smtp_password = smtp_password or os.getenv("SMTP_PASSWORD", "")
         self.from_email = from_email or os.getenv("SMTP_FROM", "airflow@company.com")
         self.use_tls = use_tls
-        
+
         # Parse to_emails
         if to_emails is None:
             email_str = os.getenv("ALERT_EMAIL_TO", "")
             self.to_emails = [e.strip() for e in email_str.split(",") if e.strip()]
         else:
             self.to_emails = to_emails
-        
+
         # Validate configuration
         if not self.to_emails:
-            self.logger.warning("No recipient emails configured - email alerts disabled")
+            self.logger.warning(
+                "No recipient emails configured - email alerts disabled"
+            )
             self.enabled = False
-    
+
     def send_alert(self, alert: Alert) -> bool:
         """
         Send alert via email.
-        
+
         Args:
             alert: Alert to send
-        
+
         Returns:
             True if sent successfully, False otherwise
         """
         if not self.to_emails:
             self.logger.error("No recipient emails configured")
             return False
-        
+
         try:
             # Create message
-            msg = MIMEMultipart('alternative')
-            msg['Subject'] = f"[{alert.level.value.upper()}] {alert.title}"
-            msg['From'] = self.from_email
-            msg['To'] = ", ".join(self.to_emails)
-            
+            msg = MIMEMultipart("alternative")
+            msg["Subject"] = f"[{alert.level.value.upper()}] {alert.title}"
+            msg["From"] = self.from_email
+            msg["To"] = ", ".join(self.to_emails)
+
             # Plain text version
             text_body = alert.format_message()
-            part1 = MIMEText(text_body, 'plain')
-            
+            part1 = MIMEText(text_body, "plain")
+
             # HTML version
             html_body = self._create_html_email(alert)
-            part2 = MIMEText(html_body, 'html')
-            
+            part2 = MIMEText(html_body, "html")
+
             # Attach both versions
             msg.attach(part1)
             msg.attach(part2)
-            
+
             # Send email
             with smtplib.SMTP(self.smtp_host, self.smtp_port) as server:
                 if self.use_tls:
                     server.starttls()
-                
+
                 if self.smtp_user and self.smtp_password:
                     server.login(self.smtp_user, self.smtp_password)
-                
+
                 server.send_message(msg)
-            
+
             self.logger.info(
                 f"Email sent to {len(self.to_emails)} recipients: {alert.title}"
             )
             return True
-            
+
         except Exception as e:
             self.logger.error(f"Failed to send email: {str(e)}", exc_info=True)
             return False
-    
+
     def _create_html_email(self, alert: Alert) -> str:
         """
         Create HTML email body.
-        
+
         Args:
             alert: Alert to format
-        
+
         Returns:
             HTML string
         """
@@ -165,7 +167,7 @@ class EmailAlerter(BaseAlerter):
             AlertLevel.CRITICAL: "#721c24",
         }
         color = colors.get(alert.level, "#6c757d")
-        
+
         html = f"""
         <html>
         <head>
@@ -230,19 +232,19 @@ class EmailAlerter(BaseAlerter):
                 </div>
                 <div class="alert-body">
                     <div class="alert-message">
-                        {alert.message.replace('\n', '<br>')}
+                        {alert.message.replace(chr(10), '<br>')}
                     </div>
                     
                     <div class="alert-meta">
                         <div class="alert-meta-item"><strong>Source:</strong> {alert.source}</div>
                         <div class="alert-meta-item"><strong>Time:</strong> {alert.timestamp.strftime('%Y-%m-%d %H:%M:%S')}</div>
         """
-        
+
         if alert.tags:
             html += f"""
                         <div class="alert-meta-item"><strong>Tags:</strong> {', '.join(alert.tags)}</div>
         """
-        
+
         if alert.metadata:
             html += """
                         <table class="metadata-table">
@@ -258,7 +260,7 @@ class EmailAlerter(BaseAlerter):
             html += """
                         </table>
         """
-        
+
         html += """
                     </div>
                 </div>
@@ -266,13 +268,13 @@ class EmailAlerter(BaseAlerter):
         </body>
         </html>
         """
-        
+
         return html
-    
+
     def test_connection(self) -> bool:
         """
         Test SMTP connection.
-        
+
         Returns:
             True if connection successful, False otherwise
         """
@@ -282,11 +284,10 @@ class EmailAlerter(BaseAlerter):
                     server.starttls()
                 if self.smtp_user and self.smtp_password:
                     server.login(self.smtp_user, self.smtp_password)
-            
+
             self.logger.info("SMTP connection test successful")
             return True
-            
+
         except Exception as e:
             self.logger.error(f"SMTP connection test failed: {str(e)}")
             return False
-
