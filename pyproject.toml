@@ -15,7 +15,7 @@ keywords = ["airflow", "azure", "databricks", "etl", "data-engineering"]
 [tool.poetry.dependencies]
 python = "^3.11"
 mkdocs = "^1.6.0"
-mkdocs-mermaid2-plugin = "^1.1.1"
+mkdocs-mermaid2-plugin = "^1.2.2"
 mkdocs-material = "^9.5.27"
 mkdocstrings = {extras = ["python"], version = "^0.25.1"}
 taskipy = "^1.13.0"
