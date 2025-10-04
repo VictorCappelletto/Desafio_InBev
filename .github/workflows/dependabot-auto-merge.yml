@@ -1,0 +1,151 @@
+name: Dependabot Auto-Merge
+
+on:
+  pull_request:
+    branches: [ main ]
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  # ===========================================================================
+  # Auto-merge para PRs Minor/Patch do Dependabot
+  # ===========================================================================
+  auto-merge:
+    name: 🤖 Auto-merge Dependabot
+    runs-on: ubuntu-latest
+    
+    # Só roda para PRs do Dependabot
+    if: github.actor == 'dependabot[bot]'
+    
+    steps:
+      - name: 📥 Checkout code
+        uses: actions/checkout@v4
+      
+      - name: 🔍 Get Dependabot metadata
+        id: dependabot-metadata
+        uses: dependabot/fetch-metadata@v2
+        with:
+          github-token: "${{ secrets.GITHUB_TOKEN }}"
+      
+      - name: 📊 Display PR info
+        run: |
+          echo "================================"
+          echo "🤖 DEPENDABOT PR DETECTED"
+          echo "================================"
+          echo "Package: ${{ steps.dependabot-metadata.outputs.dependency-names }}"
+          echo "Update type: ${{ steps.dependabot-metadata.outputs.update-type }}"
+          echo "Previous version: ${{ steps.dependabot-metadata.outputs.previous-version }}"
+          echo "New version: ${{ steps.dependabot-metadata.outputs.new-version }}"
+          echo "Ecosystem: ${{ steps.dependabot-metadata.outputs.package-ecosystem }}"
+          echo "================================"
+      
+      - name: ✅ Auto-approve and merge PATCH updates
+        if: steps.dependabot-metadata.outputs.update-type == 'version-update:semver-patch'
+        run: |
+          echo "✅ PATCH update detected - Auto-approving..."
+          gh pr review --approve "$PR_URL"
+          echo "🔀 Enabling auto-merge..."
+          gh pr merge --auto --squash "$PR_URL"
+          echo "🎉 PATCH PR will be auto-merged after checks pass!"
+        env:
+          PR_URL: ${{ github.event.pull_request.html_url }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: ✅ Auto-approve and merge MINOR updates (Python & Docs only)
+        if: |
+          steps.dependabot-metadata.outputs.update-type == 'version-update:semver-minor' &&
+          (steps.dependabot-metadata.outputs.package-ecosystem == 'pip' ||
+           contains(steps.dependabot-metadata.outputs.dependency-names, 'mkdocs'))
+        run: |
+          echo "✅ MINOR Python/Docs update detected - Auto-approving..."
+          gh pr review --approve "$PR_URL"
+          echo "🔀 Enabling auto-merge..."
+          gh pr merge --auto --squash "$PR_URL"
+          echo "🎉 MINOR PR will be auto-merged after checks pass!"
+        env:
+          PR_URL: ${{ github.event.pull_request.html_url }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: 📝 Comment on MAJOR updates
+        if: steps.dependabot-metadata.outputs.update-type == 'version-update:semver-major'
+        run: |
+          echo "⚠️ MAJOR update detected - Manual review required"
+          gh pr comment "$PR_URL" --body "
+          ## ⚠️ Manual Review Required
+          
+          This is a **MAJOR** version update that may include breaking changes.
+          
+          **Details:**
+          - Package: \`${{ steps.dependabot-metadata.outputs.dependency-names }}\`
+          - Version: \`${{ steps.dependabot-metadata.outputs.previous-version }}\` → \`${{ steps.dependabot-metadata.outputs.new-version }}\`
+          - Update type: \`${{ steps.dependabot-metadata.outputs.update-type }}\`
+          
+          **Action required:**
+          1. Review the changelog for breaking changes
+          2. Test locally using: \`.github/test-dependabot-prs.sh\`
+          3. Manually approve and merge if tests pass
+          
+          ---
+          *This is an automated message from the Dependabot Auto-Merge workflow.*
+          "
+        env:
+          PR_URL: ${{ github.event.pull_request.html_url }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: 📝 Comment on Docker/CI updates
+        if: |
+          steps.dependabot-metadata.outputs.update-type == 'version-update:semver-minor' &&
+          (steps.dependabot-metadata.outputs.package-ecosystem == 'docker' ||
+           steps.dependabot-metadata.outputs.package-ecosystem == 'github-actions')
+        run: |
+          echo "ℹ️ Docker/CI update detected - Manual review recommended"
+          gh pr comment "$PR_URL" --body "
+          ## ℹ️ Manual Review Recommended
+          
+          This is a **Docker** or **GitHub Actions** update.
+          
+          **Details:**
+          - Package: \`${{ steps.dependabot-metadata.outputs.dependency-names }}\`
+          - Version: \`${{ steps.dependabot-metadata.outputs.previous-version }}\` → \`${{ steps.dependabot-metadata.outputs.new-version }}\`
+          - Ecosystem: \`${{ steps.dependabot-metadata.outputs.package-ecosystem }}\`
+          
+          **Action required:**
+          1. Review the changes carefully
+          2. Test locally if needed
+          3. Manually approve and merge
+          
+          ---
+          *This is an automated message from the Dependabot Auto-Merge workflow.*
+          "
+        env:
+          PR_URL: ${{ github.event.pull_request.html_url }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  
+  # ===========================================================================
+  # Summary
+  # ===========================================================================
+  summary:
+    name: 📊 Summary
+    runs-on: ubuntu-latest
+    needs: [auto-merge]
+    if: always()
+    
+    steps:
+      - name: 📊 Generate summary
+        run: |
+          echo "================================"
+          echo "🤖 DEPENDABOT AUTO-MERGE SUMMARY"
+          echo "================================"
+          echo ""
+          echo "✅ Workflow completed!"
+          echo ""
+          echo "Auto-merge rules:"
+          echo "  - ✅ PATCH updates → Auto-merge"
+          echo "  - ✅ MINOR Python/Docs → Auto-merge"
+          echo "  - ⚠️ MAJOR updates → Manual review"
+          echo "  - ℹ️ Docker/CI → Manual review"
+          echo ""
+          echo "================================"
+

@@ -26,6 +26,8 @@ jobs:
       
       - name: 🔍 TruffleHog Secret Scan
         uses: trufflesecurity/trufflehog@main
+        # Skip TruffleHog on push without diff (direct commits)
+        if: github.event_name == 'pull_request' || github.event_name == 'schedule'
         with:
           path: ./
           base: ${{ github.event.repository.default_branch }}
@@ -58,7 +60,7 @@ jobs:
           safety check -r requirements-check.txt --output json > safety-report.json || true
       
       - name: 📊 Upload Safety report
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: safety-report
           path: safety-report.json
@@ -91,7 +93,7 @@ jobs:
             -x "dags/examples/*" || true
       
       - name: 📊 Upload Bandit report
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: bandit-report
           path: bandit-report.json
@@ -121,13 +123,13 @@ jobs:
         uses: actions/checkout@v4
       
       - name: 🔬 Initialize CodeQL
-        uses: github/codeql-action/init@v2
+        uses: github/codeql-action/init@v3
         with:
           languages: ${{ matrix.language }}
           queries: security-extended,security-and-quality
       
       - name: 🔬 Perform CodeQL Analysis
-        uses: github/codeql-action/analyze@v2
+        uses: github/codeql-action/analyze@v3
         with:
           category: "/language:${{matrix.language}}"
 
@@ -137,6 +139,9 @@ jobs:
   docker-security:
     name: 🐳 Docker Security Scan
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      security-events: write
     
     steps:
       - name: 📥 Checkout code
@@ -163,7 +168,7 @@ jobs:
           severity: 'CRITICAL,HIGH'
       
       - name: 📊 Upload Trivy results to GitHub Security tab
-        uses: github/codeql-action/upload-sarif@v2
+        uses: github/codeql-action/upload-sarif@v3
         if: always()
         with:
           sarif_file: 'trivy-results.sarif'
@@ -203,7 +208,7 @@ jobs:
           pip-licenses --format=markdown --output-file=licenses.md
       
       - name: 📊 Upload license report
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: license-report
           path: |
