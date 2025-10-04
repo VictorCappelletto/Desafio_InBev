@@ -73,7 +73,7 @@ See Also:
 from .entities import Brewery, BreweryAggregate
 from .exceptions import DomainValidationError, InvalidBreweryTypeError
 from .validators import BreweryValidator
-from .value_objects import Address, Contact, Coordinates, Location
+from .value_objects import Address, BreweryType, Contact, Coordinates, Location
 
 __all__ = [
     # Entities
@@ -84,6 +84,7 @@ __all__ = [
     "Contact",
     "Coordinates",
     "Address",
+    "BreweryType",
     # Exceptions
     "DomainValidationError",
     "InvalidBreweryTypeError",
