@@ -5,7 +5,7 @@
 apache-airflow-providers-microsoft-azure==10.1.2
 
 # Databricks provider
-apache-airflow-providers-databricks==6.6.0
+apache-airflow-providers-databricks==7.7.3
 
 # Database connectivity
 pyodbc==5.1.0
