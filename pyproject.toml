@@ -19,7 +19,7 @@ mkdocs-mermaid2-plugin = "^1.2.2"
 mkdocs-material = "^9.5.27"
 mkdocstrings = {extras = ["python"], version = "^0.25.1"}
 taskipy = "^1.14.1"
-isort = "^5.13.2"
+isort = "^6.1.0"
 black = "^25.9.0"
 pytest = "^8.4.2"
 pytest-cov = "^6.0.0"
