@@ -22,7 +22,7 @@ taskipy = "^1.14.1"
 isort = "^5.13.2"
 black = "^25.9.0"
 pytest = "^8.4.2"
-pytest-cov = "^6.0.0"
+pytest-cov = "^7.0.0"
 requests = "^2.32.3"
 pyodbc = "^5.2.0"
 
