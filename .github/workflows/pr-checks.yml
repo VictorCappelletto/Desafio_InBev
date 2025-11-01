@@ -65,7 +65,7 @@ jobs:
           echo "lines_deleted=$LINES_DELETED" >> $GITHUB_OUTPUT
       
       - name: Comment PR size
-        uses: actions/github-script@v7
+        uses: actions/github-script@v8
         with:
           script: |
             const files = ${{ steps.pr_size.outputs.files_changed }};
@@ -115,7 +115,7 @@ jobs:
     
     steps:
       - name: Post checklist comment
-        uses: actions/github-script@v7
+        uses: actions/github-script@v8
         with:
           script: |
             const checklist = `### PR Review Checklist
